@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+		  .bg{
+                background:dodgerblue;
+                color:white;
+            }
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<h2>购物车</h2>
+			<table border="1" cellpadding="0" cellspacing="0" width="100%">
+				<tr >
+					<th v-for="head in heads">{{head}}</th>
+					
+				</tr>
+				<tr v-for="(item,index) in products" v-bind:class="{bg:index%2===0}">
+					<td>{{index+1}}</td>
+					<td>{{item.title}}</td>
+					<td>{{item.price}}</td>
+					<!--数量-->
+					<td>
+					  	
+						<button type="button" v-on:click="item.quanlity<=0?0:(item.quanlity-=1)">-</button>
+						<input type="number" v-model.number="item.quanlity" style="width: 80px;" v-on:keyup="item.quanlity=(item.quanlity<=0?0:item.quanlity)"/>
+						<button type="button" v-on:click="item.quanlity+=1">+</button>
+					</td>
+					<!--小计-->
+					<td>
+						{{item.quanlity*item.price| currency(1)}}
+					</td>
+					<td>
+						<button type="button" v-on:click="remove(index)">移除</button>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3"><button >排序</button></td>
+					<td colspan="6" align="right">
+						合计{{total |currency}}
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		Vue.filter("currency",function(v,n) {
+			console.log(v,n);
+			if(!v) {
+				return "";
+			}
+			return "￥"+v.toFixed(n||2);
+		})
+		const vm = new Vue({
+			el: "#app",
+			data: function() {
+				return {
+					orderBy: "",
+					isAsc: true,
+					heads: ["序号","名称","单价","数量","小计","操作"],
+					products: [
+						{title: "橘子",quanlity: 9,price:2},
+						{title: "芒果",quanlity: 19,price:7},
+						{title: "西瓜",quanlity: 22,price:9.1},
+						{title: "柚子",quanlity: 19,price:5.4},
+						{title: "橙子",quanlity: 3,price:32},
+						{title: "草莓",quanlity: 4,price:5}
+						
+					]
+				}
+			},
+			computed: {
+			
+			 	total: function() {
+                    var sum = 0;
+                    for(var i = 0; i < this.products.length; i++) {
+                        sum += (this.products[i].price * this.products[i].quanlity);
+                    }
+                    return sum;
+                }
+				
+			},
+			methods: {
+				remove: function(index) {
+					if(confirm("您确定要移除吗？")) {
+						this.products.splice(index,1);
+					}
+				}
+			}
+		});
+	</script>
+</html>

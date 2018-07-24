@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<label>
+				男：
+				<input type="radio" name="xingbie" value="男" v-model="sex"/>
+			</label><br />
+			<label>
+				女：
+				<input type="radio" name="xingbie" value="女" v-model="sex"/>
+			</label>
+			<br />
+			可以看看sex的值-->{{sex}},拿到的是value中的值
+			<hr />	
+			<div>
+				<h3>看看复选框</h3>
+				爱好： <input type="checkbox"  value="游泳" v-model="hobby"/>
+				<input type="checkbox" value="唱歌" v-model="hobby"/>
+				<input type="checkbox" value="爬山" v-model="hobby"/>
+			</div>
+			<div>
+				{{hobby}}
+			</div>
+			<hr />
+			<div>
+				<textarea v-model="article"></textarea>
+				{{article}}
+			</div>
+			<hr />
+			<div>
+				你来自哪里？
+				<select v-model="from">
+					<option value="1">武汉</option>
+					<option value="2">深圳</option>
+					<option value="3">北京</option>
+					<option value="4">江苏</option>
+				</select>
+				<h4>针对这个select标签，这里from改变的就是value值 --》{{from}}</h4>
+			</div>
+			<hr />
+			<h3>多选框</h3>
+			<div>
+				<div>你想去哪里？</div>
+				<select v-model="dest" multiple>
+					<option value="1">天安门</option>
+					<option value="2">故宫</option>
+					<option value="3">颐和园</option>
+					<option value="4">东方明珠</option>
+					<option value="5">黄鹤楼</option>
+					<option value="6">长江大桥</option>
+					<option value="7">黄山</option>
+				</select>
+				<div>
+					{{dest}}，我们在开发中，将这个value值，传回服务器
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var app = new Vue({
+				el: "#app",
+				data: {
+					sex: "男",
+					hobby: [],
+					article: "",
+					from: 2,// 修改这里的，就相当于修改option的默认选项，你可以给一个空，则，select没有默认选项
+					dest: []// 这里是多选的select 显示的也是value值
+				}
+			});
+		</script>
+	</body>
+</html>

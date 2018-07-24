@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" v-model="username"/>
+			<!--根据输入框中的内容，算出一个提示的错误信息-->
+			{{msg}}
+		</div>
+	</body>
+	<script src="js/vue.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: "#app",
+			data: {
+				username: ''
+			},
+			computed: {
+				msg: {// computed默认调用get() 方法，必须要有return
+					get() {
+						if(this.username.length<3) {
+							return "字符少了";
+						}
+						if(this.username.length>6) {
+							return "用户名大于6个字符";
+						}
+						if(this.username.length == 0) {
+							return "用户名不能为空";
+						}
+					}
+					
+				}
+			}
+		});
+	</script>
+</html>

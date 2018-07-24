@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="bootstrap.min.css" />
+		<style type="text/css">
+			.area {
+				width: 66px;
+				height: 80px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app">
+			<div class="container">
+				<table class="table table-bordered table-hover">
+					<caption class="text-danger text-center">
+						<h3>京东购物车</h3></caption>
+					<tr>
+						<!--v-model= 有2个功能，先将值读取出来显示，当输入框中的数据改变，调用set去改变值-->
+						<!--<th>全选<input type="checkbox" v-model="checkAll" @change="change"/></th>-->
+						<!--这里不需要通过事件去控制了，因为他时通过计算属性去监控变化-->
+						<th>全选<input type="checkbox" v-model="checkAll"/></th>
+						<th>商品</th>
+						<th>单价</th>
+						<th>数量</th>
+						<th>小计</th>
+						<th>操作</th>
+					</tr>
+					<tr v-for="(product,index) in products">
+						<td>
+							<!--<input type="checkbox" v-model="product.isSelected" @change="checkOne"/>-->
+							<!--这里的checkOne事件也不需要，根据computed中checkAll会自动计算-->
+							<input type="checkbox" v-model="product.isSelected"/>
+						</td>
+						<td>
+							<img v-bind:class="{area: true}" v-bind:src="product.productImageUrl" :title="product.productName" /> {{product.productDesc}}
+						</td>
+						<td>{{product.productPrice}}</td>
+						<td><input type="number" v-model.number="product.productCount" min="0" /></td>
+						<td>{{product.productPrice*product.productCount | myToFiexed(2)}}</td>
+
+						<td><button class="btn btn-danger" @click="remove(product)">删除</button></td>
+					</tr>
+					<tr>
+						<!--
+							这里会存在一个性能问题，sum()在一进页面会调用一次,第一次,products是一个空数组；数据拿到后，重新渲染，又会调用
+							而且，页面上，只要有值变化，哪怕是全选，单个框改变，都会重新计算，导致页面性能不高
+							这个不会缓存上一次的结果，computed可以解决这个问题，将在1-2中演示
+							
+							sum在这里就不是方法了，而是计算属性 1-2
+						-->
+						<!--<td class="text-right" colspan="6">总价:{{sum() | myToFiexed(2)}}</td>-->
+						<td class="text-right" colspan="6">总价:{{sum | myToFiexed(2)}}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script src="../js/axios.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				products: [],
+			
+				
+			},
+			created() { // 专门用来发送ajax请求
+				this.getData();
+				
+			},
+			computed: { //放在computed中的计算属性，最终也会在vm实例上，所以，里面的属性名不能和data,methods中重名
+				// 当给全选赋值时，要影响其他人的变化，当页面刷新时，获取全选值，根据每一项计算的结果，给全选框复制true/false
+				// Object.defineProperty()  类似，有一个get 属性，有一个set属性
+				
+				checkAll: {
+					get() { // get和set中的this都指向实例
+						return this.products.every(item=> item.isSelected);
+					},
+					set(val) { // 当我们给全选按钮赋值的时候，val就是true/false
+						this.products.forEach(p=> p.isSelected = val);
+						
+					}
+				},
+				sum: { // 这里只有获取，没有设置，所以只有get,sum的结果会被缓存，如果依赖的数据没有变化，就不会执行
+					get() {
+						//alert(1);
+						return this.products.reduce((prev,next)=> {
+						if(!next.isSelected) {
+							// 如果当前选项没被选中，就不加当前这一项
+							return prev;
+						}
+						
+						// 这里不要忘了  return,返回累加后的值
+						return prev + next.productPrice * next.productCount;
+						},0)
+					}
+				},
+				
+				// 当只有get时，上面的sum可以简化成下面sumExample
+				sumExample() { // 如果计算属性写成函数，那默认调用就是get方法
+					
+				}
+			},
+			methods: {
+				getData() {
+					axios.get("products.json").then(res => {
+						this.products = res.data;
+						
+						// 如果有的默认没有选中，就要在页面一开始时，就判断一下，给checkAll复制，和下面的checkOne是一样的用法
+						/*this.checkAll = this.products.every(item => item.isSelected);*/
+					});
+				},
+				remove(product) { // 删除功能,这里的this是vm实例
+					console.log(this === window, "remove,77行");
+					console.log(product);
+					this.products = this.products.filter(item => item !== product); // splice也能实现删除具体的项
+				},
+				/*change() { // 全选，不选
+					/alert(this.checkAll);/
+					// 将下面的每一项都勾选，或者不勾选
+					// 根据当前 全选按钮的状态，设置下面的每一项的状态
+					this.products.forEach(item => item.isSelected = this.checkAll);
+				},*/
+				/*checkOne() { // 控制单个的复选框
+					// every 如果有一个是false,结果就是false,全都是true，才返回ture
+					this.checkAll = this.products.every(item => item.isSelected );
+				},*/
+				/*sum() { // 总计--求和函数
+					//alert(this.products);  会弹2次，第一次是空数组，this.products数据还没获取到，第二次，数据渲染上去，sum()又被调用一次，重新渲染数据
+					return this.products.reduce((prev,next)=> {
+						if(!next.isSelected) {
+							// 如果当前选项没被选中，就不加当前这一项
+							return prev;
+						}
+						
+						// 这里不要忘了  return,返回累加后的值
+						return prev + next.productPrice * next.productCount;
+					},0)
+				}*/
+			},
+			filters: { // 可以有好多的 自定义 过滤器
+				myToFiexed(input, parame1) { // 这里的this指向的是window,
+					//console.log(this === window); //true
+
+					//第一个参数input，代表管道符前面的值，parame1是我们调用myToFixed传的参数
+					return "￥" + input.toFixed(parame1);
+				}
+			}
+		});
+	</script>
+
+</html>

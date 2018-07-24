@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.father {
+				width: 150px;
+				height: 150px;
+				background: red;
+			}
+			.father .son {
+				width: 100px;
+				height: 100px;
+				margin-top: 30px;
+				background: green;
+			}
+			.grandson {
+				width: 50px;
+				height: 50px;
+				margin-top: 30px;
+				background: blue;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="father" v-on:click.stop="father">
+				爷爷
+				<div class="son" v-on:click.stop="son">
+					儿子
+					<div class="grandson" @click.stop="grandson">
+						孙子
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--阻止了事件冒泡，你点击 儿子，只会触发自己身上的事件，而father，grandson事件都不会触发
+			默认是事件冒泡，如果想要事件捕获，请看3-事件捕获.html
+		-->
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			
+			methods: {
+				father() {
+					alert("爷爷");
+				},
+				son() {
+					
+					alert("son");
+				},
+				grandson() {
+					alert("grandson");
+				}
+			}
+		});
+	</script>
+</html>

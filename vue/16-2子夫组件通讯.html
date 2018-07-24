@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<father></father>
+		</div>
+	</body>
+	<script>
+		/*使用 v-if在模版中，必须在外层包裹一个元素，否则报错*/
+		Vue.component("father",{
+			template: `
+				<div>
+					<son @show-balance="showFn"></son>
+					<div v-if="isShow">
+						您的余额为98$
+					</div>
+				</div>
+			`,
+			data: function() {
+				return {
+					isShow: false
+				}
+			},
+			methods: {
+				showFn: function(data) {
+					console.log("data",data);// 这里，父组件就可以使用子组件的传参数据
+					this.isShow = true;
+				}
+			}
+		});
+		Vue.component("son",{
+			template: `
+				<button @click="onClick">显示余额</button>
+			`,
+			methods: {
+				"onClick": function() {
+					
+					this.$emit("show-balance",{a:1,b:2});
+				}
+			}
+		});
+		
+		new Vue({
+			el: "#app"
+		});
+	</script>
+	
+</html>

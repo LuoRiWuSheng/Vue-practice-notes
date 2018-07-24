@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+	<link rel="stylesheet" href="../案例/bootstrap.min.css" />
+</head>
+<body>
+	<div id="app">
+		<panel type="primary"></panel>
+		分割
+		<panel type="warning"></panel>
+		分割
+		<panel type="success"></panel>
+		<panel type="danger"></panel>
+	</div>
+	
+	<template id="panel">
+		<!--第一种方式，在这里拼接，可以做，但是优美-->
+		<!--<div class="panel" :class="['panel-'+type]">-->
+		<div class="panel" :class="[color]">
+			<div class="panel-heading"></div>
+			<div class="panel-body"></div>
+			<div class="panel-footer"></div>
+		</div>
+	</template>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let panel = {
+			template: "#panel",
+			created() {
+				console.log(this.type);// 这里能获取到panel的传递过来的数据 type="primary"
+				// 但是不能在这里去更改父组件传递的数据，会报错，也是不允许的
+				// 通过以下2种方式去处理父组件传递过来的数据
+				/*
+				 1. 在子组件的data中重新定义一个变量，存储，因为data必须重新返回一个对象，所以，2个数据指向的是不同的内存地址
+				 2. 使用计算属性
+				 * */
+			},
+			computed: {
+				color() {
+					return "panel-" + this.type;	
+				}
+			},
+			props: {
+				type: {
+					type: String,
+					default: "default"
+				}
+			}
+			
+		}
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				
+			},
+			components: {
+				panel
+			}
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<!--指令传递多个参数-->
+			<div v-focus="{color:'white',size: 15}"></div>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		Vue.directive("focus",function(el,binding) {
+			// 多个参数 取值的方式
+			console.info(binding.value.color);
+			console.info(binding.value.size);
+		});
+		
+		let vm = new Vue({
+			el: "#app",
+			data: {}
+		});
+	</script>
+</html>

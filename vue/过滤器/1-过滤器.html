@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" v-model="a"/>
+			{{a | myFilter(1,2,3)}}
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				a: ""
+			},
+			filters: {
+				myFilter: function(val,param1,param2,param3) {
+					console.log(val,param1,param2,param3);
+					/*第一个参数，永远是 管道符左边的值，后面才是你过滤器函数的参数列表*/
+					return val;
+				}
+			}
+		});
+	</script>
+</html>
+

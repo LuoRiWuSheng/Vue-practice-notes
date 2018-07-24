@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			全选	<input type="checkbox" v-model="checkAll"/> <br />
+			
+			<input type="checkbox" v-for="item in items" v-model="item.isSelected"/>
+		</div>
+	</body>
+	<script src="js/vue.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: "#app",
+			data: {
+				items: [{isSelected: true},{isSelected: true},{isSelected: true}]
+			},
+			computed: {
+				checkAll: {
+					get() {
+						return this.items.every(item=> item.isSelected);
+					},
+					set(val) {
+						this.items.forEach(item=> item.isSelected = val);
+					}
+				}
+			}
+		});
+	</script>
+</html>

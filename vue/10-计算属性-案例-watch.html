@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<div id="app">
+			<input type="text" v-model="username" />
+			<!--根据输入框中的内容，算出一个提示的错误信息-->
+			{{msg}}
+			
+			<input type="text" v-model="a"/><br />
+			{{checkVal}}
+		</div>
+	</body>
+	<script src="js/vue.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: "#app",
+			data: {
+				username: '',
+				a: "",
+				checkVal: ""
+			},
+			computed: {
+				msg: { // computed默认调用get() 方法，必须要有return，
+					//如果这里是登录，那么用户名需要发送ajax请求，后台返回信息，才能知道有没有这个用户存在
+					get() {
+						// 下面的写法是错误的，setTimeout异步了，而conputed不支持异步，setTimeout返回的undefined,
+						// 
+						/*setTimeout(() => {
+							if(this.username.length < 3) {
+								return "字符少了";
+							}
+							if(this.username.length > 6) {
+								return "用户名大于6个字符";
+							}
+							if(this.username.length == 0) {
+								return "用户名不能为空";
+							}
+						}, 500);*/
+					}
+
+				}
+			},
+			watch: {// watch的属性名要和被观察的对象名称一致，这里是a，上面HTML中就观察的是a的变化
+				// watch是只有值变化了才被触发，且被观察的对象需要在data中被定义
+				// watch支持异步
+				a(newVal,oldVal) { 	
+					console.log("新值--》"+newVal,"旧值："+oldVal);
+					setTimeout(()=> {
+						if(newVal.length < 3) {
+							return this.checkVal = "少了";
+						}
+						if(newVal.length > 6) {
+							return this.checkVal = "多了";
+						}
+						return this.checkVal = "";
+						
+					},500)
+				}
+			}
+		});
+	</script>
+
+</html>

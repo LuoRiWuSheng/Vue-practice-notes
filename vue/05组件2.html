@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<ol>
+				<todo info="hello"></todo>
+			</ol>
+			<ul>
+				<student v-for="item in students" v-bind:st="item" v-bind:key="item.name"></student>
+			</ul>
+		</div>
+	</body>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		Vue.component("todo",{
+			props: ["info"],
+			template: `
+				<li>{{info || 'empty'}}</li>
+			`
+		});
+		
+		Vue.component("student",{
+			props: ["st"],
+			template: `
+				<li>{{st.name}}-{{st.age}}</li>
+			`
+		})
+		
+		const vm = new Vue({
+			el: "#app",
+			data: function() {
+				return {
+					students: [
+						{name: "张三",age: 2},
+						{name: "李四",age: 22},
+						{name: "赵六",age: 23},
+					]
+				}
+			}
+		});
+	</script>
+</html>

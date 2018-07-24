@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			.box {
+				width: 100px;
+				height: 100px;
+				background: #FF0000;
+			}
+			
+			.xal-enter {
+				opacity: 1;
+				transition: all 1s ease;
+			}
+			
+			.xal-enter-active {
+			
+				transition: all 1s ease;
+			}
+
+			.xal-leave-active {
+				opacity: 0;
+				transition: all 1s ease;
+				
+			}
+			
+			/*.v-enter-active,
+			.v-leave-active {
+				transition: opacity .5s;
+			}
+			
+			.v-enter,
+			.v-leave-to
+			
+			{
+				opacity: 0;
+			}*/
+		</style>
+	</head>
+
+	<body>
+		<div id="app">
+			<button v-on:click="show=!show">切换</button>
+			<transition name="xal">
+				<div class="box" v-show="show">
+					我是动画盒子
+				</div>
+			</transition>
+			
+			<!--下面这个是没有动画效果的，因为我们的动画通过name加一个名称与上面区分开了-->
+			<transition>
+				<div class="box" v-show="show">
+					我是动画盒子
+				</div>
+			</transition>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				show: true
+			}
+		});
+	</script>
+
+</html>

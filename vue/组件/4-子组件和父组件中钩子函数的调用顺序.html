@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+</head>
+<body>
+	<!--
+		子组件和父组件同时有mounted钩子函数，先走谁？
+		
+		经过实验，先走子组件的mounted，再走父组件的mounted
+		
+		需要等待子组件挂载完成后，再触发父组件的挂载
+	-->
+	<div id="app">
+		<child ref="child"></child>
+	</div>
+	
+	<template id="child">
+		<div>
+			<ul>
+				<li v-for="i in arr">{{i}}</li>
+			</ul>
+		</div>
+	</template>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		
+		let child = {
+			template: "#child",
+			data() {
+				return {
+					arr: [1,2,3]
+				}
+			},
+			mounted() {
+				alert("子组件");
+				// 此处是异步渲染DOM，会出现的情况是，拿到的结果是1，2，3，
+				//在父组件的mounted中获取值，DOM还没渲染，所以拿到的是1,2,3这个li
+				this.arr = [4,5,6]; 	
+			}
+		};
+		let vm = new Vue({
+			el: "#app",
+			mounted() {	// 挂载完--钩子函数
+				//alert("父组件");
+				
+				//console.log(this.$refs.child.$el.innerHTML);	
+				
+				// 加一个
+				this.$nextTick(()=> {	// 想操作DOM，最好加一个nextTick，因为没法保证我们操作的DOM是否渲染完成，有可能拿到的是DOM的旧值
+					console.log(this.$refs.child.$el.innerHTML);
+				})
+			},
+			components: {
+				child
+			}
+		})
+	</script>
+</body>
+</html>

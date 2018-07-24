@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<!--
+				报错，content没有在data中定义
+				<button v-my-directive="content">按钮</button>
+				
+			-->
+			<!--下面加了引号，注意单引号，传递的就是字符串-->
+			<button v-my-directive="'content'">按钮</button><br />
+			<!--传递的是对象 就不需要用引号将对象括起来-->
+			<button v-my-directive="{title:'标题',size: 12}">按钮</button><br />
+			<!--合法的表达式-->
+			<button v-my-directive="true? 'yes':'no'">按钮</button>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script>
+		let vm = new Vue({
+			el: "#app",
+			directives: {
+				"my-directive": {
+					update() {
+						console.log(1);
+					}
+				}
+			}
+		});
+	</script>
+</html>

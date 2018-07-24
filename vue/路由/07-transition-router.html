@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+		<link rel="stylesheet" href="../css/animate.min.css" />
+	</head>
+
+	<body>
+		<h5>路由和动画的结合，点击不同的路由，切换动画</h5>
+		<div id="app">
+			<router-link to="/home">首页</router-link>
+			<router-link to="/list">列表页</router-link>
+			<!--router-view是一个全局组件，可以直接调用-->
+			<!--mode="in-out" transition 中动画的模式  in-out 先进后出-->
+			<transition enter-active-class="animated fadeIn"
+					leave-active-class="animated fadeOut"
+				>
+				<!--解决DOM抖动的问题
+					1、用定位
+				-->
+				<!--要缓存谁，就把用keep-alive把谁包起来-->
+				<keep-alive>
+					<router-view style="position: absolute;left:0; top: 100px;width: 100%" ></router-view>
+				</keep-alive>
+			</transition>
+			
+		</div>
+		<!--
+		单页，切换的是组件
+		
+	-->
+		<script src="../js/vue.js"></script>
+		<script src="../node_modules/vue-router/dist/vue-router.js"></script>
+		<script type="text/javascript">
+			/*路由切换，组件会被销毁，自动销毁的，并不是我们手动调动destroy钩子函数*/
+			let home = {
+				template: `<div style="background:red">
+					首页
+				</div>`,
+				/*beforeDestroy() {
+					alert("home组件被销毁");
+				}*/
+			};
+			let list = {
+				template: `<div  style="background:pink">
+
+				列表页
+			</div>`
+			};
+
+			let routes = [ // 路由映射表  配置路径和组件的关系
+				{
+					path: "/home",
+					component: home
+				}, // 配置的关系就是页面级组件
+				{
+					path: "/list",
+					component: list
+				} // 路径必须加斜杠
+			];
+			let router = new VueRouter({ // 引入vue-router 自带的VueRouter类
+				routes
+			});
+			let vm = new Vue({
+				el: "#app",
+				router
+
+			})
+		</script>
+	</body>
+
+</html>

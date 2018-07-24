@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+	</head>
+
+	<body>
+		<div id="app">
+			<router-link to="/home">首页</router-link>
+			<router-link to="/detial">详情页</router-link>
+			<router-view></router-view>
+		</div>
+		<template id='detail'>
+			<div>
+				<router-link to="/detial/about">关于</router-link>
+				<router-link to="/detial/profile">个人中心</router-link>
+				<router-view></router-view>
+			</div>
+		</template>
+		<script src="../js/vue.js"></script>
+		<script src="../node_modules/vue-router/dist/vue-router.js"></script>
+		<script type="text/javascript">
+			let home = {
+				template: `
+				<div>首页</div>
+			`
+			};
+
+			let detail = {
+				template: "#detail"
+			};
+			let defaultContent = {
+				template: `<div>默认内容</div>`
+			}
+
+			let profile = {
+				template: `<div>
+				功能
+			</div>`
+			};
+
+			let about = {
+				template: `<div>
+				关于我
+				</div>`
+			};
+
+			let routes = [
+				{	// 配置默认的内容
+					path: "/",
+					component: defaultContent
+				},
+				{
+					path: "/home",
+					component: home
+				},
+				{
+					path: "/detial",
+					component: detail,
+					children: [ // children中的子路由永远不带/ .如果带/ 表示的是一级路由
+						{
+							path: "profile",
+							component: profile
+						},
+						{
+							path: "about",
+							component: about
+						}
+					]
+				},
+				{	// 配置匹配不到的内容
+					path: "/*",
+					component: {
+						template: "<div>错误</div>"
+					}
+				}
+			];
+
+			let router = new VueRouter({
+				mode: "hash",
+				routes
+			});
+
+			let vm = new Vue({
+				el: "#app",
+
+				router
+			})
+		</script>
+	</body>
+
+</html>

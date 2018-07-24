@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="animate.css" />
+		<style type="text/css">
+			div>div {
+				width: 100px;
+				height: 100px;
+				background: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<button @click="show=!show">切换</button>
+			
+			<transition enter-active-class="animated tada" leave-active-class="animated slideOutRight">
+				<div v-show="show">动画</div>
+			</transition>
+			
+			<input type="number" v-model="val"/>
+			
+			<transition-group enter-active-class="animated fadeInDownBig" leave-active-class="animated slideOutRight">
+				<!--这个动画存在一个问题，就是这个key是唯一的，
+					input值是2 ---key = 0
+					input改为其他值  key 还是0  vue认为你的DOM没有变，所以，动画只产生一次，只有当输入的值不在arr中，就会被重新渲染
+					解决办法 将这个Key改为随机数
+				
+				-->
+				<!--<div v-for="(i,index) in newArr" v-bind:key="index">{{i}}</div>-->
+				<div v-for="(i,index) in newArr" v-bind:key="Math.random()">{{i}}</div>
+			</transition-group>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			computed: {
+				newArr() {
+					// get
+					return this.arr.filter(item=> item == this.val);
+				}
+				
+				/*newArr: {
+					get() {
+						
+					},
+					set() {
+						
+					}
+				}*/
+			},
+			data: {
+				val: "",
+				show: true,
+				arr: [1,2,3,4,5]
+			}
+		});
+	</script>
+</html>

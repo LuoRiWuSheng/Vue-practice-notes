@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			对该元素以及子元素不编译，就直接显示双大括号和uncompiled
+			<div v-pre>{{uncompiled}}
+				<span>{{son}}</span>
+			</div>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script>
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				uncompiled: "122",
+				son: "看看我被编译没有"
+			}
+		});
+		
+	</script>
+</html>

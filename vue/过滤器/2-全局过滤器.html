@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" v-model="a"/>
+			{{a | capitalize(1,2,3)}}
+		</div>
+		
+		<div id="app2">
+			{{"hello" | capitalize}}
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		// 全局过滤器 ,这个过滤器一定要放到实例的前面
+		Vue.filter('capitalize',function(val) {
+			if(!val) {
+				return;
+			}
+			
+			return "你好"+ val;
+		});
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				a: ""
+			}
+		});
+		
+		new Vue({
+			el: "#app2"
+		})
+	</script>
+</html>
+

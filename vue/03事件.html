@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<div id="app2">
+			<button v-on:click="showMe">{{message}}</button>
+			<input type="text" v-model="message"/>
+		</div>
+		
+		<div id="app3">
+			<button v-on:click="n1+=1">+</button>
+			<input type="text" v-model="n1"/>
+			<input type="text" v-model="n2"/>=
+			<input type="text" v-model="sum"/>
+		</div>
+	</body>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script type="text/javascript">
+		var app2 = new Vue({
+				el: "#app2",
+				data: function() {
+					return {
+						message: ''
+					}
+				},
+				methods: {
+					showMe: function() {
+						this.message = this.message.split(" ").reverse().join("");
+					}
+				}
+			});
+			
+		var app3 = new Vue({
+			el:"#app3",
+			data: function() {
+				return {
+					n1: 0,
+					n2: 0,
+					
+				}
+			},
+			computed: {
+				sum: function() {
+					return parseInt(this.n1) + parseInt(this.n2)
+				}
+			}
+		});
+	</script>
+
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<button v-on:click="show">点击我</button>
+			<button v-on:click="fn($event,'你好')">点击我</button>
+		</div>
+	</body>
+	<script src="js/vue.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			data: {},
+			methods: {
+				show() {
+					console.log(event);
+				},
+				fn(event,a) {
+					// 如果要传递参数，第一个必须是event,不然，自己的参数会覆盖event
+					console.log(event,a)
+				}
+			}
+		});
+	</script>
+</html>

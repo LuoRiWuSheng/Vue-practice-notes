@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="bootstrap.min.css" />
+		<style type="text/css">
+			.area {
+				width: 66px;
+				height: 80px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app">
+			<div class="container">
+				<table class="table table-bordered table-hover">
+					<caption class="text-danger text-center">
+						<h3>京东购物车</h3></caption>
+					<tr>
+						<!--这里绑定的事件不能用click,必须用change，因为click是拿到改变前的状态，我们需要改变后的状态
+							click在复选框为checked时，点击，返回的是true,但是，我们要的是false,因为你点击过，此时的状态已经是没选中
+							所以click拿到的总是相反的结果，change能保证值变化后，再变化
+						-->
+						<th>全选<input type="checkbox" v-model="checkAll" @change="change"/></th>
+						<th>商品</th>
+						<th>单价</th>
+						<th>数量</th>
+						<th>小计</th>
+						<th>操作</th>
+					</tr>
+					<tr v-for="(product,index) in products">
+						<td>
+							<input type="checkbox" v-model="product.isSelected" @change="checkOne"/>
+						</td>
+						<td>
+							<!--在属性里面，必须像下面这样，而且取值，是不需要{{}}-->
+							<!--指令 :属性=""  和 v-bind:属性=""  是等价的-->
+							<img v-bind:class="{area: true}" v-bind:src="product.productImageUrl" :title="product.productName" /> {{product.productDesc}}
+						</td>
+						<td>{{product.productPrice}}</td>
+						<!--修饰符.number是让输入框的值变成数字类型-->
+						<!--修饰符.lazy当输入框失去焦点时，更新数据-->
+						<!--<td><input type="number" v-model.number.lazy="product.productCount" min="0"/></td>-->
+						<td><input type="number" v-model.number="product.productCount" min="0" /></td>
+
+						<!--价格保留2位小数，且显示的单位为￥，但是这样不通用，如果有一天，保留3位小数，单位不要，更改的地方太多-->
+						<!--<td>{{"￥"+(product.productPrice*product.productCount).toFixed(2)}}</td>-->
+
+						<!--使用过滤器，处理上面的问题；过滤器，原数据不变的情况下，只改变显示的效果，管道符-->
+						<td>{{product.productPrice*product.productCount | myToFiexed(2)}}</td>
+
+						<td><button class="btn btn-danger" @click="remove(product)">删除</button></td>
+					</tr>
+					<tr>
+						<!--
+							这里会存在一个性能问题，sum()在一进页面会调用一次,第一次,products是一个空数组；数据拿到后，重新渲染，又会调用
+							而且，页面上，只要有值变化，哪怕是全选，单个框改变，都会重新计算，导致页面性能不高
+							这个不会缓存上一次的结果，computed可以解决这个问题，将在1-2中演示
+						-->
+						<td class="text-right" colspan="6">总价:{{sum() | myToFiexed(2)}}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script src="../js/axios.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				products: [],
+				checkAll: true,
+				
+			},
+			created() { // 专门用来发送ajax请求
+				this.getData();
+				
+			},
+			methods: {
+				getData() {
+					axios.get("products.json").then(res => {
+						this.products = res.data;
+						
+						// 如果有的默认没有选中，就要在页面一开始时，就判断一下，给checkAll复制，和下面的checkOne是一样的用法
+						this.checkAll = this.products.every(item => item.isSelected);
+					});
+				},
+				remove(product) { // 删除功能,这里的this是vm实例
+					console.log(this === window, "remove,77行");
+					console.log(product);
+					this.products = this.products.filter(item => item !== product); // splice也能实现删除具体的项
+				},
+				change() { // 全选，不选
+					/*alert(this.checkAll);*/
+					// 将下面的每一项都勾选，或者不勾选
+					// 根据当前 全选按钮的状态，设置下面的每一项的状态
+					this.products.forEach(item => item.isSelected = this.checkAll);
+				},
+				checkOne() { // 控制单个的复选框
+					// every 如果有一个是false,结果就是false,全都是true，才返回ture
+					this.checkAll = this.products.every(item => item.isSelected );
+				},
+				sum() { // 总计--求和函数
+					//alert(this.products);  会弹2次，第一次是空数组，this.products数据还没获取到，第二次，数据渲染上去，sum()又被调用一次，重新渲染数据
+					return this.products.reduce((prev,next)=> {
+						if(!next.isSelected) {
+							// 如果当前选项没被选中，就不加当前这一项
+							return prev;
+						}
+						
+						// 这里不要忘了  return,返回累加后的值
+						return prev + next.productPrice * next.productCount;
+					},0)
+				}
+			},
+			filters: { // 可以有好多的 自定义 过滤器
+				myToFiexed(input, parame1) { // 这里的this指向的是window,
+					//console.log(this === window); //true
+
+					//第一个参数input，代表管道符前面的值，parame1是我们调用myToFixed传的参数
+					return "￥" + input.toFixed(parame1);
+				}
+			}
+		});
+	</script>
+
+</html>

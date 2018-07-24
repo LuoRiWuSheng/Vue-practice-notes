@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<aaa v-bind:btn="h"></aaa>
+			<aaa btn="注意这个h"></aaa>
+		</div>
+	</body>
+	<script>
+		var vm = new Vue({
+			el: "#app",
+			data: {
+				h: "hello"
+			},
+			components: {
+				aaa: {
+					props: ["btn"],
+					template: `<button>{{btn}}</button>`,
+					data: function() {
+						return {
+							h: "123"
+						}
+					}
+				}
+			}
+		});
+	</script>
+</html>

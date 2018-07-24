@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<div id="app2">
+			<table border="" cellspacing="" cellpadding="">
+				<tr>
+					<th>序号</th>
+					<th>名称</th>
+					<th>数量</th>
+					<th>价格</th>
+				</tr>
+				<tr v-for="(obj,index) in fruits">
+					<td>{{index+1}}</td>
+					<td>{{obj.name}}</td>
+					<td>{{obj.num}}</td>
+					<td>{{obj.price}}</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script type="text/javascript">
+		var app2 = new Vue({
+				el: "#app2",
+				data: function() {
+					return {
+						fruits: [
+							{name:"苹果",num:2,price:2},
+							{name:"橘子",num:12,price:2},
+							{name:"离",num:23,price:2},
+							{name:"西瓜",num:23,price:2}
+						]
+					}
+				}
+			});
+	</script>
+
+</html>

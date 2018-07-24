@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<p ref="myp">{{msg}}</p>
+			<div ref="wrap">
+				<div ref="mydiv" v-for="(item,index) in arr">{{item}}</div>
+			</div>
+		</div>
+	</body>
+	<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+	<script>
+		/**
+		 * 	this.$data			vm上的数据
+		 *  this.$watch		监控
+		 * 	this.$el				当前的el元素
+		 *  this.$set			后加的属性实现响应式变化
+		 * 	 this.$options	返回 new Vue(options)  中所有的options	,一般用不到
+		 *  this.$nextTick(()=> {})		异步方法，等待DOM渲染完成后，获取vm，一般也不会在构造函数内中拿vm
+		 * 	 this.$refs  所有ref的集合
+		 */
+		
+		let vm = new Vue({
+			a: 1,
+			el: "#app",
+			data: {
+				msg: "hello",
+				arr: ["a","b","c"]
+			},
+			mounted() {
+				console.log(this.$options);
+				this.$nextTick(()=> {	// this.nextTick 保障我们的DOM渲染完成，是一个异步方法，可以获取vm，一般也不会在构造函数内中拿vm
+					console.log(vm);
+				});
+				
+				// 操作DOM
+				console.log(this.$refs.myp);	// 可以取到真实的DOM  和document.getElementsByTagName("p")[0] 获取的结果一样，原生的方法获取太冗长了
+				// 如果DOM元素不是通过 v-for循环出来的，只能获取到一个，上面你复制<p ref="myp">{{msg}}</p> 也只会console出来一个
+				console.log(this.$refs.mydiv);	// 通过v-for循环出来的，获取到3个div
+				
+				this.arr = [1,2,3,4];	// 在这里修改数据，数据修改，页面会重新渲染，DOM渲染是异步的
+				debugger;	// 1、断点，从这里看页面，页面上的数据没有更新
+				console.log(this.$refs.wrap,"46行");	// 4个div
+				debugger;// 2、断点，从这里看页面，页面上的数据没有更新
+				console.log(this.$refs.wrap.children.length);	// 3 这是为3是因为，我们的DOM渲染是异步的，渲染需要时间，执行到这句时，DOM树中只有3个div
+			
+				this.$nextTick(()=> {	// 如果数据变化后，想获取真实的DOM中的内容，需要等待页面渲染完毕后再去获取，所以所有的DOM操作最好放在nextTick中
+					console.log(this.$refs.wrap.children.length,"49行，nextTick方法中");	// 4
+					debugger;	///3、此时界面的数据才更新为 1,2,3,4
+				})
+				
+			}
+		});
+	</script>
+</html>

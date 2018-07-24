@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<button v-my-directive:bar.aa="param">按钮</button>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script>
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				param: "测试"
+			},
+			directives: {
+				"my-directive": {
+					bind(el,binding) {
+						console.log(arguments);
+						console.log(binding);
+						console.warn("----------");
+						console.log(binding.arg);	// 指令的参数   bar
+						console.log(binding.expression);	// 指令的表达式expression   param
+						console.log(binding.modifiers);	// 指令的表达式modifiers修饰符  ｛a: true｝
+						console.log(binding.name);	// 指令的名称 my-directive
+						console.log(binding.rawName);	// 指令的源名称  v-my-directive
+						console.log(binding.value);	// 指令的表达式的值  "测试"
+						
+					}
+				}
+			}
+		});
+	</script>
+</html>

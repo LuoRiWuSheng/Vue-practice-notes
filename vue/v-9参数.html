@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" v-model="url"/>
+			<a v-bind:href="url">链接地址</a>
+			<span>{{url}}</span>
+		</div>
+		<h4>在输入框中输入一个合法的链接地址，就改变了 a标签的href属性</h4>
+		<script>
+			var app = new Vue({
+				el: "#app",
+				data: {
+					url : ""
+				}
+			});
+		</script>
+	</body>
+</html>

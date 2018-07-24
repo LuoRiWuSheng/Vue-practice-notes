@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../案例/bootstrap.min.css" />
+	</head>
+
+	<body>
+		<div id="app">
+			<child type="primary" @say-title="parent" v-for="(item,index) in articles" :key="index">
+				<div slot="title">
+					<span v-html="item.title"></span>
+				</div>
+				<div slot="content">
+					{{item.content}}
+				</div>
+				<div slot="footer" v-if="item.auth">
+					{{item.auth}}
+				</div>
+			</child>
+			
+			
+		</div>
+	</body>
+	<template id="child">
+
+		<div class="panel" :class=[color]>
+			<div class="panel-heading" ref="title">
+				<slot name="title"></slot>
+			</div>
+			<div class="panel-body">
+				<slot name="content"></slot>
+			</div>
+			<div class="panel-footer">
+				<slot name="footer"></slot>
+				<button @click="say">获取当前标题</button>
+			</div>
+		</div>
+	</template>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let child = {
+			template: "#child",
+			data() {
+				return {
+					
+				}
+			},
+			computed: {
+				color() {
+					return "panel-"+ this.type;
+				}
+			},
+			methods: {
+				say() {
+					console.log(this.$refs.title);
+					this.$emit("say-title",this.$refs.title.innerText)
+				}
+			},
+			props: {
+				type: {
+					type: String,
+					default: "warning"
+				}
+			}
+		}
+
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				articles: [
+					{type: "warning",title: "<h2>Vue</h2>",content:"今天学习Vue",auth: "作者：XXX"},
+					{type: "defualt",title: "<h2>react</h2>",content:"今天学习react",auth: "作者：XXX"},
+					{type: "success",title: "<h2>ng</h2>",content:"今天学习ng"}
+				]
+			},
+			methods: {
+				parent(val) {
+					alert(val);
+				}
+			},
+			components: {
+				child
+			}
+		});
+	</script>
+
+</html>

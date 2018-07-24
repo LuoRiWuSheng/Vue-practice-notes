@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="bootstrap.min.css" />
+		<style type="text/css">
+			.del {
+				color: #CCC;
+				text-decoration: line-through;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app">
+			<nav class="navbar navbar-inverse">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<a class="navbar-brand" href="#">
+							todoList
+						</a>
+					</div>
+				</div>
+			</nav>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3">
+						<div class="panel panel-warning">
+							<div class="panel-heading">
+								<h3 class="text-danger">您有{{this.unFinishCount}}件事情要做。</h3>
+								<!--
+									keyup和keydown区别
+										keydown，键盘按下的时候，值是没有进入到输入框的
+										keyup 键盘抬起，值才会进入输入框
+										这里通过回车添加，就没区别
+								-->
+								<input type="text" class="form-control" v-model="title" @keyup.13="add" />
+							</div>
+							<div class="panel-body">
+
+								<ul class="list-group">
+
+									<li class="list-group-item clearfix" v-for="(todo,index) in filterTodos" @dblclick="remember(todo)">
+
+										<!--如果 isSelected为true，则删除的class生效-->
+										<!--当我双击li时，我可以知道我点击的是哪一项，根据todo知道，如果我点击的todo和我循环todos中的某一项相等，应该显示输入框-->
+										<div class="pull-left" :class="{del:todo.isSelected}" v-show="cur!=todo">
+											<input type="checkbox" v-model="todo.isSelected" />{{todo.title}}
+										</div>
+										<input type="text" 
+											v-model="todo.title" 
+											v-show="cur==todo" 
+											@keyup.enter="cancel" 
+											@blur="cancel"
+											v-focus="cur==todo"
+										/>
+										<button class="pull-right btn btn-danger btn-xs" @click="remove(todo)">&bigotimes;</button>
+									</li>
+
+								</ul>
+							</div>
+							<div class="panel-footer">
+								<ul class="nav nav-pills">
+									<li role="presentation" :class="{active: this.hash === 'all'}">
+										<a href="#/all">全部任务<span class="badge">{{allTaskCount}}</span></a>
+									</li>
+									<li role="presentation" :class="{active: this.hash === 'finish'}">
+										<a href="#/finish">已完成<span class="badge">{{finishCount}}</span></a>
+									</li>
+									<li role="presentation" :class="{active: this.hash === 'unfinish'}">
+										<a href="#/unfinish">未完成<span class="badge">{{unFinishCount}}</span></a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<script src="../js/axios.js"></script>
+	<script src="../js/vue.js"></script>
+	<script>
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				title: "",
+				todos: [{
+						isSelected: false,
+						title: "睡觉"
+					},
+					{
+						isSelected: false,
+						title: "吃饭"
+					}
+				],
+				cur: "",
+				hash: "", // 获取页面的hash值
+				test: ""
+			},
+			created() {
+				// 看看 localStorage中是否有数据，没有就用默认的数据
+				let data = JSON.parse(localStorage.getItem("todoList"));
+				
+				this.todos = data || this.todos;
+				
+				// 监控哈希值的变化，如果页面已经有hash时，重新刷新页面，我们也要获取一下hash
+				this.hash = window.location.hash.slice(2) || "all";
+				window.addEventListener("hashchange",()=> {
+					// 这里的箭头函数  this 指向是 实例对象
+					//alert(this === vm);// true
+					// 当hash值变化，重新操作hash
+					this.hash = window.location.hash.slice(2);
+					
+				}, false);
+				
+			},
+			methods: {
+				add() {
+					if(this.title === "") {
+						return;
+					}
+					this.todos.unshift({
+						isSelected: true,
+						title: this.title
+					});
+					this.title = "";
+				},
+				remove(todo) { // 拿到当前点击的和数组比对，为true，就过滤掉，就删除
+
+					this.todos = this.todos.filter(item => item !== todo);
+				},
+				remember(todo) { // 当前传递的就是我们点击的那一个
+					this.cur = todo;
+				},
+				cancel() {
+					this.cur = "";
+				}
+			},
+			computed: {
+				filterTodos() {
+					if(this.hash === "all") {
+						return this.todos;
+					} else if(this.hash === "unfinish") {
+						return this.todos.filter(item=> !item.isSelected);
+					} else {
+						return this.todos.filter(item=> item.isSelected);
+					}
+					
+					// 如果hash不对，默认给todos中的数据
+					return this.todos;
+				},
+				allTaskCount() {
+					return this.todos.length;
+				},
+				finishCount() {
+					return this.todos.filter(item=> item.isSelected).length;
+				},
+				unFinishCount() {
+					return this.todos.filter(item=> !item.isSelected).length;
+				}
+			},
+			watch: {	// watch 默认监控数据的一层，嵌套的数据层次是不被监控的，
+				// 深层次监控  配置 deep:true 就可以
+				// 不要用箭头函数写watch中属性的回调函数，箭头函数的this指向的是window,而不是实例对象
+				// 
+				todos: {
+					// 名称是固定的 handle
+					handler(newValue,oldValue) {	// 默认写函数，就相当于写handler
+						// localStorage默认将一个存的是字符串，所以对象会变成[object Object],[object Object],[object Object] 不是字符串的json
+						localStorage.setItem("todoList",JSON.stringify(this.todos));
+						// console.log(typeof localStorage.getItem("todoList")); string
+					},
+					deep: true	// 深度监控
+				},
+				test(newVlue,oldValue) {	// 这个默认写函数，和上面写handler是一样的，要配置深度deep，就要像上面那样写
+					
+				}
+			},
+			directives: {
+				focus(el,bindings) {
+					// 当点击当前的li时，让内部的输入框获取焦点
+					if(bindings.value) {
+						el.focus();	// DOM的方法，不是vue的  获取焦点
+					}
+				}
+			}
+		});
+	</script>
+
+</html>
+<!--
+	1、将数据循环到页面
+	2、input中回车，添加数据，需要加入isSelected属性
+	3、删除数据，删除数组中某一项
+	4、计算当前没有被选中的个数
+	
+-->

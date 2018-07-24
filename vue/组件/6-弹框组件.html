@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+	<style type="text/css">
+		.mask {
+			position: fixed;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background: rgb(0,0,0,0.45);
+			
+		}
+		.dialog {
+			position: fixed;
+			left: 50%;
+			top: 50%;
+			width: 300px;
+			height: 150px;
+			background: #FFF;
+			transform: translate3d(-50%,-50%,0);
+		}
+		.dialog button {
+			position: fixed;
+			left: 50%;
+			bottom: 5px;
+			width: 80px;
+			height: 30px;
+			color: #FFF;
+			background: rgb(0,0,180);
+			border-radius: 10px;
+			box-shadow: 5px 5px 5px #CCC;
+			outline: none;
+			transform: translate3d(-50%,-50%,0);
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<button @click="show=!show">弹窗</button>
+		<child v-bind:dis="show" @child-msg="reverse"></child>
+	</div>
+	
+	<template id="tips">
+		<div class="mask" v-show="dis">
+			<div class="dialog">
+				<button @click="change">关闭</button>
+			</div>
+		</div>
+	</template>
+</body>
+<script src="../js/vue.js"></script>
+<script type="text/javascript">
+	let dialog = {
+		template: "#tips",
+		props: ["dis"],
+		methods: {
+			change() {
+				console.log(this.dis);
+				this.$emit("child-msg",false);
+			}
+		}
+		
+	};
+	
+	let vm = new Vue({
+		el: "#app",
+		data: {
+			show: false
+		},
+		methods: {
+			reverse(val) {
+			
+				this.show = val;
+			}
+		},
+		components: {
+			child: dialog
+		}
+	})
+</script>
+</html>

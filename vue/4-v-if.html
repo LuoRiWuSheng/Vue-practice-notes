@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>控制元素显示隐藏</title>
+		<script src="js/vue.js"></script>
+	</head>
+
+	<body>
+		<div id="app-3">
+			<span v-if="seen">显示</span>
+			<span v-if="!seen">隐藏</span>  <!--取反-->
+		</div>
+		<script>
+			var app = new Vue({
+				el: "#app-3",
+				data: {
+					seen: true
+				}
+			});
+		</script>
+	</body>
+	
+</html>

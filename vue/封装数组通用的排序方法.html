@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript">
+			var pdts = [{
+				title: "z-paint pot",
+				quantity: 9,
+				price: 3.95
+			}, {
+				title: "iPhone XS",
+				quantity: 10,
+				price: 8906.72
+			}, {
+				title: "polka dots",
+				quantity: 17,
+				price: 12.3
+			}, {
+				title: "pebbles",
+				quantity: 5,
+				price: 6.71
+			}, {
+				title: "Mi Note5",
+				quantity: 8,
+				price: 2985.6
+			}];
+			
+			/**
+			 * x>y 返回1
+			 * x=y 返回0
+			 * x<y 返回-1
+			 * */
+			/**
+			 * @param key  传入排序字段
+			 * @param isAsc 升序或者降序 true升序/false降序
+			 * return 排序方法
+			 * */
+			var sortExp = function(key,isAsc) {
+				return function(x,y) {
+					// 如果当前排序的不是数字
+					if(!isNaN(x[key])) {
+						if(x[key]>y[key]) return 1 * (isAsc? 1:-1);
+						if(x[key]<y[key]) return -1 * (isAsc? 1:-1);
+						return 0;
+					} else { // 数字
+						return (x[key]-y[key])*(isAsc?1:-1);
+					}
+				}
+			}
+			
+			//pdts.sort(sortExp("price",false));
+			pdts.sort(sortExp("title",true));
+			
+			console.log(pdts);
+		</script>
+	</head>
+
+	<body>
+	</body>
+
+</html>

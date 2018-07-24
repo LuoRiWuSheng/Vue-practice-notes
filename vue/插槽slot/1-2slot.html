@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<div id="app">
+			<model>
+				
+				<h1 slot="title">我要学习vue</h1>
+				<div slot="content">
+					今天学习slot
+				</div>
+				<a href="http://www.baidu.com">百度</a>
+			</model>
+
+		</div>
+		<template id="modal">
+			<div>
+				
+				<slot name="title">我是默认标题</slot>
+				<slot name="content">我是默认内容</slot>
+				<slot></slot>
+			</div>
+		</template>
+	</body>
+
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let model = {
+			template: "#modal"
+		};
+
+		let vm = new Vue({
+			el: "#app",
+			data: {},
+			
+			components: {
+				model
+			}
+		});
+	</script>
+
+</html>

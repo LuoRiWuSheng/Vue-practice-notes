@@ -1,0 +1,17 @@
+[
+	{
+		"productName": "node.js深入浅出",
+		"productPrice": 35.5,
+		"productCount": 3,
+		"productPicture": "",
+		"productId": 2,
+		"productInfo": "技术类"
+	}, {
+		"productName": "javascript高级程序设计",
+		"productPrice": 60,
+		"productCount": 1,
+		"productPicture": "",
+		"productId": 1,
+		"productInfo": "技术类"
+	}
+]

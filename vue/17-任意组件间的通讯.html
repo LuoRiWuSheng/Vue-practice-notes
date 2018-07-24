@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<h3>注意，这里的命名千万不要用z-say,太坑爹了，报错，“ Invalid left-hand side in assignment in” 左边非法的标识符，
+			
+			可以使用 z_say 这种，命名需要注意，要么用驼峰写，保险</h3>
+		<div id="app">
+			<zhangsan></zhangsan>
+			<lisi></lisi>
+		</div>
+		<script>
+			var Event = new Vue();
+			
+			Vue.component("zhangsan",{
+				template: `<div>
+					张三说: <input @keyup="onChange" type="text" v-model="z_say">
+					
+				</div>`,
+				data: function() {
+					return {
+						"z_say": "" 
+					}
+				},
+				methods: {
+					onChange: function() {
+						Event.$emit("zhangsan_say_something",this.z_say);
+					}
+				}
+			});
+			
+			Vue.component("lisi",{
+				template: `<div>
+					李四听: {{zhangsan_say}}
+				</div>`,
+				data: function() {
+					return {
+						"zhangsan_say": ""
+					}
+				},
+				mounted: function() {
+					console.log("this-->",this);// 这里的this才是我们的组件
+					var _this = this
+					Event.$on("zhangsan_say_something",function(data) {
+						console.log("data",data);
+						console.log("this",this);// 这里的this 是Event
+						_this.zhangsan_say = data;
+					});
+				}
+			});
+			const app = new Vue({
+				el: "#app"
+				
+			});
+		</script>
+		
+	</body>
+</html>

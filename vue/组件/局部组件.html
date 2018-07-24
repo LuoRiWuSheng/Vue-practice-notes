@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<!--自闭合-->
+			<handsome></handsome>
+			<!--半闭合-->
+			<componet2/>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		// 使用三部曲： 1、创建这个组件   2、注册这个组件   3、使用这个组件
+		// 组件是相互独立的，不能直接跨作用域，实例vm也是一个组件，局部组件也有声明周期函数
+		
+		let obj = {				// 如果组件共用了数据，会导致组件使用的数据同步更新
+			school: "学校"
+		}
+		// 子组件不能直接使用父组件的数据（涉及到组件之间的通讯，数据交互）
+		// 组件是可以无限嵌套组件的
+		let handsome = {
+			template: `<div @click="fn">组件1--{{school}}</div>`,
+			data() {	// 必须是函数
+				return obj;	// 这种写法是有问题的，组件1和组件2的数据都指向同一块内存区域，无论哪一个组件改变这个obj数据，都会影响其他其他组件
+				// 所有，这里需要 return {}  返回一个对象，返回的对象，就指向一个新的内存区域，不会造成数据的污染
+				// {} !== {}  2个空对象是不相等的，所以，不会干扰
+			},
+			methods: {
+				fn() {
+					// 这里的this不是指向vm实例，而是指向自己的组件handsome,所以，获取handsome的数据就是this.school
+					this.school = "hello"
+				}
+			}
+		};
+		
+		let componet2 = {
+			template: `<div>组件2{{school}}</div>`,
+			data() {
+				return obj;
+			}
+		}
+		
+		let vm = new Vue({
+			el: "#app",
+			data: {},
+			components: {
+				handsome,
+				componet2
+			}
+		});
+	</script>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+		
+	</head>
+
+	<body>
+		<div id="app">
+			<!--to="/home" home是字符串
+				:to="/home"+/asdas  动态绑定地址 可以拼接
+				
+				:to="{path: '/静态地址'+动态地址变量}"
+			-->
+			<router-link to="/home">首页</router-link>
+			<router-link :to="{path:'/list'}">列表页</router-link>
+			<!--router-view是一个全局组件，可以直接调用，显示视图的-->
+			<router-view></router-view>
+		</div>
+		<!--
+		单页，切换的是组件	-->
+		<script src="../js/vue.js"></script>
+		<script src="../node_modules/vue-router/dist/vue-router.js"></script>
+		<script type="text/javascript">
+			let home = {
+				template: `<div>
+					首页
+					<button @click="toList">去列表</button>
+				</div>`,
+				methods: {
+					toList() {
+						// 这里的this是 Vue实例 vm
+						this.$router.push("/list");	// 强制跳转路径，push就是h5中的pushState的简写
+						// ['/','/home','/list','/home'],这里的replace需要多注意
+						//this.$router.replace("/list");	// 路由替换，将当前的历史替换掉
+					}
+				}
+			};
+			let list = {
+				template: `<div>
+				列表页
+				<button @click="back">返回</button>
+				</div>`,
+				methods: {
+					back() {
+						this.$router.go(-1);// 返回某一级，go可以顶替back
+						//this.$router.back();// back只能退一级
+					}
+				}
+			};
+			let errorPage = {
+				template: `<div>错误页面,由于你乱在地址栏输入导致的</div>`
+			};
+
+			let routes = [ // 路由映射表  配置路径和组件的关系
+				{
+					path: "",	// 默认展示的路由
+					component: list
+				},
+				{
+					path: "/home",
+					component: home
+				}, // 配置的关系就是页面级组件
+				{
+					path: "/list",
+					component: list
+				}, // 路径必须加斜杠
+				/*{
+					path: "*",
+					component: errorPage	// 这个地方，是匹配不到规则，就会进入这个页面，这个地方，路径不会吧，只是组件切换了
+				}*/
+				{	// 路径变，组件也变切换   在404的时候用重定向
+					path: "*",
+					redirect: "/home"
+				}
+			];
+			let router = new VueRouter({ // 引入vue-router 自带的VueRouter类
+				mode: "hash",	// h5模式，mode默认是hash模式
+				routes
+			});
+			let vm = new Vue({
+				el: "#app",
+				router	// 每个组件都会拥有一个名字叫$router的属性（这里存放的都是方法），还有一个名字叫$route(存放的都是属性)
+				
+			})
+		</script>
+	</body>
+
+</html>

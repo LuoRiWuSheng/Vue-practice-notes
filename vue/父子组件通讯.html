@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		当前案例不是演示父子组件通讯
+		<div id="app">
+			<child parent-msg="child"></child>
+			<br />
+		
+		</div>
+	</body>
+	<script type="text/javascript">
+		Vue.component("child",{
+			props: ['parentMsg'],
+			template: `<span>{{parentMsg}}</span>`
+		});
+		
+		var vue = new Vue({
+			el: "#app"
+			
+			
+		});
+	</script>
+</html>

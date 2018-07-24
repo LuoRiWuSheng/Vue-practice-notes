@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<child2 v-bind:todo="todo"></child2>
+			<!--<child2 v-bind:text="todo.text" v-bind:is-com="todo.isCom"></child2>-->
+			
+		</div>
+	</body>
+	<script type="text/javascript">
+		Vue.component("child2",{
+			//props: ["text","isCom"],
+			props: {
+				todo: {
+					type: Object,
+					default: {}
+				}
+			},
+			template: `<div>"text---->"{{todo.text}},{{todo.isCom}}</div>`
+			
+		});
+		var vue = new Vue({
+			el: "#app",
+			data: function() {
+				return {
+					todo: {
+						text: "文本",
+						isCom: true
+					}
+				}
+			}
+		});
+	</script>
+</html>

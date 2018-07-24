@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<div id="app">
+			<button v-if="isExits" v-my-directive.foo.boo="param">点击</button>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script>
+		Vue.directive("only-update",function() {
+			// do something...
+		});
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				a: "参数",
+				isExits: true,
+				param: "first"
+			},
+			directives: {
+				"my-directive": {
+					bind() {	// 做绑定的准备工作，比如添加事件监听器，或者是其他只需要执行一次的复制操作
+						//console.log(arguments,"bind");
+						console.log(1,"bind");
+					},
+					inserted() { //
+						//console.log(arguments,"inserted");
+						console.log(2,"inserted");
+					},
+					update(el,binding){	// 根据获取的新值执行对应的更新，对于初始值也会调用一次
+						console.log(3,"update");
+						console.log(arguments);
+						console.log("newValue",binding.value);
+						console.log("oldValue",binding.oldValue);
+					},
+					componentUpdate() {	// 
+						console.log(4,"componentUpdate");
+					},
+					unbind() {	// 做清理操作，比如移除bind是绑定的事件监听器
+						console.log(5,"unbind");
+					}
+				} 
+			}
+		});
+	</script>
+
+</html>

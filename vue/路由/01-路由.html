@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+	</head>
+
+	<body>
+		<div id="app">
+
+			<!--router-view是一个全局组件，可以直接调用-->
+			<router-view></router-view>
+		</div>
+		<!--
+		单页，切换的是组件
+		
+	-->
+		<script src="../js/vue.js"></script>
+		<script src="../node_modules/vue-router/dist/vue-router.js"></script>
+		<script type="text/javascript">
+			let home = {
+				template: `<div>
+					首页
+				</div>`
+			};
+			let list = {
+				template: `<div>
+				列表页
+			</div>`
+			};
+
+			let routes = [ // 路由映射表  配置路径和组件的关系
+				{
+					path: "/home",
+					component: home
+				}, // 配置的关系就是页面级组件
+				{
+					path: "/list",
+					component: list
+				} // 路径必须加斜杠
+			];
+			let router = new VueRouter({ // 引入vue-router 自带的VueRouter类
+				routes
+			});
+			let vm = new Vue({
+				el: "#app",
+				router
+
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<div id="app">
+			<input type="text" v-focus/>
+			<!--
+				v-alert="a" 这里 expression就是 a value就是 “哈哈” modifiers: {foo: true}
+			-->
+			<button v-alert.foo="a" v-diyclick></button>
+			<div v-diyclick>我绑定了事件</div>
+			<button v-a-b>横线指令</button>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script>
+		/*
+		 全局指令写法
+		 Vue.directive("指令名",definition对象);
+		 
+		 definition可以提供一些钩子函数： bind,inserted,update,componentUpdated,unbind
+		 
+		 注意：指令不允许驼峰写法，必须小写或通过横线写法，不能写成 diyClick 必须写成diyclick或者diy-click
+		 * */
+		Vue.directive("alert",{
+			inserted: function(el) {
+				console.log(arguments,29);
+				el.innerText = "我是按钮"
+			}
+		});
+		Vue.directive("diyclick",{
+			inserted: function(el) {
+				
+				el.addEventListener("click",function() {
+					alert("我被点击了");
+				})
+			}
+		});
+		Vue.directive("a-b",{
+			inserted: function(el) {
+				
+				el.addEventListener("click",function() {
+					alert("我被点击了");
+				})
+			}
+		})
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				a: "哈哈"
+			},
+			directives: {
+				focus: {
+					inserted: function(el) {
+						console.log(arguments,57);
+						/**
+						 * arguments[0]  DOM元素
+						 * arguments[1]	 binding对象，
+						 * 				{
+							 * 				name: "focus", 指令名 不包含v-
+							 * 				rawName: "v-focus",	
+							 * 				modifiers: {} 一个包含修饰符的对象,如v-directive.foo.boo  则modifiers:{foo:true,boo: true}
+							 * 				def:{bind：fn,updata:fn}
+							 * 				value: 指令绑定的值， 如 v-my-directive="1+1"  value的值就是2
+							 * 				oldVuale: 指令绑定的前一个值，只有在update和componentUpdated中会有，无论值是否被改变，都可用
+							 * 				expression: 绑定值的字符串形式，如：v-my-directive="1+1" expression就是 1+1
+							 * 				arg: 传给指令的参数，例如my-directeve:foo  参数的值就是foo
+							 * 	
+							 * 			}
+						 * arguments[2] vNode Vue编译生成的虚拟节点
+						 * arguments[3] vNode
+						 * undefined  目前不知道这个是干嘛的
+						 * */
+
+						el.focus(); // h5提供的API，不是vue的
+					}
+				}
+			}
+		});
+	</script>
+
+</html>

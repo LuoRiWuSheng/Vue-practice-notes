@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			[v-cloak] {
+				display: none;
+			}
+		</style>
+		<!--配合样式，解决闪烁问题，让页面在加载的过程中，先隐藏，等数据渲染好，再移除v-cloak-->
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			<select v-model="a" multiple>
+				<option value="1">游泳</option>
+				<option value="2">跳远</option>
+				<option value="3">爬山</option>
+				<option value="4">羽毛球</option>
+				<option value="5">健身</option>
+			</select>
+			{{a}}
+		</div>
+	</body>
+	<script src="js/vue.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			data: function() {
+				return {
+					a: []
+				}
+			}
+		});
+	</script>
+</html>

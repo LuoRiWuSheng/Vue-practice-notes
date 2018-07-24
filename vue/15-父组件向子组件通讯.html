@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<user username="whh"></user>
+		</div>
+		<script>
+			Vue.component("user",{
+				template: '<a :href="\'/user/\'+ username">@{{username}}</a>',
+				props: ["username"],// 这里拿到的就是html中组件的参数
+				methods: {}
+				
+			});
+			var app = new Vue({
+				el: "#app"
+			});
+		</script>
+	</body>
+</html>

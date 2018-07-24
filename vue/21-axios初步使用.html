@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			
+			
+		</div>
+	</body>
+	<!--
+		vue.js与axios.js之间没有依赖关系，所以，谁在前引入，无所谓
+		
+	-->
+	<script src="js/vue.js"></script>
+	<!--axios基于promise的库，做ajax请求-->
+	<script src="./node_modules/axios/dist/axios.js"></script>
+	<script>
+		let vm = new Vue({
+			el: "#app",
+			data: function() {
+				return {
+					products: []
+				}
+			},
+			// 专门用来做ajax请求的
+			created() { // 钩子函数,数据被初始化后会调用，this指向的是vm实例
+				const _this = this;
+				/*axios.get("./data/products.json").then(function(res) {
+					console.log(res);
+					//this.products = res.data; // 这里的this，指向的window,我们要的this，是实例对象，所以，可以改进
+					_this.products = res.data;
+				},function(err) {
+					console.log(err);
+				});*/
+				
+				/**-----方式二----**/
+				axios.get("./data/products.json").then(res=> {
+					// 这里的this才是实例，箭头函数改变了this的指向
+					this.products = res.data;
+				},err=> {
+					console.log(err);
+				});
+			}
+		});
+		
+	</script>
+	
+	
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<todo></todo>
+		</div>
+	</body>
+	<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+	<script type="text/javascript">
+		Vue.component("todo",{
+			template:`<div>{{msg}}</div>`,
+			data() {
+				return {
+					msg: "你好"
+				}
+			}
+		})
+		let vm = new Vue({
+			el: "#app"
+		});
+	</script>
+</html>

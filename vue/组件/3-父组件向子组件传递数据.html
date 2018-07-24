@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			父亲的钱 ： {{money}}
+			<!--当前组件的 :属性=父组件的值,给子组件加一个m属性，属性对应的值属于父组件的数据money-->
+			<!--没加冒号，传递的就是一个字符串，如果想传递父组件的值，必须加冒号-->
+			<child v-bind:m="money" a="1"></child>
+			
+			<!--下面叫没传属性，根据components中的校验，肯定会报错-->
+			<!--<child></child>-->
+			
+			<!--下面这个是传了的，传空，不会报错（能够通过校验）-->
+			<!--<child m=""></child>-->
+			
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		// 父传子
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				money: 100
+			},
+			components: {
+				child: {
+					//props: ["m","a"],// 如果写成简单的数组，就没有校验功能，父组件传递什么，子组件就接收什么
+					props: {	// 属性名不能和data中的名称重复,校验时不能阻断代码的执行，只是控制台警告而已
+					 	// 用对象的形式表示，可以进行高级的校验，类型检测，赋予默认值
+					 	m: {
+					 		// 检验类型
+					 		// 如果组件上的属性 写法不带冒号 a="1" 这里的1就是字符串；带冒号:a="1" 就是数字类型
+					 		type: [Number,Boolean,String,Function,Array],
+					 		//defaule: 0,	// 可以给m赋予值，如果子组件中的属性没有传值，就采用这里的默认值
+					 		required: true,	// 此属性必须传递，但是不能和default同时使用，必传的，默认值就不需要
+					 		validator(value) {	// 自定义验证函数,第一个参数是当前属性m传递的值
+					 			// 返回true表示通过自定义校验，返回false 表示没通过
+					 			return value < 300
+					 		}
+					 	},
+					 	a:{}
+					},
+					template: `<div>儿子{{m}}--{{a}}</div>`
+				}
+			}
+		});
+	</script>
+</html>

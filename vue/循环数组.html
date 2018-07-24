@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<ul>
+				<li v-for="(item,index) of fruits">{{item.name}}---{{index}}</li>
+			</ul>
+			<ul>
+				<li v-for="(item,index) in fruits">{{item.name}}---{{index}}</li>
+			</ul>
+			<!--循环二维数组-->
+			<ul>
+				<li v-for="(item,index) in students"> {{index+1}}.{{item.name}}
+					<ul>
+						<!--index也有作用域的，所以，这里换一个占位符名称-->
+						<li v-for="(c,childIndex) in item.score">
+							{{index+1}}-{{childIndex+1}}语文：{{c.chinese}},数学{{c.math}},英语{{c.english}}
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
+			<!--v-for循环字符串-->
+			<div>
+				<p v-for="c in 'abc'">{{c}}</p>
+			</div>
+			<!--v-for循环数字-->
+			<div>
+				<p v-for="a in 5">{{a}}</p>
+			</div>
+			<!--v-for循环对象（对象一般不循环）-->
+			<div>
+				<p v-for="(value,key,index) in obj">{{key}}:{{value}}---{{index}}</p>
+			</div>
+		</div>
+	</body>
+	<script src="js/vue.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				fruits: [{name: "苹果"},{name: "橘子"},{name: "西瓜"}],
+				students: [
+					{name: "张三",score: [{chinese: 78,math:45,english:88}]},
+					{name: "李四",score: [{chinese: 22,math:25,english:98}]},
+					{name: "王武",score: [{chinese: 99,math:55,english:15}]}
+				],
+				obj: {name: "李四",age: 20,sex: "男"}
+			}
+		});
+	</script>
+</html>

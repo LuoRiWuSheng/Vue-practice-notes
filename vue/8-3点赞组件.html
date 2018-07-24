@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.likeClass {
+				background-color: pink;
+			}
+		</style>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<like></like>
+		</div>
+		<h4>可以将模版直接写到html中，然后将id传回template</h4>
+		<template id="click_like">
+			<button :class="{likeClass:liked}" @click="onClick">点赞{{like_count}}</button>
+		</template>
+		
+		<script>
+			Vue.component('like',{
+				// 方式一：
+				/*template: `
+					<button :class="{likeClass:liked}" @click="onClick">点赞{{like_count}}</button>
+				`,*/
+				template: "#click_like",
+				data: function() {
+					return {
+						liked: false, // 一开始表示没点赞
+						"like_count":10
+					}
+				},
+				methods: {
+					onClick: function() {
+						if(!this.liked) {
+							this.like_count ++;
+						} else {
+							this.like_count --;
+						}
+						this.liked = !this.liked;
+					}
+				}
+			})
+			var app = new Vue({
+				el: "#app"
+			});
+		</script>
+	</body>
+</html>

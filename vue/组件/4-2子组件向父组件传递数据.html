@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		父组件绑定一些事件，子组件触发这个事件，将参数传递过去,单向数据流，父组件数据刷新，子组件数据就刷新
+		，子组件不能直接修改父组件的数据
+		<div id="app">
+			父亲的钱： {{money}}
+			<!--@child-msg相当于 child.$on("child-msg",things)-->
+			<child v-bind:m="money" @child-msg="things"></child>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				money: 100
+			},
+			methods: {
+				things(val) {
+					alert(val);
+					// 更新自己的数据
+					this.money = val;
+				}
+			},
+			components: {
+				child: {
+					props:["m"],
+					template: `<div>
+						{{m}}
+						<button @click="getMoney()">更改价格</button>
+					</div>`,
+					methods: {
+						getMoney() {
+						
+							this.$emit("child-msg",800);	// 触发自己的自定义事件，让父组件的方法执行
+						}
+					}
+				}
+			}
+		});
+	</script>
+
+</html>

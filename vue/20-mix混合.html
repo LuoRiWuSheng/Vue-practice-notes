@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<h3>将共同点，都抽象出来，使用mixins，就可以去调用公共的,注意那个页面上的false，在base中定义的是true,但是我们可以从
+			组件的定义中的data属性覆写掉，只要是你在私有组件中明确定义的，都可以覆盖公共的东西
+		</h3>
+		<div id="app">
+			<m></m>
+			<n></n>
+		</div>
+		<script>
+			var base = {
+				data: function() {
+					return {
+						visible: false,
+						test: true	//测试
+					}
+				},
+				methods: {
+					show: function() {
+						this.visible = true;
+					},
+					hide: function() {
+						this.visible = false;
+					},
+					toggle: function() {
+						this.visible = !this.visible;
+					}
+				}
+			};
+			
+			Vue.component("m", {
+				template: `<div>
+					{{test}}
+					<button @mouseenter="show" @mouseleave="hide">过来</button>
+					<div v-if="visible">
+						内容内容内容内容内容内容
+					</div>
+				</div>`,
+				mixins: [base],
+				data: function() {
+					return {
+						test: false
+					}
+					
+				}
+			});
+			Vue.component("n", {
+				template: `
+					<div>
+						<button @click="toggle">点击,显示/隐藏</button>
+						<div v-if="visible">哈哈哈</div>
+					</div>
+				`,
+				mixins: [base]
+			})
+			var app = new Vue({
+				el: "#app"
+				
+			});
+		</script>
+	</body>
+</html>

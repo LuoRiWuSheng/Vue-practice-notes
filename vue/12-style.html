@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>绑定内联样式</title>
+		
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<h3>绑定一个样式对象</h3>
+			<div v-bind:style="styleObj"></div>
+			
+			<div v-bind:style="{width: '50px',height:'50px',backgroundColor:'red'}">直接写</div>
+			<h3>数组表示法，将多个样式绑定到同一个对象上，示例3</h3>
+			<div :style="[red,border]">示例3</div>
+		</div>
+		<script>
+			var app = new Vue({
+				el: "#app",
+				data: {
+					red: {
+						color: "red"
+					},
+					border: {
+						width: "120px",
+						height: "50px",
+						border: "1px solid green"
+					},
+					styleObj: {
+						// 注意，这里的写法，值需要用引号括起来
+						// 对于复合属性，使用引号将key引起来，可以用横杠表示，另一种，则使用驼峰表示法
+						width: "100px",
+						height: "100px",
+						borderWidth: "2px",
+						"border-style": "solid",
+						borderColor: "red"
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

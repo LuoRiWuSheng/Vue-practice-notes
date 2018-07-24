@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.box {
+				position: absolute;
+				width: 100px;
+				height: 100px;
+				background: red;
+			}
+		</style>
+		
+	</head>
+	<body>
+		<div id="app">
+			<button v-color="flag">按钮</button>
+			<div v-drag class="box"></div>
+			<div v-drag class="box"></div>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				flag: "red"
+			},
+			directives: {
+				color(el,bindings) { // el指代的是DOM元素
+					console.log(arguments);
+					/**
+					 * arguments[0] 是我们的DOM
+					 * arguments[1]	就是v-color中提供的内容，有值，有修饰符，有原始名称，表达式
+					 * 
+					 * */
+					el.style.background = bindings.value;
+				},
+				drag(el) {
+					el.onmousedown = function(e) {
+						// 鼠标距离盒子的距离
+						let disX = e.pageX - el.offsetLeft;
+						let disY = e.pageY - el.offsetTop;
+						
+						document.onmousemove = function(e) {
+							
+							el.style.top = e.pageY - disY + "px";
+							el.style.left = e.pageX - disX + "px";
+							console.log(el.style.top);
+						}
+						
+						document.onmouseup = function(e) {
+							document.onmousemove = null;
+							document.onmouseup = null;
+						}
+						
+						e.preventDefault();
+					}
+				}
+			}
+		});
+	</script>
+</html>

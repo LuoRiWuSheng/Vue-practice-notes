@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/vue.js"></script>
+	</head>
+
+	<body>
+		<div id="app">
+			<child msg="hello!"></child>
+			<child nihao="hello1!"></child>
+			<child nisha="hello2!"></child>
+		</div>
+	</body>
+	<script>
+		Vue.config.debug = true;
+		Vue.component('child', {
+			// declare the props
+			props: ['msg', 'nihao', 'nisha'],
+			// the prop can be used inside templates, and will also
+			// be set as `this.msg`
+			template: '<span>{{ msg }}{{nihao}}{{nisha}}</span>',
+			/*data: function() {
+			return {
+			msg: 'boy'
+			}
+			}*/
+		});
+		var vm = new Vue({
+			el: '#app'
+		})
+	</script>
+
+</html>

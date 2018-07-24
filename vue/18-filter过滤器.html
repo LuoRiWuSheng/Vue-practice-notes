@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<div>
+				<input type="text" v-model="length"/>mm
+				<div>{{length | meter}}</div>
+				<hr />
+				如果想要中文的单位，可以当做参数传递进去
+				<div>{{length | meter("米")}}</div>
+			</div>
+			
+			<div>
+				<input type="text" v-model="price"/>{{price | currency}} <br />
+				<input type="text" v-model="price"/>{{price | currency("￥")}}
+			</div>
+		</div>
+		<script>
+			// 注册过滤器
+			Vue.filter("meter",function(val,unit) {
+				val = val || 0;
+				unit = unit || "m";
+				return (val/1000).toFixed(2)+unit;
+				
+			});
+			Vue.filter("currency",function(val,unit) {
+				val = val || 0;
+				unit = unit || "元";
+				return val + unit;
+			});
+			var app = new Vue({
+				el: "#app",
+				data: {
+					length: 0,
+					price: 10
+				}
+			});
+		</script>
+	</body>
+</html>

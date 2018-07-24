@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" v-model="name"/>
+		
+			<span>{{name}}</span><br />
+			<h3>当你输入空格的时候，就很明显了</h3>
+			<pre><span>{{name}}</span></pre>
+			<hr />
+			<input type="text" v-model.lazy="name2"/>
+			<div>在model上加了lazy后，数据不会马上更新，会在blur之后，才更新，节约了一点性能</div>
+			<span>{{name2}}</span>
+			<hr />
+			<input type="text" v-model.trim="name3"/>
+			<div>去掉输入的前后空格</div>
+			<pre><span>{{name3}}</span></pre>
+			<hr />
+			<input type="text" v-model.number="price"/>
+			<span>price类型{{typeof price}},{{price}}</span>
+			
+		</div>
+		<script>
+			var app = new Vue({
+				el: "#app",
+				data: {
+					name: "",
+					name2: "",
+					name3:"",
+					price: 10
+				}
+			});
+		</script>
+	</body>
+</html>

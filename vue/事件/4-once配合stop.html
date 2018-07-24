@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.father {
+				width: 150px;
+				height: 150px;
+				background: red;
+			}
+			.father .son {
+				width: 100px;
+				height: 100px;
+				margin-top: 30px;
+				background: green;
+			}
+			.grandson {
+				width: 50px;
+				height: 50px;
+				margin-top: 30px;
+				background: blue;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="father" v-on:click="father">
+				爷爷1
+				<div class="son" v-on:click.once="son">
+					儿子1
+					<div class="grandson" @click="grandson">
+						孙子1
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--
+			(1) 点击son- 弹自己，弹father(冒泡),再点击自己(son)，不执行，直接弹father，自身只会执行一次
+			(2)	点击grandson，先弹grandson--》son--—》father  
+				再次点击grandson  先弹grandson--》father   直接跳过son的事件，son事件只执行了一次
+			先是 on("click",fn);  再 off("click",fn)  移除
+		-->
+	</body>
+	<script src="../js/vue.js"></script>
+	<script>
+		let vm = new Vue({
+			el: "#app",
+			methods: {
+				father() {
+					alert("father");
+				},
+				son() {
+					alert("son");
+				},
+				grandson() {
+					alert("grandson");
+				}
+			}
+		});
+	</script>
+</html>

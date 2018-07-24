@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.father {
+				width: 150px;
+				height: 150px;
+				background: red;
+			}
+			.father .son {
+				width: 100px;
+				height: 100px;
+				margin-top: 30px;
+				background: green;
+			}
+			.grandson {
+				width: 50px;
+				height: 50px;
+				margin-top: 30px;
+				background: blue;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="father" v-on:click.capture="father">
+				爷爷1
+				<div class="son" v-on:click="son">
+					儿子1
+					<div class="grandson" @click="grandson">
+						孙子1
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr />
+		<!--示例2-->
+		<div id="app2">
+			<div class="father" v-on:click.capture="father">
+				爷爷2
+				<div class="son" v-on:click.capture="son">
+					儿子2
+					<div class="grandson" @click.capture="grandson">
+						孙子2
+					</div>
+				</div>
+				
+			</div>
+			
+		</div>
+		<hr />
+		<div id="app3">
+			<div class="father" v-on:click.capture="father">
+				爷爷3
+				<div class="son" v-on:click="son">
+					儿子3
+					<div class="grandson" @click.capture="grandson">
+						孙子3
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!--点击 孙子。会发生事件冒泡，一次触发父级的click事件，总共弹3次
+			
+			事件捕获
+			点击 孙子，事件先被捕获，弹father;捕获完后，再冒泡，弹grandson--》弹 son  顺序就是这样
+			
+			如实例2
+			如果都捕获，点击后代元素，会从上到下弹
+				比如 点击grandson;  先弹 father--》 son-》grandson
+			
+			实例3
+			son不捕获，如果点击son,弹的顺序是： father捕获--》grandson捕获--》再冒泡
+		-->
+		<hr />
+		<!--
+			示例4
+			按照下面写
+				（1）点击faher 只弹自身，阻止了事件的冒泡，后台不会被触发，即使grandson写了capture
+				
+				（2）点击grandson  只会弹father 先捕获到father，然后这里有stop，就阻止了事件的传播
+				
+				注：stop其实也称为阻止事件传播，不仅阻止事件向上传播（当然，事件默认是向上传播的），也阻止事件向下传播
+		-->
+		<div id="app4">
+			<div class="father" v-on:click.stop.capture="father">
+				爷爷4
+				<div class="son" v-on:click="son">
+					儿子4
+					<div class="grandson" @click.capture="grandson">
+						孙子4
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			
+			methods: {
+				father() {
+					alert("爷爷");
+				},
+				son() {
+					
+					alert("son");
+				},
+				grandson() {
+					alert("grandson");
+				}
+			}
+		});
+		
+		/*实例2*/
+		let vm2 = new Vue({
+			el: "#app2",
+			
+			methods: {
+				father() {
+					alert("爷爷");
+				},
+				son() {
+					
+					alert("son");
+				},
+				grandson() {
+					alert("grandson");
+				}
+			}
+		});
+		let vm3 = new Vue({
+			el: "#app3",
+			
+			methods: {
+				father() {
+					alert("爷爷");
+				},
+				son() {
+					
+					alert("son");
+				},
+				grandson() {
+					alert("grandson");
+				}
+			}
+		});
+		
+		let vm4 = new Vue({
+			el: "#app4",
+			
+			methods: {
+				father() {
+					alert("爷爷");
+				},
+				son() {
+					
+					alert("son");
+				},
+				grandson() {
+					alert("grandson");
+				}
+			}
+		});
+	</script>
+</html>

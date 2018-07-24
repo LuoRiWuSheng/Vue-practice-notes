@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<!--这里放的内容，均输入父级模版的，只有属性名是属于当前组件modal的-->
+		<modal m="1"><!--m属于modal子组件的，1属于父级的-->
+			<!--下面给的名称和slot中一致，就会按照slot中的顺序渲染，不管我这里怎么放，显示顺序的决定权在template中的slot中-->
+			<a href="http://www.baidu.com">谷歌</a>
+			<h2 slot="content" @click="fn">内容</h2><!--这里的fn方法必须定义到父组件，它属于父组件的-->
+			<p slot="title">vue中的slot</p>
+			<a href="http://www.baidu.com">百度</a><!--会进入到default中-->
+		</modal>
+		
+		<!--这里没有写那个slot名称，所以，会默认渲染 下面的默认值，不会显示h3中的内容
+			其实 在template中的slot中有一个默认的
+			<slot name="default"></slot>	
+		-->
+		<modal>
+			<h3>我这里的h3包括内容将插入到slot中</h3>
+		</modal>
+	</div>
+	<!--
+		模版中只能有一个根元素，slot可以通过元素属性定制一些模版
+		slot中可以放置一些默认的内容，如果你在调用组件时，传递了内容，就用传递的内容；没传，为空，就用slot中的默认内容
+		
+		### slot的作用
+			定制模版
+	-->
+	<template id="modal">
+		<div>
+			<slot name="title">这是一个默认标题</slot>
+			<slot name="content">这是默认内容</slot>
+			<slot name="default">。。。。。。</slot>
+		</div>
+	</template>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let modal = {
+			template: "#modal"
+		}
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				
+			},
+			components: {
+				modal
+			},
+			methods: {
+				fn() {
+					alert("父级的方法");
+				}
+			}
+		})
+	</script>
+</body>
+</html>

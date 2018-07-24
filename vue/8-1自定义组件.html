@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="seg1">
+			<alert></alert>
+		</div>
+		<div id="seg2">
+			<haha></haha>
+		</div>
+		<script>
+			/*这定义的是一个全局的组件*/
+			Vue.component("alert",{
+				template: "<button @click='onClick'>弹弹谈</button>",
+				methods: {
+					onClick: function() {
+						alert(1);
+					}
+				}
+			});
+			
+			const app = new Vue({
+				el: "#seg1"
+				
+			});
+			
+			const app2 = new Vue({
+				el: "#seg2",
+				components: {// 也可以像这样定义组件
+					haha: {
+						template: "<button @click='onClick'>你好</button>",
+						methods: {
+							onClick: function() {
+								alert(2);
+							}
+						}
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

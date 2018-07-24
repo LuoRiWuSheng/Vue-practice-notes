@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<ol>
+				<!--创建一个todo-item的实例-->
+				<todo-item v-for="item in List" v-bind:todo="item" v-bind:key="item.id">
+				
+				</todo-item>
+			</ol>
+			
+		</div>
+		<script type="text/javascript">
+			// 定义一个组件
+			/**
+			 * 参数1: 组件的名称
+			 * 参数2： 
+			 * */
+			Vue.component("todo-item",{
+				props: ["todo"],
+				template: "<li>{{todo.text}}</li>"
+			
+			});
+			
+			var app = new Vue({
+				el: "#app",
+				data: {
+					List: [
+						{ id: 0, text: '蔬菜' },
+				      	{ id: 1, text: '奶酪' },
+				      	{ id: 2, text: '随便其它什么人吃的东西' }
+					]
+				}
+			});
+		</script>
+	</body>
+</html>

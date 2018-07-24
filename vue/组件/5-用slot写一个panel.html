@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+	<link rel="stylesheet" href="../案例/bootstrap.min.css" />
+</head>
+<body>
+	<div id="app">
+		<panel type="primary">
+			<div slot="title"> 这是一篇vue的使用</div>
+			<div slot="content">
+				内容区域
+				<ul>
+					<li>组件中父传子，通过属性
+					</li>
+					<li>slot的使用</li>
+					<li>ref的使用，操作DOM,获取DOM</li>
+					<li>nextTick的使用，避免DOM未渲染</li>
+				</ul>
+			</div>
+			<div>
+				<p>作者： XXXX</p>
+				<p>时间： 2018-7-6</p>
+			</div>
+		</panel>
+		
+	</div>
+	
+	<template id="panel">
+		<div class="panel" :class="[color]">
+			<div class="panel-heading">
+				<slot name="title"></slot>
+			</div>
+			<div class="panel-body">
+				<slot name="content"></slot>
+			</div>
+			<div class="panel-footer">
+				<slot></slot>
+			</div>
+		</div>
+	</template>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let panel = {
+			template: "#panel",
+			computed: {
+				color() {
+					return "panel-" + this.type;	
+				}
+			},
+			props: {
+				type: {
+					type: String,
+					default: "default"
+				}
+			}
+			
+		}
+		let vm = new Vue({
+			el: "#app",
+			components: {
+				panel
+			}
+		})
+	</script>
+</body>
+</html>

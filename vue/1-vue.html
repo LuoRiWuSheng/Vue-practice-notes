@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js"></script>
+		
+	</head>
+	<body>
+		<div id="app">
+			{{message}}
+		</div>
+		<h3>通过将js移入到head中，然后再跑程序，发现，vue仍需要window.onload,否则，找不到元素，而且警告提示很友好</h3>
+		<script>
+			var app = new Vue({
+				el: '#app',// 获取元素，或者叫指定数据的控制范围
+				data: {
+					message: "vue起步"
+				}
+			});
+		</script>
+	</body>
+</html>

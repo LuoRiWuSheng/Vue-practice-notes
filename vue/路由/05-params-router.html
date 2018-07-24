@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+</head>
+<body>
+	<h3>动态参数路由</h3>
+	<div id="app">
+		<router-link to="/article/1">文章1</router-link>
+		<router-link to="/article/2">文章2</router-link>
+		<router-link to="/article/3">文章3</router-link>
+		<router-link to="/article/4">文章4</router-link>
+		<router-view></router-view>
+	</div>
+	<script src="../js/vue.js"></script>
+	<script src="../node_modules/vue-router/dist/vue-router.js"></script>
+	<script type="text/javascript">
+		// 访问 地址+#/article/1 下面就是对应的第一篇文章
+		let article = {
+			template: `<div>第{{this.$route.params.a}}篇文章</div>`
+		};
+		// 访问 /article/2/a 
+		// 匹配规则 /article/:a/:d  ==>  会将上面访问的内容映射成一个对象 {a:2,d: 'a'}  这个是属性，属性会挂载到实例的$route对象中
+		// 所以，通过 this.$route.params  就可以获取到上面映射的对象
+		let routes = [	// 路径参数 表示值必须要有，但是值是随机的
+			{
+				path: "/article/:a",
+				component: article
+			}
+		];
+		let router = new VueRouter({
+			routes
+		});
+		
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				
+			},
+			router
+		})
+	</script>
+</body>
+</html>

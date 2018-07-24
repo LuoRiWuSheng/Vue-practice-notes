@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<!--方式一-->
+			<!--<input type="text" v-model="val" @keyup="add"/>-->
+			
+			<!--方式二-->
+			<input type="text" v-model="val" @keyup.enter="add"/>
+			<ul>
+				<li v-for="(item,index) in arr">
+					{{item}}
+					<button v-on:click="deleteItem(index)">删除</button>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script src="js/vue.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				val: "",
+				arr: []
+			},
+			methods: {
+				add(e) {
+					/*方式一*/
+					/*if(e.keyCode === 13) { // 回车
+						this.arr.unshift(this.val);
+						this.val = "";
+					}*/
+					
+					/*方式二 上面已经加了 keyup.enter 所以，这里直接写逻辑*/
+					this.arr.unshift(this.val);
+					this.val = "";
+				},
+				deleteItem(i) {
+					console.log("点击的索引",i);
+					this.arr = this.arr.filter((item,index)=> {
+						/*必须加return  不然filter没有返回值，那就会删除所有的数据*/
+						return index !== i;
+					});
+				}
+			}
+		});
+	</script>
+</html>

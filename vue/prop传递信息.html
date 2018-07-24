@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" v-model="parentMsg"/>
+			
+			<br />
+			<child v-bind:my-msg="parentMsg"></child>
+			
+			<br />
+			这里的my-msg其实就是一个变量，传递了信息，在模版中定义，采用了驼峰式写法，在上面需要用短横线去表示，my-msg绑定了parentMsg的值
+			<!--<child2 v-bind="todo"></child2>-->
+			<child2 v-bind:text="todo"></child2>
+		</div>
+	</body>
+	<script type="text/javascript">
+		Vue.component("child",{
+			props: ["myMsg"],// 父组件传来的信息保存在myMsg中
+			template: `<div>{{myMsg}}
+			</div>` // 这里通过props获取变量的值
+		});
+		
+		Vue.component("child2",{
+			props: ["todo"],
+			template: `<div>{{todo.text}}</div>` 
+			
+		});
+		var vue = new Vue({
+			el: "#app",
+			data: ()=> {
+				return {
+					parentMsg: "hello",
+					todo: {
+						text: "文本",
+						isCom: true
+					}
+				}
+			}
+		});
+	</script>
+</html>

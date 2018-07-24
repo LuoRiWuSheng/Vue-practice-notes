@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+
+	<body>
+		<div id="app">
+
+		</div>
+	</body>
+	<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+	<script type="text/javascript">
+		//		生命周期（都是函数）		beforeCreate		created
+		//												beforeMount		mounted			数据·挂载
+		//												beforeUpdate		updated
+		//												beforeDestroy		destroyed
+
+		let vm = new Vue({ // 根实例，初始化时会调用很多方法，叫钩子函数
+			el: "#app", // 要保证有编译的元素
+
+			beforeCreate() { // 初始化内部的方法，此方法一般用不到
+				// 在这个阶段，data数据还没有被注入
+				//debugger;
+			},
+			data: {
+				a: 1,
+				b: ""
+			},
+			created() { // 在实例创建完成后被立即调用  一般做ajax请求，然后获取浏览器缓存数据localStorage
+				// 数据被注入，vm.$data.a 就可以拿到
+				// a是直接挂载到vue的实例vm上
+				//debugger;
+			},
+			template: `<div>{{a}}</div>`,
+			// 如果有 template属性,vue会用模板替换掉外部的html,只要有此属性,外部属性 app中的内容就没有任何意义,template中完全替换#app元素的内容
+			// 且template中必须有一个根元素，也就是你不能直接将数据写在tempalte的最外层
+			/**
+			 * 	template: `{{a}}`		错误，直接告诉你，{{a}} 需要有一个根元素包裹，不能直接用文本节点
+			 * template:`<div>{{a}}</div><div>{{a}}</div>`  错误，直接告诉你，template中只能包含一个确定的根元素，如果你可以通过v-if控制多个根元素，那也没问题
+			 */
+			beforeMount() { // 如果没有 el属性，代码走到这里之前，就不会执行,也不会报错，见 官网 生命周期图，没有实际意义，ajax在created时期已经发完了
+				//alert(1);		// 没有 el 这个选项，就不会弹窗
+			},
+			mounted() {	// 此时就有DOM了，真实DOM渲染完了，可以操作DOM了
+				
+			},
+			// 下面这2个方法，就是在数据更新的时候回触发，其实watch就能干他们的事情
+			beforeUpdate() {
+				// 在控制台去操作 vm.$data.b = 100  并没有触发 beforeUpdate 和·updated 因为我们的页面没有用到b，页面数据没有变化，所以不会触发
+				// 如果去改变a的值，只要和 a:1 不同，就会调用beforeUpdate和updated，vue会去比对更新前的值和更新后的值
+				// 这2个方法可以用 watch去替代，watch能更准确的知道哪一个数据被更新了，着两个方法就不知道
+				alert("数据更新之前");
+			},
+			updated() {
+				alert("数据更新后");
+			},
+			// vm实例被销毁，并不会把页面上已经渲染的数据给销毁掉，它只是移除了vm的子组件，事件监听，卸载所有的watch观察者
+			// methods中的方法还没被移除，可以在控制台通过 vm.say() 验证，可以调用
+			beforeDestroy() {
+				alert("销毁前");
+			},
+			destroyed() {	// 可以清除定时器，或者清除事件绑定
+				alert("销毁后");
+			},
+			methods: {
+				say() {
+					alert("say方法");
+				}
+			}
+		});
+
+		// Vue中el的配置，除了在option中 写el: "#app",还可以使用实例去配置,想下面这样
+		/**	官网的生命周期图中有说明
+		 * 	let vm = new Vue({
+		 * 		
+		 * }).$mount("#app");
+		 */
+		
+		// 手动销毁 vm
+		vm.$destroy();
+	</script>
+
+</html>

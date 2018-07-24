@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<aaa></aaa>
+			<bbb></bbb>
+		</div>	
+	</body>
+	<script>
+		Vue.component("aaa",{
+			data: ()=> {
+				return {btn: "a组件"}
+				
+			},
+			template: `<button>btn: {{btn}}</button>`
+			
+		});
+		Vue.component("bbb",{
+			data: ()=> {
+				return {
+					btn: "b组件"
+				}
+			},
+			template: `<button>btn: {{btn}}</button>`
+			
+		});
+		var vm = new Vue({
+			el: "#app",
+		});
+		
+		// 和下面等价
+		/*Vue.component("aaa",{
+			data: ()=> {
+				return {btn: "a组件"}
+				
+			},
+			template: `<button>btn: {{btn}}</button>`
+			
+		});
+		Vue.component("bbb",{
+			data: ()=> {
+				return {
+					btn: "b组件"
+				}
+			},
+			template: `<button>btn: {{btn}}</button>`
+			
+		});
+		var vm = new Vue({
+			el: "#app",
+			components: {
+				aaa: {
+					data: ()=> {
+				return {btn: "a组件"}
+				
+			},
+			template: `<button>btn: {{btn}}</button>`
+				}
+			},
+			bbb: {
+				data: ()=> {
+				return {
+					btn: "b组件"
+				}
+			},
+			template: `<button>btn: {{btn}}</button>`
+			}
+			
+		});*/
+	</script>
+</html>

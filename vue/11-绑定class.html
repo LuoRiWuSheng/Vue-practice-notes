@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.box {
+				width: 50px;
+				height: 50px;
+				border: 5px solid blue;
+			}
+			.active {
+				background-color: red;
+			}
+			.visible {
+				opacity: 0.5;
+			}
+		</style>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<div class="box" v-bind:class="{active: isActive,visible:isVisible}"></div>
+			<div class="box" v-bind:class="classObj"></div>
+			<div class="box" v-bind:class="computedObj"></div>
+			<h3>数组的形式表现</h3>
+			<div class="box" v-bind:class="[activeClass,visibleClass]"></div>
+			<h3>三元表示符号</h3>
+			<div class="box" v-bind:class="[isActive?activeClass: '',visibleClass]"></div>
+		</div>
+		<script>
+			var app = new Vue({
+				el: "#app",
+				data: {
+					isActive : true,
+					isVisible: false,
+					err: null,
+					classObj: {
+						active: true,
+						visible: true
+					},
+					// 数组
+					activeClass: "active",
+					visibleClass: "visible"
+				},
+				computed: {
+					computedObj: function() {
+						return {
+							active: this.isActive && !this.isVisible,
+							visible: this.err // false
+						}
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

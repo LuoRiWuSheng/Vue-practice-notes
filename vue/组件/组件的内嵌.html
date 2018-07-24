@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<parent></parent>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		// 如果要在一个组件中使用另一个组件，先保证使用的组件真是存在，就是定义的先后顺序需要注意
+		// 在需要引用的这个组件的实例通过components注册这个组件，子组件需要在父组件的 template中通过标签的形式引入
+		let grandson = {
+			template: `<div>孙子</div>`
+		};
+		let son = {
+			template: `<div>son <grandson/></div>`,
+			components: {
+				grandson
+			}
+		};
+		let parent = {
+			template: `<div>parent<son></son>	</div>`,
+			components: {
+				son
+			}
+		};
+		let vm = new Vue({
+			el: "#app",
+			data: {},
+			components: {
+				parent
+			}
+		});
+	</script>
+</html>

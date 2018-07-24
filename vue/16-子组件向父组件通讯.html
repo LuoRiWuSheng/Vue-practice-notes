@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<father></father>
+		</div>
+	</body>
+	<script>
+		Vue.component("father",{
+			template: `
+				<div>
+					//这里 show-balance是自定义的事件名称，通过下面的$emit进行触发 
+					<show v-on:show-balance="isShow=true"></show>
+					<div v-if="isShow">
+						您的余额剩余99$
+					</div>
+				</div>
+			`,
+			methods: {},
+			data: function() {
+				return {
+					isShow: false
+				}
+			}
+		});
+		Vue.component("show",{
+			template: `
+				<button @click="on_click()">显示余额</button>
+			`,
+			methods: {
+				on_click: function() {
+					this.$emit("show-balance",{a:"1",b:"2"}); // 触发父组件的方法，后面是传参
+				}
+			}
+		});
+		
+		new Vue({
+			el: "#app"
+		});
+	</script>
+</html>

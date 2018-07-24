@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			{{arr[0]}}
+			<!--页面刷新的瞬间，会传花括号，解决办法-->
+			<div v-text="arr[0]"></div>
+			
+			{{arr}}
+		</div>
+	</body>
+	<script src="js/vue.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				arr: [1,2,3,4,5,6]
+			}
+		});
+		
+		/*
+		 错误写法： 去改变数组的某一项是监控不到的，也不能使用改变数组长度的方法
+		 错误  vm.arr[0] = 100;
+		 错误： vm.arr.length -= 2;
+		 
+		 上面的写法，都不能使页面的数据发生变化
+		 * */
+		
+		// 变异方法  pop,push,shift,unshift,splice reverse split sort 都可以去改变数组的数据
+		//vm.arr.reverse();
+		
+		// 像map，filter不会改变原始数组arr的，都可以通过赋值的方式，将数据更新到源数组
+		vm.arr = vm.arr.map(item=> item*2);
+	</script>
+</html>

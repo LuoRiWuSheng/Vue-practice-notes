@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<!--v-model中获取的值是value的，所以，必须指定value的值-->
+		<input type="radio"  v-model="radio" value="home"/>首页
+		<input type="radio"  v-model="radio" value="list"/>列表
+		<!--
+			transition
+		-->
+		<!--
+			keep-alive 一般用作缓存，为的是后面的路由做准备，如果缓存了，组件第二次加载就不会走created,mounted钩子函数了
+		-->
+		<keep-alive>
+			<component :is="radio"></component>
+		</keep-alive>
+	</div>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let home = {
+			template: `<div>home</div>`,
+			mounted() {
+				console.log("挂载home");
+			},
+			beforeDestroy() {
+				console.log("销毁Home");
+			}
+		};
+		let list = {
+			template: `<div>
+				<ul>
+					<li v-for="i in item">{{i}}</li>
+				</ul>
+			</div>`,
+			data() {
+				return {
+					item: [1,2,3,4]
+				}
+			}
+		}
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				radio: "home"
+			},
+			components: {
+				home,list
+			}
+		})
+	</script>
+</body>
+</html>

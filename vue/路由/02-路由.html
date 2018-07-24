@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+		<style type="text/css">
+			.router-link-active {
+				color: red;
+			}
+			.active {
+				color: green;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app">
+			<!--tag让连接编译成什么标签-->
+			<router-link to="/home" tag="button">首页</router-link>
+			<router-link to="/list">列表页</router-link>
+			<!--router-view是一个全局组件，可以直接调用-->
+			<router-view></router-view>
+		</div>
+		<!--
+		单页，切换的是组件
+		
+	-->
+		<script src="../js/vue.js"></script>
+		<script src="../node_modules/vue-router/dist/vue-router.js"></script>
+		<script type="text/javascript">
+			let home = {
+				template: `<div>
+					首页
+				</div>`
+			};
+			let list = {
+				template: `<div>
+				列表页
+			</div>`
+			};
+
+			let routes = [ // 路由映射表  配置路径和组件的关系
+				{
+					path: "/home",
+					component: home
+				}, // 配置的关系就是页面级组件
+				{
+					path: "/list",
+					component: list
+				} // 路径必须加斜杠
+			];
+			let router = new VueRouter({ // 引入vue-router 自带的VueRouter类
+				mode: "history",	// h5模式，mode默认是hash模式
+				routes,
+				linkActiveClass: "active"  // 给当前激活的那个类添加一个别名，默认的叫 router-link-active 别名改为active 简化写法
+			});
+			let vm = new Vue({
+				el: "#app",
+				router
+				
+			})
+		</script>
+	</body>
+
+</html>

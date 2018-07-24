@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<ol>
+				<father v-for="item in list" v-bind:todo="item" v-bind:key="item.id">
+					
+				</father>
+			</ol>
+			
+		</div>
+	</body>
+	<script>
+		Vue.component("father",{
+			props: ["todo"],
+			template: `<li>{{todo.name}}---{{todo.id}}---{{count.id}}---{{count.name}}</li>`,
+			data: function() {
+				
+				return {
+					count: this.todo
+				}
+			}
+		});
+		
+		
+		
+		const vm = new Vue({
+			el: "#app",
+			data: function() {
+				return {
+					list: [
+						{id:1,name: "橘子"},
+						{id:2,name: "西瓜"},
+						{id:3,name: "桃子"},
+						{id:4,name: "柠檬"}
+					]
+				}
+			}
+		});
+	</script>
+</html>

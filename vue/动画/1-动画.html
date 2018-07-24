@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.v-enter { /*定义进入过渡的开始状态*/
+				opacity: 0;
+				
+			}
+			.v-enter-active { /*定义进入过渡生效的状态*/
+				opacity: 1;
+				transition: all 1s ease;
+			}
+			.v-leave-active {
+				opacity: 0;
+				transition: all 1s ease;
+			}
+		</style>
+	</head>
+	<body>
+		<!--v-if操作的是DOM  v-show操作的是样式-->
+		<!--v-if=false 内部的指令不会执行-->
+		
+		<div id="app">
+			<button @click = "flag=!flag">切换显示隐藏</button>
+			<div v-show="flag">显示
+				<ul>
+					<li v-for="item in arr">{{item}}</li>
+				</ul>
+			</div>
+			
+			<button @click="show=!show">控制v-show 其中show={{show}}</button>
+			<transition>
+				<div v-show="show">
+					我是v-show的div
+					<ul>
+						<li v-for="item in arr">{{item}}</li>
+					</ul>
+				</div>
+			</transition>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				flag: true,
+				arr: [1,2,3,4],
+				show: true	
+			},
+			methods: {
+				a() {
+					return !this.flag;
+				}
+			}
+		});
+	</script>
+</html>
+

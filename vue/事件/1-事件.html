@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.father {
+				width: 150px;
+				height: 150px;
+				background: red;
+			}
+			.father .son {
+				width: 100px;
+				height: 100px;
+				margin-top: 30px;
+				background: green;
+			}
+			.grandson {
+				width: 50px;
+				height: 50px;
+				margin-top: 30px;
+				background: blue;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="father" v-on:click="father">
+				爷爷
+				<div class="son" v-on:click="son">
+					儿子
+					<div class="grandson" @click="grandson">
+						孙子
+					</div>
+				</div>				
+			</div>
+		</div>
+		
+		<!--点击 孙子。会发生事件冒泡，一次触发父级的click事件，总共弹3次-->
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			
+			methods: {
+				father() {
+					alert("爷爷");
+				},
+				son() {
+					
+					alert("son");
+				},
+				grandson() {
+					alert("grandson");
+				}
+			}
+		});
+	</script>
+</html>

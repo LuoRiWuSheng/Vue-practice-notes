@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<p>{{message}}</p>
+			<input type="text" v-model="message"/>
+			<h3>实现了双向数据绑定</h3>
+		</div>
+		<script>
+			var app = new Vue({
+				el: "#app",
+				data: {
+					message: "初始化信息"
+				}
+			});
+		</script>
+	</body>
+</html>

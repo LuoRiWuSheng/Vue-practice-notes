@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.father {
+				width: 150px;
+				height: 150px;
+				background: red;
+			}
+			.father .son {
+				width: 100px;
+				height: 100px;
+				margin-top: 30px;
+				background: green;
+			}
+			.grandson {
+				width: 50px;
+				height: 50px;
+				margin-top: 30px;
+				background: blue;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="father" v-on:click="father">
+				爷爷1
+				<div class="son" v-on:click.self="son">
+					儿子1
+					<div class="grandson" @click="grandson">
+						孙子1
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--
+			(1) 点击 son，弹出 自身 son--》 再弹father （冒泡的原因）
+			(2)	点击son的后代元素，弹出顺序是  grandson--》 father  挑过son事件，因为事件源不是从son这里触发的
+		-->
+	</body>
+	<script src="../js/vue.js"></script>
+	<script>
+		let vm = new Vue({
+			el: "#app",
+			methods: {
+				father() {
+					alert("father");
+				},
+				son() {
+					alert("son");
+				},
+				grandson() {
+					alert("grandson");
+				}
+			}
+		});
+	</script>
+</html>

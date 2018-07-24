@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+</head>
+<body>
+	<!--
+		1、 父组件通过 props向子组件传递数据
+		2、 子组件通过发送事件的方式，向父组件传递数据
+		3、 父组件可以调用子组件的方法 （本节重点）
+	-->
+	<div id="app">
+		<loading ref="load"></loading>
+	</div>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let loading = {
+			data() {
+				return {
+					flag: true,
+					msg: "子组件的信息"
+				}
+			},
+			template: `<div v-show="flag">疯狂加载中....</div>`,
+			methods: {
+				hide() {
+					this.flag = false;
+				}
+			}
+		};
+		
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				
+			},
+			mounted() {	
+				// ref如果放在组件上，获取的是组件的实例，并不是组件的DOM元素
+				// 在DOM加载完，就隐藏掉组件
+				console.log(this.$refs.load);
+				//this.$refs.load.hide();// 调用到子组件的方法--父组件调用子组件的方法
+				// ref如果放在组件上，获取的是组件的实例，并不是组件的DOM元素
+				this.$refs.load.$el.style.backgroundColor = "red";
+			},
+			components: {
+				loading
+			}
+		})
+	</script>
+</body>
+</html>

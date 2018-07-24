@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		同级组件之间的通讯，通过eventBus,原理就是发布订阅
+		<h3>一般不用，因为组件之间的关系多一点，写起来很复杂，这种方式只在简单的组件之间适用，当然也没有简单的关系</h3>
+		<div id="app">
+			<com1></com1>
+			<com2></com2>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script>
+		let EventBus = new Vue;	// 不需要传参数，这里的作用就是为了发布订阅都是同一个实例
+		
+		
+		let com1 = {
+			template: `
+				<div>
+				{{color}}<button @click="shiftGreen">变红色</button></div>
+			`,
+			data() {
+				return {
+					color: "红色",
+					oldColor: "红色"
+				}
+			},
+			created() {
+				EventBus.$on("changeGreen",(val)=> {	// 回调函数中的this都是window，所以不能写成function() {}  需要写成箭头函数
+					this.color = val;
+				});
+			},
+			methods: {
+				shiftGreen() {
+					EventBus.$emit("changeRed",this.oldColor);
+				}
+			}
+		};
+		let com2 = {
+			template: `
+				<div>
+					{{color}}<button @click="change">变绿色</button> 
+				</div>
+			`,
+			data() {
+				return {
+					color: "绿色",
+					oldColor: "绿色"
+				}
+			},
+			created() {
+				EventBus.$on("changeRed",(val)=> {
+					this.color = val;
+				});
+			},
+			methods: {
+				change() {
+					EventBus.$emit("changeGreen",this.oldColor);
+				}
+			}
+		};
+		
+		let vm = new Vue({
+			el: "#app",
+			data: {},
+			components: {
+				com1,
+				com2
+			}
+		});
+	</script>
+</html>

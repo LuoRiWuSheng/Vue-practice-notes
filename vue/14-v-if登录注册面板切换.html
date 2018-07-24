@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<button @click="cut=!cut">切换</button><br />
+			<!--默认情况下，在切换DOM时，相同的结构会被复用，如果不需要复用，需要加key-->
+			<!--:key="1"  key加冒号，这里的1就是变量， key="1" 不加冒号，这里的key就是字符串1-->
+			<template v-if="cut">
+				<label for="reg">登录</label>
+				<input type="text" id="reg"/>
+			</template>
+			<template v-else>
+				<label for="login">注册</label>
+				<input type="text" id="login"/>
+			</template>
+			
+			<hr />
+			<template v-if="cut">
+				<label for="reg">登录</label>
+				<input type="text" id="reg" key="1"/>
+			</template>
+			<template v-else>
+				<label for="login">注册</label>
+				<input type="text" id="login" key="2"/>
+			</template>
+		</div>
+	</body>
+	<script src="js/vue.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				cut: true
+			}
+		});
+	</script>
+</html>

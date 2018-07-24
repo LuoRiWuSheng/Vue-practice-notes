@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>循环</title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app-5">
+			<ul v-for="todo in todos">
+				<li>{{todo.text}}</li>
+			</ul>
+			<hr />
+			<h3>比较2个不同的，审查元素就可以看出来，上面是循环ul+li *次数，下面是将ul> (li*次数)</h3>
+			<ul>
+				<li v-for="todo in todos">{{todo.text}}</li>
+			</ul>
+			<div>
+				<input type="text" id="text"/>
+				<button onclick="add()">添加新项目</button>
+			</div>
+			
+		</div>
+		<script type="text/javascript">
+			var app = new Vue({
+				el: "#app-5",
+				data: {
+					todos: [
+						{text: "学习js"},
+						{text: "学习Node"},
+						{text: "学习css"}
+					]
+				}
+			});
+			function add() {
+				const t = document.getElementById("text");
+				
+				app.todos.push({text: t.value});
+				t.value = "";
+			}
+		</script>
+	</body>
+</html>
