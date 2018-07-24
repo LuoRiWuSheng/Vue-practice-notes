@@ -1,2 +1,9 @@
 **node_modules
 
+
+
+# 过滤掉package.lock.json，避免在github上报安全漏洞
+package-lock.json
+.idea
+
+.project
