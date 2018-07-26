@@ -1,0 +1,9 @@
+body {
+	background: red;
+}
+img {
+	width: 200px;
+	height: 200px;
+	/*background: url(./img/git-merge.png) no-repeat;*/
+	background-size: cover;
+}
