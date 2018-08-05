@@ -15,6 +15,7 @@ const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
   : require('../config/prod.env')
 
+// merge将baseWebpackConfig和后面的配置合并，baseWebpackConfig就是上面导入的对象
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({

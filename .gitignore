@@ -7,3 +7,6 @@ package-lock.json
 .idea
 
 .project
+
+.vscode
+./vue/vue-cli-project/.vscode
