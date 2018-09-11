@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<div id="app">
+			<input type="text" v-model="searchText" /> {{searchText}}
+
+			<!--<input type="text" v-value="searchText1" v-on:input="searchText1=$event.target.value" /> -->
+			
+			
+		<!--	<div>
+				{{searchText1}}
+			</div>-->
+			
+			<h3>看看注释，下面的这个写法（组件），和注释中的写法最好不要同时出现，会warn </h3>
+			
+			<span style="color: red">
+				vue.js:584 [Vue warn]: Failed to resolve directive: value
+
+
+			</span>
+			<hr /> 自定义组件上使用v-model
+			<custom-input v-model="hh"></custom-input>
+			<br />
+			{{hh}}
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script>
+		
+		Vue.component('custom-input', {
+			props: ['value'],
+			template: `
+			    <input
+			      v-bind:value="value"
+			      v-on:input="$emit('input', $event.target.value)"
+			    >
+  			`
+		})
+
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					searchText: '',
+					searchText1: "",
+					hh: ''
+				}
+			}
+		})
+	</script>
+
+</html>
