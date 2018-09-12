@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<base-component :title="t" v-on:new-title="recevce"></base-component>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let baseComponent = {
+			props: ["title"],
+			template: `
+				<div>
+					子组件的标题:{{title}}
+					<button v-on:click="change">请父组件修改一下</button>
+				</div>
+			`,
+			methods: {
+				change() {
+					// 第一个参数是 事件名（子组件的事件名） 参数2是想要传递给父组件的信息是什么
+					this.$emit("new-title","hello world")
+				}
+			}
+		}
+		
+		let vm = new Vue({
+			el: "#app",
+			data() {
+				return {
+					t: "hero"
+				}
+			},
+			components: {
+				"base-component":baseComponent
+			},
+			methods: {
+				recevce($event) {
+					console.log("子组件发过来的信息是-->",$event);
+					this.t = $event;
+				}
+			}
+		});
+	</script>
+</html>

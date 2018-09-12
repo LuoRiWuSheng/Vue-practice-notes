@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.red {
+				color: red;
+				font-size: 50px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h3>这是承接第23个demo来的，说明文件都在23中，下面只是掩饰，请直接看chrome控制台DOM元素上的属性（组件上的属性）</h3>
+		
+		<h3>在使用组件的时候，传入的自定义属性（特性），默认是挂载到根元素上的，如果你不想挂载到组件的根元素上，那么就需要使用inheritAttrs配置，然后再结合v-bind="$attrs"就可以将属性挂载到任意的你想挂载的元素上</h3>
+		<div id="app">
+			<son is-a="特征属性1" class="red" title="阻止继承特性" content="点我"></son>
+		</div>
+	</body>
+	<script src="js/vue.js">
+	</script>
+	<script>
+		const son = {
+			props: ["title", "content"],
+			inheritAttrs: false,
+			template: `
+				<div>
+					<label>
+						{{title}}
+					</label>
+					<button v-bind="$attrs"  v-text="content"></button>
+				</div>
+			`
+		}
+		let vm = new Vue({
+			el: '#app',
+			data() {
+				return {
+					username: ""
+				}
+			},
+			components: {
+				son
+			}
+		});
+	</script>
+
+</html>

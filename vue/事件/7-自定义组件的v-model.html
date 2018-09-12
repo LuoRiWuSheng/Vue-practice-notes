@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		自定义组件的v-model
+		<div id="app">
+			<checkbox-show v-model="v"></checkbox-show>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let checkboxShow = {
+			props: {
+				checked: Boolean
+			},
+			model: {
+				prop: "checked",
+				event: "change"
+			},
+			template: `
+				<input type="checkbox" v-bind:checked="checked" v-on:change = "$emit('change',$event.target.checked)"/>
+			`
+			
+		}
+		
+		let vm = new Vue({
+			el: "#app",
+			components: {
+				"checkboxShow": checkboxShow
+			},
+			data() {
+				return {
+					v: false
+				}
+			},
+			watch: {
+				v(val) {
+					console.log(val)
+				}
+			}
+			
+		})
+	</script>
+</html>

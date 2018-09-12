@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.red {
+				color: red;
+			}
+			
+			.b {
+				background: pink;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h3>非prop的特性</h3>
+		<h4>这个主要是讲组件组件上写的一些属性在组件的内部使用，</h4>
+		<ul>
+			<li>这里的特性，其实我理解的就是标签中的属性，title,value,type,placeholder,for,class，id等</li>
+			<li>其中，class和style这个特性比较智能，会合并参数</li>
+			<li>目前，想要在定义组件的地方使用 $attr这个属性，只能在template中获取，想要在方法中获取所以的内容，可以通过事件的形式，将$attrs当做参数传入，在mounted这个钩子函数中，可以直接使用this.$attrs获取</li>			
+			<li>
+			当然，还可以通过拿到对应的DOM元素，直接操作，获取，使用原生的获取属性的方式去获取值
+		
+			</li>
+			<li>在使用组件的时候，传入的自定义属性（特性），默认是挂载到根元素上的，如果你不想挂载到组件的根元素上，那么就需要使用inheritAttrs配置，然后再结合v-bind="$attrs"就可以将属性挂载到任意的你想挂载的元素上</li>
+			<li>只有组件中的元素使用了v-bind="$attrs" 才会去挂载自定义属性，不然就是没有这个属性的</li>
+		</ul>
+
+		<div id="app">
+			<base-component class="red kk" is-a="使用的覆盖定义的" title="呵呵" placeholder="请输入" v-model="username" label="1212"></base-component>
+			{{username}}
+		</div>
+		
+		
+	</body>
+	<script src="js/vue.js"></script>
+	<script>
+		Vue.component("base-component", {
+
+			props: ["label", "value"],
+			template: `
+				<!--注意,这里组件的跟元素是 label 可以看到浏览器中,label包裹下面的2个内容,注意这个 合并非prop属性,这里演示了.
+					在组件的使用中 ,class传入了red kk  在组件的定义template中是bbbb  然后编译出来的,就合并了
+					
+					在演示其他的,同一个属性(特性) 名,使用的地方会覆盖定义的地方
+				-->
+				<label class="bbbbb" is-a="默认的">  
+					{{label}}
+					<input ref="test" v-bind="$attrs" v-bind:value="value" v-on:input="$emit('input',$event.target.value)"/>
+					
+					<button @click="show($attrs)">点击我,获取属性</button>
+					
+					<label v-bind="$attrs"></label>
+					
+					{{$attrs}}
+				</label>
+			`,
+			mounted() {
+				// 方式一  这样获取
+				console.log(this.$attrs);
+				
+				// 方式二： 操作DOM 获取
+				console.log(this.$refs.test);
+				let oInput = this.$refs.test;
+
+				console.log("操作DOM，拿到属性值，特性值--》", oInput.getAttribute("title"));
+			},
+			methods: {
+				show(a) {
+					console.log("base-component组件中的 $attrs", a);
+				}
+			}
+
+		});
+
+		let vm = new Vue({
+			el: "#app",
+			data() {
+				return {
+					username: ''
+				}
+			}
+		});
+
+	</script>
+
+</html>

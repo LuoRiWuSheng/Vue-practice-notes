@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<son v-bind:title="t" v-on:update:title="t=$event"></son>
+			下面是简写
+			<son v-bind:title.sync="t"></son>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let son = {
+			data() {
+				return {
+					"newTilte": ""
+				}
+			},
+			props: ["title"],
+			template: `
+				<div>
+					子组件的标题: {{title}}
+					<br/>
+					<input v-model="newTilte"/>
+					<!--<button @click="change(title)">请父组件修改标题</button>-->
+					<button @click="$emit('update:title',newTilte)">请父组件修改标题</button>
+				</div>
+			`,
+			methods: {
+				/*change(oldtilte) {
+					let title = this.newTilte;
+					title = title === ""? oldtilte:title
+					console.log(title);
+					this.$emit("receive",title)
+				}*/
+				
+				/*change() {
+					this.$emit('')
+				}*/
+			}
+		}
+		let vm = new Vue({
+			el: "#app",
+			data() {
+				return {
+					t: "hero"
+				}
+			},
+			methods: {
+				
+			},
+			components: {
+				son
+			}
+		});
+	</script>
+</html>
