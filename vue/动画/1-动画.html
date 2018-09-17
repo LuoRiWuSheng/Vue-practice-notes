@@ -23,6 +23,9 @@
 		<!--v-if=false 内部的指令不会执行-->
 		
 		<div id="app">
+			<div v-if="flag">我是通过v-if实现显示/隐藏</div>
+			<hr />
+			
 			<button @click = "flag=!flag">切换显示隐藏</button>
 			<div v-show="flag">显示
 				<ul>

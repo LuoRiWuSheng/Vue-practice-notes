@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+				
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let myMixin = {
+			created() {
+				this.hello();
+			},
+			methods: {
+				hello() {
+					console.warn("hello from mixin");
+				}
+			}
+		};
+		
+		let base = Vue.extend({
+			mixins: [myMixin]
+		});
+	
+		let vm = new Vue({
+			el: "#app",
+			data() {
+				return {
+					
+				}
+			},
+			methods: {
+				
+			},
+			mixins: [myMixin]
+			
+			
+		});
+	</script>
+</html>

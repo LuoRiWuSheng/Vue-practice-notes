@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			/*这是元素进来的一段时间使用的*/
+			.slide-fade-enter-active {
+				transition: all .3s ease;
+			}
+			/*这是元素离开的整个阶段的变化曲线*/
+			.slide-fade-leave-active {
+				/*贝塞尔曲线*/ 
+				transition: all .8s cubic-bezier(1.0,0.5,0.8,1.0);
+			}
+			
+			.slide-fade-enter, .slide-fade-leave-to {
+				transform: translateX(10px);
+				opacity: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<button @click="show = !show">切换</button>
+			<transition name="slide-fade">
+				<p v-if="show">我的滑板鞋</p>
+			</transition>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			data() {
+				return {
+					show: true
+				}
+			},
+			methods: {
+				
+			},
+			components: {
+				
+			}
+		});
+	</script>
+</html>

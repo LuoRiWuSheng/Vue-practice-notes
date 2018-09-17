@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="animate.css" />
+		<style type="text/css">
+			.fade-enter-active, .fade-leave-active {
+				transition: opacity 0.5s;
+			}
+			
+			.fade-enter, .fade-leave-to {
+				opacity: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<button @click="show = !show">点我</button>
+			<transition name="fade">
+				<p v-if="show">显示/隐藏</p>
+			</transition>
+		</div>
+	</body>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el: "#app",
+			data() {
+				return {
+					show: true
+				}
+			},
+			methods: {
+				
+			},
+			components: {
+				
+			}
+		});
+	</script>
+</html>
