@@ -10,5 +10,10 @@ export default {
                 'roles': ['admin']
             }
         })
+
+        Mock.mock('/api/user/register', {
+            'success': true,
+            'result': {}
+        })
     }
 }

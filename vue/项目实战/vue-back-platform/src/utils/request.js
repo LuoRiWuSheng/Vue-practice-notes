@@ -20,11 +20,11 @@ export const request = (url, params, config = {}, auto_error_res = true, auto_er
     // console.log(args)
 
     return axios(args).then((res) => {
-        console.log(res)
+        // console.log(res)
 
         if (!res.data.success) { // 前后台约定，请求是否成功
             res.data.error = res.data.error || {} // 拿到后台的错误码信息
-            console.error(res.data.error)
+            // console.error(res.data.error)
 
             if (auto_error_data) { // 是否自动处理后台结果
                 const err_msg = res.data.error.message || '未知的服务器错误，请联系管理员'
