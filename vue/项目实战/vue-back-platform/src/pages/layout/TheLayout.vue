@@ -1,10 +1,11 @@
 <template>
     <el-row class='page'>
-        <el-col :span='24'>
+        <el-col :span='24' class='page-header'>
             <the-header :open-nav='openNav' @toggle-open='toggleOpen'></the-header>
         </el-col>
+        <!-- 主体内容 -->
         <el-col :span='24' class='page-main'>
-            <the-sidebar :open-nav='openNav'></the-sidebar>
+            <the-sidebar class='page-sidebar' :open-nav='openNav'></the-sidebar>
             <section class='page-content' :class="{'page-content-hide-aside': !openNav}">
                 <vue-scroll>
                     <the-main></the-main>
@@ -19,7 +20,7 @@
 import TheLayoutHeader from './TheLayoutHeader'
 import TheLayoutSidebar from './TheLayoutSidebar'
 import TheLayoutFooter from './TheLayoutFooter'
-import TheLayoutMain from './THeLayoutMain'
+import TheLayoutMain from './TheLayoutMain'
 
 export default {
     name: 'TheLayout',
@@ -44,25 +45,22 @@ export default {
 
 <style scoped lang='scss'>
     .page {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
+        position: relative;
         height: 100%;
-
+        width: 100%;
         .page-main {
+            width: 100%;
+            height: 100%;
             display: flex;
-            position: absolute;
-            top: 60px;
-            bottom: 0;
-
+            // 右侧主体内容
             .page-content {
                 position: absolute;
                 left: 240px;
-                top: 0;
-                height: 100%;
+                // 一定要加 right: 0 不然右侧无法占满屏幕
+                right: 0;
+                top: 60px;
+                text-align: left;
             }
-
             .page-content-hide-aside {
                 left: 65px;
             }

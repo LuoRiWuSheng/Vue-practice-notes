@@ -11,7 +11,9 @@ export default {
 
         Mock.mock('/api/user/register', {
             'success': true,
-            'result': {}
+            'result': {
+                'token': 'fdsjfhjkdshfkldsajfjasdfbjsdkfhsdajfj'
+            }
         })
 
         Mock.mock('/api/user/info', {
@@ -25,8 +27,10 @@ export default {
                         path: '/index'
                     },
                     {
-                        path: '/user/show',
-                        permission: ['modify', 'delete']
+                        path: '/forms/base'
+                    },
+                    {
+                        path: '/forms/edit'
                     }
                 ]
             },

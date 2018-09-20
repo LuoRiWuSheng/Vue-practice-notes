@@ -82,7 +82,7 @@ export default {
                             message: '登录成功',
                             type: 'success'
                         })
-                        console.log(this.fromUrl)
+                        console.log('登录中的地址-->', this.fromUrl)
                         this.$router.push(this.fromUrl)
                     })
                 } else {
@@ -93,6 +93,7 @@ export default {
         }
     },
     beforeRouteEnter (to, from, next) {
+        // 进入页面，对路由进行判断，如果不是注册的路由，就将当前路由注入到
         next(vm => {
             if (from.fullPath !== '/register' && !from.meta.errorPage) {
                 vm.fromUrl = from.fullPath

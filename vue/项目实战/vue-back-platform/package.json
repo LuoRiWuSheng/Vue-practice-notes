@@ -16,6 +16,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "crypto-js": "^3.1.9-1",
+    "echarts": "^4.2.0-rc.1",
     "element-ui": "^2.4.7",
     "font-awesome": "^4.7.0",
     "less": "^3.8.1",
@@ -23,6 +24,7 @@
     "mockjs": "^1.0.1-beta3",
     "node-sass": "^4.9.3",
     "sass-loader": "^7.1.0",
+    "v-charts": "^1.17.10",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuescroll": "^4.8.12"
