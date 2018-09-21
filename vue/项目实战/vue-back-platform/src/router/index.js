@@ -52,6 +52,7 @@ router.beforeEach((to, from, next) => {
 
     // 进入登录界面，将注销用户信息
     if (to.path === '/login') {
+        console.warn('router/index-->>>>>>')
         sessionStorage.removeItem('user-info')
         localStorage.removeItem('user-token')
     }
@@ -62,14 +63,12 @@ router.beforeEach((to, from, next) => {
     }
 
     let user_info = JSON.parse(sessionStorage.getItem('user-info'))
-    console.log('从session中获取的用户信息是-->', user_info)
+    console.warn('从session中获取的用户信息是-->', user_info)
 
     // 上次会话结束，重新获取用户信息
     if (!user_info) {
-        console.log(1)
         requestUserInfo({}).then(user_info => {
             const permissions = user_info.permissions || []
-            console.log('router/index.js获取到的权限-->', permissions)
             router_init(permissions)
             page_permission(permissions, to.path, next)
         }).catch(err => {

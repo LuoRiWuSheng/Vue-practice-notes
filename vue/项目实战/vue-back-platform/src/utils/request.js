@@ -6,6 +6,7 @@ axios.defaults.baseURL = ''
 // 增加请求拦截器，就是在你请求之前，拦截，可能修改参数什么之类的
 /* axios.interceptors.request.use(function (config) {
     config.headers.Authorization = localStorage.getItem('user-token')
+    console.log(1)
     return config
 }) */
 
@@ -26,8 +27,6 @@ export const request = (url, params, config = {}, auto_error_res = true, auto_er
     // console.log(args)
 
     return axios(args).then((res) => {
-        console.log(res)
-
         if (!res.data.success) { // 前后台约定，请求是否成功
             res.data.error = res.data.error || {} // 拿到后台的错误码信息
             // console.error(res.data.error)
@@ -51,7 +50,6 @@ export const request = (url, params, config = {}, auto_error_res = true, auto_er
 
             return Promise.reject(res.data.error)
         }
-        console.log('request请求接口拿到的数据-->', res.data.result)
         // 获取到数据
         return res.data.result
     }, (error) => {
@@ -63,6 +61,8 @@ export const request = (url, params, config = {}, auto_error_res = true, auto_er
         }
 
         return Promise.reject(error)
+    }).catch(err => {
+        console.log('request捕获到的错误-->', err)
     })
 }
 
