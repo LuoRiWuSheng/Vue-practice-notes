@@ -4,11 +4,10 @@ import {MessageBox, Message} from 'element-ui'
 axios.defaults.baseURL = ''
 
 // 增加请求拦截器，就是在你请求之前，拦截，可能修改参数什么之类的
-/* axios.interceptors.request.use(function (config) {
-    config.headers.Authorization = localStorage.getItem('user-token')
-    console.log(1)
+axios.interceptors.request.use(function (config) {
+    config.headers.Authorization = window.localStorage.getItem('user-token')
     return config
-}) */
+})
 
 /**
  * 普通请求

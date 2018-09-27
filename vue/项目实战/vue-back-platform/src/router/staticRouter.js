@@ -6,6 +6,7 @@ import TheLayout from '@/pages/layout/TheLayout'
 import FuncHome from '@/pages/functions/home/FuncHome'
 import FuncFormsBase from '@/pages/functions/forms/FuncFormsBase'
 import FuncFormsEdit from '@/pages/functions/forms/FuncFormsEdit'
+import Table from '@/pages/functions/table/Table'
 
 /** 静态路由 **/
 const staticRouter = [
@@ -34,6 +35,19 @@ const staticRouter = [
                 name: '首页',
                 icon: 'el-icon-menu',
                 component: FuncHome
+            }
+        ]
+    },
+    {
+        path: '/',
+        component: TheLayout,
+        menu: true,
+        children: [
+            {
+                path: '/table',
+                name: '查询',
+                icon: 'el-icon-search',
+                component: Table
             }
         ]
     },

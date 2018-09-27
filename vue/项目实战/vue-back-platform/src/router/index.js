@@ -63,11 +63,11 @@ router.beforeEach((to, from, next) => {
     }
 
     let user_info = JSON.parse(sessionStorage.getItem('user-info'))
-    console.warn('从session中获取的用户信息是-->', user_info)
 
     // 上次会话结束，重新获取用户信息
     if (!user_info) {
         requestUserInfo({}).then(user_info => {
+            console.log('重新登录后拿到的用户信息-->', user_info)
             const permissions = user_info.permissions || []
             router_init(permissions)
             page_permission(permissions, to.path, next)

@@ -31,6 +31,9 @@ export default {
                     },
                     {
                         path: '/forms/edit'
+                    },
+                    {
+                        path: '/table'
                     }
                 ]
             },
