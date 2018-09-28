@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+	</head>
+
+	<body>
+		<div id="app">
+			<todo v-bind:todos="items">
+				<template slot-scope="slotScope">
+					<span v-if="slotScope.todo.isComplate">✔</span>
+					{{slotScope.todo.things}}
+				</template>
+			</todo>
+		</div>
+		
+		<template id="todo">
+			<ul>
+				<li v-for="(todo,index) in todos" :key="index">
+					<slot :todo="todo">{{todo.things}}</slot>
+				</li>
+			</ul>
+		</template>
+		<script src="../js/vue.js"></script>
+		<script type="text/javascript">
+			let todo = {
+				props: ["todos"],
+				template: "#todo"
+			}
+			
+			let vm = new Vue({
+				el: "#app",
+				data: {
+					items: [{
+							things: "吃饭",
+							isComplate: true
+						},
+						{
+							things: "睡觉",
+							isComplate: false
+						}, {
+							things: "喝水",
+							isComplate: true
+						}, {
+							things: "散步",
+							isComplate: false
+						}
+					]
+				},
+				components: {
+					todo
+				}
+			})
+		</script>
+	</body>
+
+</html>

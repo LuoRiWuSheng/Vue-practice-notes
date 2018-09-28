@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		下面的参数是传进去了，type属于子组件，type右侧的属于父组件的作用域，我这里传的是字符串，想要传变量  v-bind:type="父组件定义的变量名"
+		
+		<br />
+		<button-component :user = "username" type="submit">
+			<template>
+				注册
+			</template>
+		</button-component>
+		
+		<button-component type="button">
+			<template type="reset">
+				登录
+			</template>
+		</button-component>
+		
+		<button-component type="reset">
+			这是一个默认的slot	
+		</button-component>
+	</div>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let buttonComponent = {
+			props: {
+				content: String,
+				user: String,
+				type: {
+					require: true,
+					default: "submit"
+				}
+			},
+			template: `
+				<button v-bind:type="type">
+					{{user}},{{type}}
+					<slot>{{content}}</slot>
+				</button>
+			`
+			
+		}
+		let vm = new Vue({
+			el: "#app",
+			data() {
+				return {
+					username: "xia",
+					email: "11@"
+				}
+			},
+			components: {
+				"button-component" : buttonComponent
+			}
+		})
+	</script>
+</body>
+</html>
