@@ -10,7 +10,10 @@
 
 	<body>
 		<div id="app">
-
+        
+            <router-link to='/home'>首页</router-link>
+            <router-link to='/list'>列表页</router-link>
+           
 			<!--router-view是一个全局组件，可以直接调用-->
 			<router-view></router-view>
 		</div>
@@ -18,12 +21,13 @@
 		单页，切换的是组件
 		
 	-->
-		<script src="../js/vue.js"></script>
-		<script src="../node_modules/vue-router/dist/vue-router.js"></script>
+		<script src="../plugin/vue.js"></script>
+		<script src="../plugin/vue-router.js"></script>
 		<script type="text/javascript">
 			let home = {
 				template: `<div>
 					首页
+                    <input placeholder='请输入用户名'/>
 				</div>`
 			};
 			let list = {
