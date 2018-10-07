@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+
+</body>
+<script src="./plugin/vue.js"></script>
+<script src="./plugin/vuex.js"></script>
+<script>
+    // 定义Count组件
+    const Count = {
+        template: `
+            <div>
+                {{number}}
+                <button @click="add">加1</button>
+            </div>
+        `,
+        computed: {
+            number() {
+                return this.$store.state.count
+            }
+        },
+        methods: {
+            add() {
+                this.$store.commit('increment')
+            }
+        }
+    }
+
+
+    const store = new Vuex.Store({
+        state: {
+            count: 0
+        },
+        mutations: {
+            increment: (state)=> {
+                // 箭头函数的this是window,注意这里
+                state.count++
+            }
+        }
+    })
+
+    const vm = new Vue({
+        el: "#app",
+        //
+        store,
+        components: {
+            Count
+        },
+        template: `
+            <Count></Count>
+        `
+
+    });
+</script>
+</html>

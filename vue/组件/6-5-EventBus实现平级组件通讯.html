@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <wang></wang>
+        <lisi></lisi>
+    </div>
+</body>
+<script src="../js/vue.js"></script>
+<script>
+    let EventBus = new Vue()
+
+    let wang = {
+        template: `
+            <div>
+                我说： <input @keyup='tell_other' v-model='w_said_something'/>
+            </div>
+        `,
+        data() {
+            return {
+                w_said_something: ''
+            }
+        },
+        methods: {
+            tell_other () {
+                // 参数2就是传递给同级组件的数据
+                // 同级组件监听同一个事件 listen
+                EventBus.$emit('listen', this.w_said_something)
+            }
+        }
+    }
+
+    let lisi = {
+        template: `
+            <div>
+                王欢欢说： {{listening_content}}
+            </div>
+        `,
+        data() {
+            return {
+                listening_content: ''
+            }
+        },
+        mounted() {
+            // 这里必须保存this  保证这个thi指向的是lisi这个Component
+            const _self = this;
+
+            EventBus.$on('listen', function(data) {
+                console.log('data', data)
+
+                _self.listening_content = data
+            })
+        }
+    }
+    new Vue({
+        el: "#app",
+        components: {
+            wang,
+            lisi
+        }
+    })
+</script>
+</html>

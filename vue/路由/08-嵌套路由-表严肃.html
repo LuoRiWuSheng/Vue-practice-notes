@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to='/home'>首页</router-link>
+        <router-link to='/user/王欢欢'>王欢欢</router-link>
+        <router-link to='/user/李栓丹'>李栓丹</router-link>
+       
+        <router-view></router-view>
+    </div>
+</body>
+<script src="../plugin/vue.js"></script>
+<script src="../plugin/vue-router.js"></script>
+<script>
+    let Home = {
+        template: `<div>首页</div>`
+    }
+
+    let User = {
+        template: `
+        <div>
+            <div>我叫： {{$route.params.name}}</div>
+            <hr/>
+            <router-link to='more'>直接切换到more</router-link>
+            <p>
+                直接切换到more这种，也是切换到子路由，但是地址栏就是 /user/more  而没有 /user/王欢欢/more  这个是区别
+            </p>
+            <hr/>
+            <p>
+            
+                这种是通过拼接实现的完整路由</p>
+            <router-link :to='"/user/"+$route.params.name+"/more"'>更多信息</router-link>
+            <hr/>
+            <p>
+                    2种方式，但是append这种会存在一个问题，就是地址栏是 /用户名/more/more ,点击2次会出现这种问题
+            </p>
+            <router-link to='more' append>更多信息</router-link>
+            <hr/>
+            <router-view></router-view>
+        </div>
+        `
+    }
+    let routes = [
+        {
+            path: '/home',
+            component: Home
+        },
+        {
+            path: '/user/:name',
+            component: User,
+            children: [
+                {
+                    path: 'more',
+                    component: {
+                        template: `<div>
+                            我叫 {{$route.params.name}}的详细信息
+
+                            <div>
+                            一堆的信息
+                            </div>
+                        </div>`
+                    }
+                }
+            ]
+        }
+    ]
+    let router = new VueRouter({
+        routes
+    })
+
+    new Vue({
+        el: "#app",
+        router
+    })
+</script>
+</html>
