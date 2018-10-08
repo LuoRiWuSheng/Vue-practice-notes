@@ -1,1 +1,0 @@
-module.exports = ['https://img1.360buyimg.com/da/jfs/t23215/113/1268659368/208952/8b974a69/5b584debN99c0ab36.jpg!cr_1125x549_0_72','https://img1.360buyimg.com/da/jfs/t23215/113/1268659368/208952/8b974a69/5b584debN99c0ab36.jpg!cr_1125x549_0_72','https://m.360buyimg.com/mobilecms/s828x404_jfs/t20785/274/2520842473/149296/aa3e7e62/5b5ae0e3Nba5f079c.jpg!cr_1125x549_0_72!q70.jpg.dpg']

@@ -1,8 +1,6 @@
 ﻿**node_modules
 
 
-test
-
 # 过滤掉package.lock.json，避免在github上报安全漏洞
 package-lock.json
 .idea
@@ -10,7 +8,7 @@ package-lock.json
 .project
 
 .vscode
-./vue/vue-cli-project/.vscode
+
 *.suo
 *.ntvs*
 *.njsproj
