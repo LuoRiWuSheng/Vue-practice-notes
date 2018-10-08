@@ -1,8 +1,9 @@
-**node_modules
+ï»¿**node_modules
 
 
+test
 
-# ¹ıÂËµôpackage.lock.json£¬±ÜÃâÔÚgithubÉÏ±¨°²È«Â©¶´
+# è¿‡æ»¤æ‰package.lock.jsonï¼Œé¿å…åœ¨githubä¸ŠæŠ¥å®‰å…¨æ¼æ´
 package-lock.json
 .idea
 
@@ -10,3 +11,9 @@ package-lock.json
 
 .vscode
 ./vue/vue-cli-project/.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+.DS_Store
+
