@@ -5,8 +5,6 @@
 package-lock.json
 .idea
 
-.project
-
 .vscode
 
 *.suo
