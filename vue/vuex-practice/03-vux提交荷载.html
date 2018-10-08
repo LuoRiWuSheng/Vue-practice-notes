@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    {{number}}
+
+    <button @click="add">加</button>
+    <input type="text" v-model.number="level">
+    <h3>通过在调用  this.$store.commit传递的第二个参数，就是对vuex中的传参，可以是对象等</h3>
+</div>
+</body>
+<script src="./plugin/vue.js"></script>
+<script src="./plugin/vuex.js"></script>
+<script>
+    const store = new Vuex.Store({
+        state: {
+            count: 0
+        },
+        mutations: {
+            increment(state, n) {
+                state.count += n
+            }
+        }
+    })
+
+    const vm = new Vue({
+        el: "#app",
+        data() {
+            return {
+                number: 1,
+                level: 0
+            }
+        },
+        store,
+        methods: {
+            add() {
+                this.$store.commit('increment', this.level)
+            }
+        }
+    })
+</script>
+</html>

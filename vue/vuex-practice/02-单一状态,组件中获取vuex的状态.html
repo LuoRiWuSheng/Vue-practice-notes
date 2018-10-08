@@ -9,7 +9,7 @@
 </head>
 <body>
     <div id="app"></div>
-
+    <h3>在vue的实例化中，将store注入进根实例，所有子组件通过 this.$store去访问vuex中的内容</h3>
 </body>
 <script src="./plugin/vue.js"></script>
 <script src="./plugin/vuex.js"></script>
@@ -34,7 +34,6 @@
         }
     }
 
-
     const store = new Vuex.Store({
         state: {
             count: 0
@@ -49,7 +48,7 @@
 
     const vm = new Vue({
         el: "#app",
-        //
+        // 把 store 对象提供给 “store” 选项，这可以把 store 的实例注入所有的子组件
         store,
         components: {
             Count
