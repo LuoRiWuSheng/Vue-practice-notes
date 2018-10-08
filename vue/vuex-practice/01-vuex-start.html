@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./plugin/vue.js"></script>
+    <script src="./plugin/vuex.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{count}}
+        <h3>下面绑定的方法其实是需要定义在methods中的，在methods中，去使用store.commit触发对应的mutations</h3>
+        <button @click="increment">加1</button>
+        <button @click="decrement">减1</button>
+    </div>
+
+</body>
+<script>
+    // 像这样多页面的，不是以vue后缀结尾的文件名称，需要先定义vuex，不然就会报错
+    const store = new Vuex.Store({
+        state: {
+            count: 0
+        },
+        mutations: {
+            // 这里面放的是一些触发状态改变的方法，置于方法名称，自己定
+            increment () {
+                // 这里面的方法的第一个参数是 state对象；第二个参数是没有就是一个undefined,第3个参数是一个回调
+                console.log(arguments)
+                this.state.count++
+            },
+            decrement() {
+                this.state.count--
+            }
+        }
+    })
+    const vm = new Vue({
+        el: "#app",
+        computed: {
+            count() {
+                return store.state.count
+            }
+        },
+        methods: {
+            increment() {
+                store.commit('increment')
+            },
+            decrement() {
+                store.commit('decrement')
+            }
+        }
+    })
+
+
+    // 通过store.commit 来触发状态的改变
+    //store.commit('increment')
+
+    // 通过store.state来获取状态的改变
+    //console.log(store.state.count)
+
+</script>
+</html>

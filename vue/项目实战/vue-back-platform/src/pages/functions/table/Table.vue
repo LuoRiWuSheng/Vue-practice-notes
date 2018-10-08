@@ -24,9 +24,9 @@ export default {
     data () {
         return {
             formInline: {
-                    name: '',
-                    address: {}
-            }, 
+                name: '',
+                address: {}
+            },
             rules: {
                 name: [
                     {required: true, message: '请输入姓名!', trigger: 'blur'},

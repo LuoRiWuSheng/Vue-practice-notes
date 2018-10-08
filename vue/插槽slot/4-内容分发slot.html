@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+	</head>
+
+	<body>
+		<div id="app">
+			slot写法，与位置无关，很随意，header可以写在最后面，但是显示确可以是最顶部，没有slot的，内容是不会显示的，除非加了一个默认的slot
+			<base-components>
+				<template>
+					我是内容区域
+				</template>
+				<h3>标题</h3>
+				<p>段落--这是插入到默认的slot中的</p>
+				<template slot='header'>
+					<h3>这个标题才显示</h3>
+				</template>
+				<template slot="footer">
+					<div>
+						姓名:XXX
+					</div>
+					<div>
+						日期：2018-9-12
+					</div>
+				</template>
+			</base-components>
+		</div>
+		<script src="../js/vue.js"></script>
+		<script type="text/javascript">
+			let baseComponents = {
+				template: `
+				<div class="container">
+					<header>
+						<slot name="header"></slot>
+					</header>
+					<main>
+						<!--默认插槽-->
+						<slot></slot>
+					</main>
+					<footer>
+						<slot name="footer"></slot>
+					</footer>
+				</div>
+			`
+			}
+
+			let vm = new Vue({
+				el: "#app",
+				data: {
+
+				},
+				components: {
+					"base-components" : baseComponents
+				}
+			})
+		</script>
+	</body>
+
+</html>

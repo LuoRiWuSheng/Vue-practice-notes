@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		
+		<todo-list v-bind:todos="items">
+			
+		</todo-list>
+	</div>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let todoList = {
+			props: ["todos"],
+			template: `
+				<ul>
+					<li v-for="(todo,index) in todos" :key="index">
+						<slot v-bind:todo="todo">
+							<div>
+								品种: {{todo.name}}
+							</div>
+							<div>
+								价格: {{todo.price}}
+							</div>
+							<div>
+								数量: {{todo.num}}
+							</div>
+						
+						</slot>
+						
+					</li>
+				</ul>
+			`
+			
+		}
+		
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				items: [
+					{
+						name: "青菜",
+						price: 22.1,
+						num: 12
+					},
+					{
+						name: "黄瓜",
+						price: 1.2,
+						num: 120
+					},
+					{
+						name: "苦瓜",
+						price: 7.9,
+						num: 55
+					},
+					{
+						name: "猪肉",
+						price: 13,
+						num: 50
+					},
+				]
+			},
+			components: {
+				"todo-list": todoList
+			}
+		})
+	</script>
+</body>
+</html>

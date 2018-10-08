@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		下面就是最简单插槽
+		<son>
+			你好啊
+		</son>
+	</div>
+	<script src="../js/vue.js"></script>
+	<script type="text/javascript">
+		let son = {
+			template: `
+				<div>
+					<button>
+						<slot></slot>
+					</button>
+				</div>
+			`
+		}
+		let vm = new Vue({
+			el: "#app",
+			data: {
+				
+			},
+			components: {
+				son
+			}
+		})
+	</script>
+</body>
+</html>
