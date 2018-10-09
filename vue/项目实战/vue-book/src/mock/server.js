@@ -39,7 +39,7 @@ let server = http.createServer((req, res)=> {
         // 根据请求的方法，判断做什么操作
         switch (req.method) {
             case "GET":
-                if (id) { // 查询一个
+                if (!isNaN(id)) { // 查询一个
                    read((books)=> {
 
                        let book = books.find(item=> item.bookId === id)

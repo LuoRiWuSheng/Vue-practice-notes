@@ -32,3 +32,13 @@ export let removeBook = (id)=> {
 export let findOneBook = (id)=> {
     return axios.get(`/book?id=${id}`)
 }
+
+/***
+ * 修改图书信息
+ * @param id 编号
+ * @param data 请求体发送的数据
+ * @returns {AxiosPromise<any>} 返回Promise对象
+ */
+export let updateBook = (id, data)=> {
+  return axios.put(`/book?id=${id}`, data)
+}

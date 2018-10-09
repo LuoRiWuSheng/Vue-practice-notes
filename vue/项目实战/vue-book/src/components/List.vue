@@ -11,7 +11,6 @@
                         <b>{{book.bookPrice}}</b>
                         <button @click.stop="remove(book.bookId)">删除</button>
                     </div>
-
                 </router-link>
             </ul>
         </div>
@@ -57,6 +56,7 @@
                 margin-bottom: 10px;
                 border-bottom: 1px solid #CCC;
                 img {
+                    flex-shrink: 0;
                     width: 130px;
                     height: 140px;
                     margin-right: 20px;
