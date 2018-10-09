@@ -1,7 +1,9 @@
 <template>
   <div id="app">
       <router-view></router-view>
-      <Tab></Tab>
+      <div class="tab">
+          <Tab></Tab>
+      </div>
   </div>
 </template>
 
@@ -29,5 +31,13 @@ export default {
     }
     input, button {
         appearance: none;
+    }
+
+    .content {
+        position: fixed;
+        top: 40px;
+        bottom: 50px;
+        width: 100%;
+        overflow: auto;
     }
 </style>

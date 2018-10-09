@@ -1,0 +1,23 @@
+[
+    {
+        "bookCover": "https://img10.360buyimg.com/n1/s200x200_jfs/t11116/180/7767350/45057/8989c6d0/59e59299N8a8ecd00.jpg",
+        "bookName": "实战/Web开发经典丛书",
+        "bookInfo": "Hapi.js之父Eran Hammer作序推荐！是介绍hapi的入门书籍，案例源代码下载地址见书前言或封底二维码。",
+        "bookPrice": 98.2,
+        "bookId": 2
+    },
+    {
+        "bookCover": "https://img12.360buyimg.com/n1/s200x200_jfs/t6358/7/1544342065/111169/e51a6cb0/59536a88N6cdfbad6.jpg",
+        "bookName": "开发指南：WebGL的JavaScript 3D库（原书第2版）",
+        "bookInfo": "全面讲解Three.js开发的实用指南，涵盖Three.js的各种功能（2）通过大量交互式示例，深入探索使用开源的Three.js库创建绚丽三维图形的实用方法和技巧",
+        "bookPrice": 44.2,
+        "bookId": 3
+    },
+    {
+        "bookCover": "https://img13.360buyimg.com/n1/s200x200_jfs/t5896/249/1414744553/313344/b1553278/59266d0fN109569da.jpg",
+        "bookName": "区块链开发",
+        "bookInfo": "这是一本基于一个实际运行的区块链产品，从代码层面深度完整讲述区块链开发的书籍；这是一本开源产品的实践书籍，通过工程思维，讲解工程实践，真正体现编程技术的工具价值。",
+        "bookPrice": 12,
+        "bookId": 4
+    }
+]

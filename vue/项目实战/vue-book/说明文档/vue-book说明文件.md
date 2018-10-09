@@ -59,6 +59,90 @@ webpack.base.conf.js文件中
 
 引入阿里字体图标库，在index.html中，直接引入link
 
+### 完成header，footer部分的功能
+
+- 技术实现点：
+
+>   顶部的返回按钮功能，绑定一个点击事件，然后调用 this.$router.go(-1) 实现返回    
+>   顶部是否显示返回按钮，通过组件传参的形式，props 去决定是否显示 返回的icon
+
+### 轮播组件的使用 [Vue-Awesome-Swiper](https://github.com/surmon-china/vue-awesome-swiper)
+
+- 安装
+
+```js
+    npm install vue-awesome-swiper --save
+```
+
+- 使用
+
+>   在main.js中导如组件，并注册
+
+```js
+    import VueAwesomeSwiper  from 'vue-awesome-swiper'
+    import 'swiper/dist/css/swiper.css'
+
+    Vue.use(VueAwesomeSwiper)
+
+```
+使用注意事项：
+
+```js
+  export default {
+    // 这里的name使用这个
+    name: 'carousel',
+    data () {
+        return {
+            swiperOption: {
+                pagination: {
+                    el: '.swiper-pagination'
+                }
+            },
+            swiperSildes: [1, 2, 3, 4, 5]
+        }
+    }
+}
+
+```
+使用vue-swiper注意，想要左右切换按钮，必须通过slot的方式添加，不然，会导致只在第一个页面会有左右按钮,特别要注意slot的名称，可以查看github上的demo对应修改 [demo-github](https://surmon-china.github.io/vue-awesome-swiper/)
+
+```js
+ <div class="swiper-button-prev" slot="button-prev"></div>
+<div class="swiper-button-next" slot="button-next"></div>
+<div class="swiper-pagination" slot="pagination"></div>
+```
+
+
+### 轮播图模拟数据
+
+- 写后台接口
+- 解决node跨域问题，前端地址是 localhost:8080 请求的后台地址是localhost: 3001 存在跨域问题
+
+>   百度搜索node跨域头，粘贴过来 [Node.js express 跨域问题](https://cnodejs.org/topic/51dccb43d44cbfa3042752c8)
+
+```js
+res.setHeader("Access-Control-Allow-Origin", "*");
+res.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+res.setHeader("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+res.setHeader("X-Powered-By",' 3.2.1')
+if(req.method=="OPTIONS") return res.end();/*让options请求快速返回*/
+```
+>   上面是原生node写的，如果是express，那么设置返回头的名称可能有点差异
+
+## 热门图书的功能
+
+- 先写服务端，确保数据能够正常返回
+- 增加api方法实现调取数据的功能
+- 在哪个组件中应用API，如果是一个基础组件，需要用这些数据，在使用这些组件的父级中使用，通过props传参给基础组件；不需要复用的组件，写在当前定义组件的地方
+- 写基础组件
+    + 1.创建一个.vue文件
+    + 2.在需要使用这个组件的父级中引用这个组件
+    + 3.在组件中注册
+    + 4.以标签的形式引入（使用）
+
+
+
+
 
 
 
