@@ -1,0 +1,2 @@
+webpackJsonp([5],{"Dy+R":function(e,t){},Ovkt:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r={render:function(){var e=this.$createElement;return(this._self._c||e)("div",[this._v("收藏")])},staticRenderFns:[]};var i=n("C7Lr")({name:"Collection"},r,!1,function(e){n("Dy+R")},"data-v-02b0933e",null);t.default=i.exports}});
+//# sourceMappingURL=5.1e655fa57d432db15896.js.map

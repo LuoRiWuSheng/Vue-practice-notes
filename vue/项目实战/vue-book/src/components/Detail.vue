@@ -29,7 +29,7 @@
         name: 'Detail',
         data() {
             return {
-                book: []
+                book: {}
             }
         },
         watch: {
@@ -69,37 +69,37 @@
 
 <style scoped lang="less">
     .detail {
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        background: #FFF;
-        z-index: 100;
+          position: absolute;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          background: #FFF;
+          z-index: 100;
 
-        ul {
-            margin: 50px 10px 0 10px;
+          ul {
+              margin: 50px 10px 0 10px;
 
-            label {
-                display: block;
-                font-size: 25px;
-            }
-            input {
-              margin: 10px 0;
-              height: 25px;
-              width: 100%;
-            }
-        }
-        button {
-            display: block;
-            width: 100px;
-            height: 30px;
-            border: none;
-            -webkit-border-radius: 10px;
-            -moz-border-radius: 10px;
-            border-radius: 10px;
-            color: #FFF;
-            background: #1833ff;
-        }
-    }
+              label {
+                  display: block;
+                  font-size: 25px;
+              }
+              input {
+                  margin: 10px 0;
+                  height: 25px;
+                  width: 100%;
+              }
+          }
+          button {
+              display: block;
+              width: 100px;
+              height: 30px;
+              border: none;
+              -webkit-border-radius: 10px;
+              -moz-border-radius: 10px;
+              border-radius: 10px;
+              color: #FFF;
+              background: #1833ff;
+          }
+      }
 </style>

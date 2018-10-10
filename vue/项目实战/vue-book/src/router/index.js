@@ -1,15 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Home from '@/components/Home'
+/*import Home from '@/components/Home'
 import Add from '@/components/Add'
 import Collection from '@/components/Collection'
 import List from '@/components/List'
-import Detail from '@/components/Detail'
+import Detail from '@/components/Detail'*/
 
 Vue.use(Router)
 
+
 export default new Router({
+    mode: 'history',
     routes: [
         {
             path: '/',
@@ -17,24 +19,40 @@ export default new Router({
         },
         {
             path: '/home',
-            component: Home
+            component: ()=>import('@/components/Home'),
+            meta: {
+                keepAlive: true,
+                title: '首页'
+            }
         },
         {
             path: '/add',
-            component: Add
+            component: ()=>import('@/components/Add'),
+            meta: {
+                title: '新增'
+            }
         },
         {
             path: '/collection',
-            component: Collection
+            component: ()=>import('@/components/Collection'),
+            meta: {
+                title: '收藏'
+            }
         },
         {
             path: '/list',
-            component: List
+            component: ()=>import('@/components/List'),
+            meta: {
+                title: '列表'
+            }
         },
         {
             path: '/detail/:bid',
-            component: Detail,
-            name: "detail"
+            component: ()=>import('@/components/Detail'),
+            name: "detail",
+            meta: {
+                title: '详情'
+            }
         },
         {
             path: '*',

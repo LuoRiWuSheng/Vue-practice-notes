@@ -1,8 +1,11 @@
 let http = require('http')
 let fs = require('fs')
 let url = require('url')
+let path = require('path')
 
 let sliders = require('./sliders')
+
+let pageSize = 5
 
 // 轮播图 url请求地址: /sliders
 let server = http.createServer((req, res)=> {
@@ -16,6 +19,25 @@ let server = http.createServer((req, res)=> {
     // true 把query转化成对象
     let {pathname, query} = url.parse(req.url, true)
 
+    // 列表数据分页
+    if (pathname === '/page') {
+        let offset = parseInt(query.offset) || 0 // 拿到前端传递的offset 表示从哪里截取数据
+
+        read((books)=> {
+            // 每次偏移量在偏移的基础上加pageSize
+            let result = books.reverse().slice(offset, offset + pageSize)
+            let hasMore = true // 默认还有数据
+            if(books.length <= offset+pageSize) { // 已经显示的数目，大于总共条数
+                hasMore = false
+            }
+            res.setHeader('Content-Type', 'application/json;charset=utf8')
+            res.end(JSON.stringify({hasMore, books: result}))
+        })
+
+        return
+    }
+
+
     if(pathname === '/sliders') {
         res.setHeader('Content-Type', 'application/json;charset=utf8')
         // 这里需要使用字符串或者Buffer的形式返回数据，或者不返回任何数据，使用其他类型，就会报错
@@ -28,7 +50,9 @@ let server = http.createServer((req, res)=> {
         read(function(books) {
             let hot = books.reverse().slice(0,6) // 倒叙，返回5本书
             res.setHeader('Content-Type', 'application/json;charset=utf8')
-            res.end(JSON.stringify(hot))
+            setTimeout(()=>{
+                res.end(JSON.stringify(hot))
+            }, 3000)
 
         })
         return
@@ -57,7 +81,25 @@ let server = http.createServer((req, res)=> {
                 }
                 break;
             case "POST":
+                let str = ''
 
+                req.on('data', (chunk)=> {
+                    str += chunk
+                })
+
+                req.on('end', ()=> {
+                    let book = JSON.parse(str)
+
+                    read((books)=> {
+                        book.bookId = books.length ? books[books.length-1].bookId + 1 : 1
+                        books.push(book)
+
+                        write(books, ()=> {
+                            res.setHeader('Content-Type','application/json;charset=utf8')
+                            res.end(JSON.stringify(book))
+                        })
+                    })
+                })
                 break;
             case "DELETE":
                 read((books)=> {
@@ -69,10 +111,57 @@ let server = http.createServer((req, res)=> {
                 })
                 break;
             case "PUT":
+                if(id) { // 获取当前要修改的id
+                    // 请求体是一个流，需要从请求体中获取修改的数据
+                    let str = ''
+
+                    req.on('data', (chunk)=> {
+                        str += chunk
+                    })
+
+                    req.on('end', ()=> {
+                        let book = JSON.parse(str) // 这是我们要修改的数据
+
+                        read((books)=> {
+                            books = books.map(item=> {
+                                if(item.bookId === id) { // 找到id相同的那一项
+                                    return book
+                                }
+
+                                return item // 其他书正常返回
+                            })
+
+                            // 将数据写入json文本
+                            write(books, ()=> {
+                                res.setHeader('Content-Type', 'application/json;charset=utf8')
+                                res.end(JSON.stringify(book))
+                            })
+                        })
+                    })
+                }
                 break;
         }
         return
     }
+
+
+    // 写一个静态服务，将打包后的目录读取出来
+    /*fs.stat('.'+pathname, function(err, stats) {
+        if(err) {
+            // res.statusCode = 404;
+            // res.end('Not Found')
+            fs.createReadStream('index.html').pipe(res)
+        } else {
+           if(stats.isDirectory()) {
+               let p = path.join('.'+pathname,'./index.html')
+               fs.createReadStream(p).pipe(res)
+           } else {
+
+               fs.createReadStream('.'+pathname).pipe(res)
+           }
+        }
+    })*/
+
 })
 
 server.listen(3001)

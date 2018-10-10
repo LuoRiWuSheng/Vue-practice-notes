@@ -140,6 +140,34 @@ if(req.method=="OPTIONS") return res.end();/*让options请求快速返回*/
     + 3.在组件中注册
     + 4.以标签的形式引入（使用）
 
+## 路由元信息
+
+- 做页面级缓存
+
+## 下拉加载
+
+- 默认每次给5条，前台告诉后台，从那一条开始吐数据
+- /page?offset=5 , 后台还需要告诉前端，是否有更多数据 hasMore: true/false
+
+## 图片懒加载
+
+- 安装  [vue-lazyload](https://github.com/hilongjw/vue-lazyload)
+
+## coding split 代码分割
+
+## vuex
+
+以前
+- 平级组件的通讯，找共同的父级组件
+- 跨组件交互通讯，使用eventBus（缺点： 混乱，难以管理，实质是发布订阅模式）
+
+vuex主要借鉴了flux,redux, vuex只能在vue中使用
+
+vuex为了大型项目而产生，主要做状态管理，状态即数据，vuex将数据统一管理
+
+
+
+
 
 
 
