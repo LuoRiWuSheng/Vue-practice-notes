@@ -164,7 +164,11 @@ let server = http.createServer((req, res)=> {
 
 })
 
-server.listen(3001)
+server.listen(3001, ()=> {
+    const host = server.address().address
+    const port = server.address().port
+    console.log('监听3001端口','访问的地址-->',host, port)
+})
 
 
 // 读取书籍

@@ -28,10 +28,12 @@ router.beforeEach(function(from, to, next) {
 
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
+import store from './store'
+
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

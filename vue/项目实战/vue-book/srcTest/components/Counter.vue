@@ -6,19 +6,22 @@
         当前： <span>{{this.$store.state.count}}</span>
         <br>
         减：<button @click="increment">+</button>
+
+        {{$store.getters.val}}
     </div>
 </template>
 
 <script>
+    import * as Types from '../store/mutationsType.js'
     export default {
         name: 'Counter',
         methods: {
             increment() {
                 // 提交add 的mutation
-                this.$store.commit('add', 12)
+                this.$store.commit(Types.INCREMENT)
             },
             decrement() {
-                this.$store.commit('minus')
+                this.$store.commit(Types.DECREMENT)
             }
         }
     }

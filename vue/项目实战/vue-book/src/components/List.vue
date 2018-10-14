@@ -5,11 +5,14 @@
             <ul>
                 <router-link v-for="(book, index) in books" :key="index" :to="{name: 'detail', params: {bid: book.bookId}}" tag="li">
                     <img v-lazy="book.bookCover">
-                    <div>
+                    <div class="descipt">
                         <h4>{{book.bookName}}</h4>
                         <p>{{book.bookInfo}}</p>
                         <b>{{book.bookPrice}}</b>
-                        <button @click.stop="remove(book.bookId)">删除</button>
+                        <div class="btn-list">
+                            <button @click.stop="remove(book.bookId)">删除</button>
+                            <button @click.stop="add(book)">添加</button>
+                        </div>
                     </div>
                 </router-link>
             </ul>
@@ -21,6 +24,8 @@
 <script>
     import {getBooks, removeBook, pagination} from '@/api'
     import MHeader from '@/base/MHeader'
+    import * as Types from '../store/mutationsType'
+
     export default {
         name: 'List',
         data () {
@@ -70,6 +75,9 @@
                         this.getData() // 加载更多
                     }
                 } ,13) // 防抖，节流
+            },
+            add(book) {
+                this.$store.commit(Types.ADD_CART,book)
             }
         },
         mounted() {
@@ -80,8 +88,10 @@
             let start;
             let current;
             let distance;
+            let isMove = false;
 
             let move = (e)=> {
+                isMove = true;
                 current = e.touches[0].pageY // 获取滚动的终止Y轴位置
 
                 distance = current - start; // 求拉动的距离， 负数就表示手指向上移动，不要（我们前面有上拉加载）
@@ -101,6 +111,9 @@
                 }
             }
             let end = (e)=> {
+                if(!isMove) return
+                isMove = true;
+
                 clearInterval(this.timer2)
 
                 this.timer2 = setInterval(()=>{
@@ -142,10 +155,12 @@
 <style scoped lang="less">
     .content {
         ul {
+            width: 100%;
             padding: 10px;
-
+            box-sizing: border-box;
             li {
                 display: flex;
+                width: inherit;
                 padding-bottom: 10px;
                 margin-bottom: 10px;
                 border-bottom: 1px solid #CCC;
@@ -155,6 +170,9 @@
                     height: 140px;
                     margin-right: 20px;
 
+                }
+                .descipt {
+                    width: calc(100% - 130px);
                 }
                 h4 {
                     font-size: 18px;
@@ -177,6 +195,11 @@
                     background: crimson;
                 }
             }
+        }
+
+        .btn-list {
+          display: flex;
+          justify-content: space-around;
         }
     }
 </style>
