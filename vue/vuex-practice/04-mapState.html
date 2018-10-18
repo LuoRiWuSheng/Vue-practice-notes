@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<Header1></Header1>
+		<Footer2></Footer2>
+	</div>
+</body>
+<script src="./plugin/vue.js"></script>
+<script src="./plugin/vuex.js"></script>
+<script>
+	const mapState = Vuex.mapState;
+
+	// 定义数据状态
+	const state = {
+		count: 0,
+		price: 12,
+		name: '张三'
+	}
+
+	// 定义修改数据状态的唯一操作方法
+	const mutations = {
+		increment(state) {
+			state.count ++
+		},
+		decrement(state) {
+			state.count --
+		}
+	}
+
+	// 初始化容器 Store
+	const store = new Vuex.Store({
+		state,
+		mutations
+	})
+
+	let Header1 = {
+		template: `<div>
+			头部
+			{{count}}
+		</div>`,
+		computed: Vuex.mapState({
+			 count: state => state.count,
+		})
+		
+	}
+
+	const Footer2 = {
+		template: `<div>
+			底部
+		</div>`,
+
+		
+	}
+	let vm = new Vue({
+		el: "#app",
+		components: {
+			Header1,
+			Footer2
+		}
+	})
+</script>
+</html>
