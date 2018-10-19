@@ -13,19 +13,19 @@
 		</div>
 		<div>
 			<ul>
-				<todo-item v-for="(item, index) in list" :key="index" :content="item" @click='remove'></todo-item>
+				<todo-item v-for="(item, index) in list" :key="index" :content="item" :index="index" @remove='remove'></todo-item>
 			</ul>
 		</div>
 	</div>
 	<script type="text/javascript">
 		Vue.component("todo-item",{
 			template: `
-				<li>{{content}}--<button @click="del(content)">移除</button></li>
+				<li>{{content}}--{{index}}--<button @click="del(content)">移除</button></li>
 			`,
-			props: ['content'],
+			props: ['content', 'index'],
 			methods: {
 				del() {
-					this.$emit('remove', this.content)
+					this.$emit('remove', this.index)
 				}
 			}
 		})
@@ -42,10 +42,19 @@
 				submit() {
 					if(this.todo === "") return 
 					this.list.unshift(this.todo)
+					localStorage.setItem('list', JSON.stringify(this.list))
 					this.todo = ""
 				},
 				remove(val) {
-					//this.list = this.list.filter((item)=> item != val)
+					//this.list = this.list.filter((item,index)=> index != val)
+					this.list.splice(val, 1)
+					localStorage.setItem('list', JSON.stringify(this.list))
+				}
+			},
+			mounted() {
+				if(localStorage['list']) {
+					this.list = JSON.parse(localStorage['list']);
+
 				}
 			}
 		})
