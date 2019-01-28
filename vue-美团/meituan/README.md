@@ -24,3 +24,7 @@ npm run test
 ```
 npm run lint
 ```
+
+学习地址
+
+[vue-meituan](https://github.com/Besmall/vue-meituan)
