@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue通过extend创建子类</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
+</head>
+<body>
+    <h3>Vue.extend扩展实例构造器</h3>
+    <ownTag></ownTag>
+    <hr>
+    <div id="payload"></div>
+    <script>
+        // 写一个扩展器
+        var authorExtend = Vue.extend({
+            template: `<div><a :href="authoreUrl">{{name}}</a></div>`,
+            data: function() {
+                return {
+                    name: "张三",
+                    authoreUrl: "http://www.baidu.com"
+                }
+            }
+        })
+
+        new authorExtend().$mount("ownTag") // 自定义标签的形式挂载
+        new authorExtend().$mount("#payload") // 通过id的方式去挂载
+        // 挂载的方式，可以像jquery的方式一样，链式操作，选择元素
+
+
+        // 常用的方式，就是写一个全局的扩展，然后挂载到局部去使用，达到重用的目的
+    </script>
+</body>
+</html>

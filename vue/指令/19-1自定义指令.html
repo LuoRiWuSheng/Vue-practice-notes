@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义指令</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h3>vue 自定义指令directive</h3>
+        <div v-own-directive.prevent="color">{{num}}</div>
+        <button v-on:click="add">自增</button>
+    </div>
+    <script>
+        // 这里同样，自定义指令不要使用驼峰标识。使用
+        Vue.directive("own-directive", function(el, binding, vnode, oldVnode) {
+            // 这个回调函数有5个参数
+            /**
+                第一个参数是这个自定义指令绑定的 DOM元素
+                参数2是一个对象Object
+                    {
+                        def：{bind:fn, update: fn}
+                        expression: "color"
+                        modifiers:{prevent: true}  // 修饰器
+                        name: "own-directive"
+                        rawName: "v-own-directive"
+                        value: "red"
+                    }
+                参数3是VNode Vue 编译生成的虚拟节点
+                参数4也是oldVnode上一个虚拟节点  仅在 update 和 componentUpdated 钩子中可用。
+                
+                这里如果使用匿名函数的写法，那def中只有2个声明周期函数，如果使用钩子函数，那么这里就需要换成{bind:() ...}等钩子函数的写法
+                钩子函数写法: 见 19-2
+            */
+
+            console.log(arguments)
+            // 原生写法
+            el.style.color = binding.value
+        })
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    color: "red",
+                    num: 2
+                }
+            },
+            methods: {
+                add() {
+                    this.num++
+                }
+            }
+        })
+    </script>
+</body>
+</html>

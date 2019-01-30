@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.card {
+				width: 150px;
+				height: 50px;
+				background-color: #ccc;
+				margin-bottom: 10px;
+			}
+		</style>
+		<script src="js/vue.js"></script>
+	</head>
+
+	<body>
+		<h3>注意，自定义指令的写法，还有怎么往自定义修饰符中传参（bingding.arg）</h3>
+		<div id="app">
+			<div v-pine="card1.pined" class="card">
+				<button @click="card1.pined = !card1.pined">定住/随页面移动</button>
+				qweqweqw
+			</div>
+			
+			<div v-pine:true="card2.pined" class="card">
+				<a @click="card2.pined = !card2.pined" href="#">定住/放开</a>
+				vvvvvvvvvvvvvvvvvv
+			</div>
+			<hr />
+			<div v-pine2.bottom.right="card3.pined" class="card">
+				<button @click="card3.pined = !card3.pined">定住左下角/随页面移动</button>
+				qweqweqw
+			</div>
+			<hr />
+			<div>12131231231515sdasdasdasdasd 121312 <br />
+				31231515sdasdasdasdasd <br />
+				12131231231515sdasdasd<br />asdasd121312312<br />31
+				515sdasdasdasdasd12131231231<br />515sdasdasdasdasd121312<br />31231515sdasdas<br />
+				dasdasd12131231231515sdas<br />dasdasdasd<br />1213123<br />
+				1231515sdas<br />dasda<br />sd<br />asd12<br />131231231515s<br />
+				dasdasdasdas<br />d12131231231515sda<br />sdasdasdasd1<br />213123123151<br />5sdasdasdasdasd
+			</div>
+		</div>
+		<script>
+			Vue.directive("pine", function(el, binding) {
+				//console.log(binding.value)
+				console.log("arg",binding.arg);// 传参
+				var arg = binding.arg;
+				if(binding.value) {
+					el.style.position = "fixed";
+					el.style.top = "50px";
+					el.style.left = "100px";
+					
+					if(arg === "true") {
+						el.style.background="yellow";
+					}
+				} else {
+					el.style.position = "static";
+				}
+				
+			});
+			
+			Vue.directive("pine2", function(el,binding) {
+				//console.log(binding);
+				// modify 可以拿到值bottom,right
+				var position = binding.modifiers;
+				el.style.position = "fixed";
+				if(binding.value) {
+					for(var k in position) {
+						
+						el.style[k] = "10px";// 定住在右下角
+					}
+				}
+			})
+			
+			var app = new Vue({
+				el: "#app",
+				data: {
+					card1: {
+						pined: true
+					},
+					card2: {
+						pined: false
+					},
+					card3: {
+						pined: false
+					}
+				}
+			});
+		</script>
+	</body>
+
+</html>

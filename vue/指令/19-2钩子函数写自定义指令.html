@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义指令--钩子函数写法</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
+</head>
+<body>
+    <h3>自定义指令--声明周期，钩子函数写法</h3>
+    <div id="app">
+        <div v-own="{a: 1, b: 'red'}">{{num}}</div>
+        <button @click="add">Add</button>
+        
+    </div>
+    <button onclick="unbindOwnDirective()">解绑自定义指令</button>
+    <script>
+        function unbindOwnDirective() {
+            app.$destroy()
+        }
+
+        Vue.directive("own", {
+            bind(el, binding) {
+                el.style.color = binding.value.b
+                console.log(arguments)
+                console.log("1", "调用一次，指令第一次绑定到元素时调用。在这里可以进行一次性的初始化设置。")
+            },
+            inserted() {
+                console.log(2, "被绑定元素插入父节点时调用 (仅保证父节点存在，但不一定已被插入文档中)。")
+            },
+            update() {
+                console.log(3, "update") // 值更新的时候，这里会被调用
+            },
+            componentUpdated() {
+                console.log(4, "自定义指令的所以组件和子组件都更新结束时被调用")
+            },
+            unbind() {
+                console.log(5, "销毁组件时调用")
+            }
+
+        })
+       var app = new Vue({
+            el: "#app",
+            data() {
+                return {
+                    num: 2
+                }
+            },
+            methods: {
+                add() {
+                    this.num++
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
