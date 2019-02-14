@@ -31,7 +31,7 @@ let config = {
                 use: ["vue-style-loader","css-loader"]
             },
             {
-                test: /\.styl$/,
+                test: /\.styl(us)?$/,
                 use: [
                     "style-loader",
                     "css-loader", 
