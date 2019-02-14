@@ -1,20 +1,25 @@
 <template>
-    <div id="test">{{test}}</div>
+   <div id="app">
+       <Header></Header>
+       <Todo />
+       <Footer></Footer>
+   </div>
 </template>
 
 <script>
+import Header from "./todo/header.vue"
+import Footer from "./todo/footer.jsx"
+import Todo from "./todo/todo.vue"
+
 export default {
-    name: "App",
-    data() {
-        return {
-            test: "测试"
-        }
-    }
+   components: {
+       Header,
+       Footer,
+       Todo
+   }
 }
 </script>
 
-<style>
-    #test {
-        background: red;
-    }
+<style lang="stylus" scoped>
+
 </style>

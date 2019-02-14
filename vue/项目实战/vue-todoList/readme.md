@@ -24,3 +24,14 @@
 **cross-env**
 
 为了解决不同平台下，设置的环境变量的方式不同，使用cross-env包，统一
+
+安装的packages
+
+npm i postcss-loader autoprefixer  babel-cli babel-preset-env  babel-core babel-plugin-transform-vue-jsx --save-dev
+
+针对jsx的文件使用babel-loader进行编译， 在webapck.config.js中配置
+
+
+在项目根目录创建
+    postcss.config.js
+    .babelic
