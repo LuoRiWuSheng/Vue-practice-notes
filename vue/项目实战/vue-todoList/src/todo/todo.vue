@@ -36,6 +36,7 @@ export default {
         },
         toggleFilter(state) {
             console.log(state)
+            // 子组件Tab将它的状态["all", "active", "completed"] 告诉父组件，父组件通过 动态属性的方式传递给子组件
             this.filter = state
         },
         clearAllCompleted() {
@@ -60,6 +61,24 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.real-app {
+    width 600px;
+    margin 0 auto
+    box-shadow 0 0 5px #666
 
+    .add-input {
+        width inherit
+        margin 0;
+        padding 16px 16px 16px 36px;
+        font-size 24px
+        font-weight inherit
+        font-family inherit
+        line-height 1.4em
+        border none
+        color inherit
+        box-sizing border-box
+        box-shadow inset 0 -2px 1px rgba(0,0,0,0.03)
+    }
+}
 </style>
 

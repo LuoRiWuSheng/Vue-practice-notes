@@ -9,7 +9,7 @@ export default {
     render() {
         return (
             <div id="footer">
-                <span>write by {this.name}</span>
+                <span>todoList {this.name}</span>
             </div>
         )
     }
