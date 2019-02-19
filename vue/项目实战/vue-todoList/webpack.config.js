@@ -30,6 +30,11 @@ let config = {
                 loader: "babel-loader"
             },
             {
+                test: /\.js$/,
+                loader: "babel-loader",
+                exclude: "/node_modules/"
+            },
+            {
                 test: /\.css$/,
                 use: ["vue-style-loader","css-loader"]
             },
@@ -156,7 +161,8 @@ if(isDev) {
     config.optimization = {
         splitChunks: {
             name: "vendor"
-        }
+        },
+        runtimeChunk: true
     }
 }
 
