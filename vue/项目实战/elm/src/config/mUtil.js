@@ -48,3 +48,47 @@ export const getStyle = (element, attr, NumberMode = "int")=> {
     return NumberMode == "float" ? parseFloat(target) : parseInt(target)
 }
 
+/**
+ * 页面到达底部,加载更多
+ */
+export const loadMore = (element, callback)=> {
+    let windowHeight = window.screen.height;
+    let height;
+    let setTop;
+    let paddingBottom;
+    let marginBottom;
+    let requestFram;
+    let oldScrollTop;
+
+
+    document.body.addEventListener("scroll", ()=> {
+        loadMore()
+    }, false)
+
+    element.addEventListener("touchstart", ()=> {
+        oldScrollTop = document.body.scrollTop
+        moveEnd()
+        // 加入passive: true是为了告诉浏览器，你可以执行你的默认行为，我不会阻止；这个防止卡顿
+    }, {passive: true})
+
+    const moveEnd = ()=> {
+        requestFram = requestAnimationFrame(()=> {
+            if(document.body.scrollTop !== oldScrollTop) {
+                oldScrollTop = document.body.scrollTop
+
+                loadMore()
+                moveEnd()
+            } else {
+                cancelAnimationFrame(requestFram)
+            }
+        })
+    }
+}
+
+export const showBack = () => {
+
+}
+
+export const animate = ()=> {
+
+}

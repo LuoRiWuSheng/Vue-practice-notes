@@ -55,5 +55,41 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     3.2 我用的vue版本是 2.6.6 因此，vue的API有一些改动： 插槽的变动，基本语法糖需要适当的修改
 
 3. 开发城市列表 city.vue
-    
+
+4. 开发首页站点 msite.vue
+    - 使用swiper插件
+
+```
+npm install vue-awesome-swiper --save
+
+// 在组件中引入
+<script>
+    import Vue from "vue"
+    import VueAwesomeSwiper from "vue-awesome-swiper"
+
+    // 导入css
+    import 'swiper/dist/css/swiper.css'
+    // 注册组件
+    Vue.use(VUeAwesomeSwiper)
+
+    export default {
+
+    }
+</script>
+
+```
+    - 使用vuex，存储获取到的数据，使用 mutation-types 存储commit常量名称，借助编辑器的友好提示
+    - 在调用commit的时候，使用...mapMutation直接将需要用到的方法拿到，并与methods中的其他方法合并
+    - 在组件中调用 methods中映射到的mutations时，如果需要智能提示，最要引入 下面这样
+
+```
+import * as Types from "../../store/mutation-types"
+
+// 在组件中使用
+
+this[Types.ADD](传入载荷/参数)
+
+// 等价于下面
+this.$store.commit([Types.ADD], 载荷/参数)
+```
 
