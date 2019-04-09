@@ -165,8 +165,20 @@ export default {
         backTop() {
             animate(document.body, {'scrollTop': '0'}, 400, 'easy-out')
         },
-        zhunshi() {
+        // 准时
+        zhunshi(supports) {
+            let zhunStatus;
+            if((supports instanceof Array) && supports.length) {
+                supports.forEach(item=> {
+                    if(item.icon_name === "准") {
+                       zhunStatus = true 
+                    }
+                })
+            } else {
+                zhunStatus = false
+            }
 
+            return zhunStatus
         }
     }
 }
