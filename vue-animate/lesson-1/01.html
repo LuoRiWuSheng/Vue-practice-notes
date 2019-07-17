@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            background: pink;
+        }
+        /* 刚进入的节点 */
+     
+        .shut-enter, .shut-leave-to {
+            opacity: 0;
+        }
+       
+        .shut-enter-active, .shut-leave-active {
+            transition:  all 3s;
+            color: yellow;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <transition name="shut">
+            <div class="box" v-show="show">
+                盒子
+            </div>
+        </transition>
+
+        <button id="btn1" @click="shiftHandle">
+            切换
+        </button>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el: "#app",
+            data() {
+                return {
+                    show: true
+                }
+            },
+            methods: {
+                shiftHandle() {
+                    this.show = !this.show
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

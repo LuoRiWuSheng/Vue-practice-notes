@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<title>绑定内联样式</title>
 		
-		<script src="js/vue.js"></script>
+		<script type="text/javascript" src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
 	</head>
 	<body>
 		<div id="app">
@@ -14,6 +14,11 @@
 			<div v-bind:style="{width: '50px',height:'50px',backgroundColor:'red'}">直接写</div>
 			<h3>数组表示法，将多个样式绑定到同一个对象上，示例3</h3>
 			<div :style="[red,border]">示例3</div>
+
+			<div v-bind:style="{visibility:isShow}">
+				我是直接内容
+				<button>我是间接的子内容</button>
+			</div>
 		</div>
 		<script>
 			var app = new Vue({
@@ -35,7 +40,8 @@
 						borderWidth: "2px",
 						"border-style": "solid",
 						borderColor: "red"
-					}
+					},
+					isShow: "hidden"
 				}
 			});
 		</script>

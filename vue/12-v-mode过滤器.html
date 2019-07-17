@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+	</head>
+
+	<body>
+		<h3>通过监听输入，严格限制，只能输入数字，并值能保留2位小数</h3>
+		<div id="app">
+			<input type="text" v-model="a" @input="change(a)" /> 
+		</div>
+		<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+		<script type="text/javascript">
+			new Vue({
+				el: "#app",
+				data: {
+					a: ""
+				},
+				methods: {
+					change(val) {
+						val = val.replace(/(^\s*)|(\s*$)/g, "")
+						if(!val) {
+							this.a = "";
+							return
+						}
+						var reg = /[^\d.]/g
+
+						// 只能是数字和小数点，不能是其他输入
+						val = val.replace(reg, "")
+
+						// 保证第一位只能是数字，不能是点
+						val = val.replace(/^\./g, "");
+						// 小数只能出现1位
+						val = val.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+						// 小数点后面保留2位
+						val = val.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
+
+						this.a = val;
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

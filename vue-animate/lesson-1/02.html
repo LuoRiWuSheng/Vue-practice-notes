@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../node_modules/animate.css/animate.css">
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            background: pink;
+        }
+
+        .shut-enter,
+        .shut-leave-to {
+            opacity: 0;
+        }
+
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity 3s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <transition type="transition" appear enter-active-class="animated swing fade-enter-active"
+            leave-active-class="animated shake fade-leave-active" appear-active-class="animated swing" name="shut">
+            <div class="box" v-show="show">
+                盒子
+            </div>
+        </transition>
+
+        <button id="btn1" @click="shiftHandle">
+            切换
+        </button>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el: "#app",
+            data() {
+                return {
+                    show: true
+                }
+            },
+            methods: {
+                shiftHandle() {
+                    this.show = !this.show
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

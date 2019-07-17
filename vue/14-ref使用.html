@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+        .active {
+            background: red;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+	<div id="app">
+		下面是循环出来的
+		<div>
+			<button v-for="(item, index) in list" ref="bussinessBtns" :key="index">{{item}}</button>
+		</div>
+        <button @click="getList">获取</button>
+        <button @click="update">更新</button>
+        <hr>
+        <h3>v-if不要v-for一起使用，改用conputed代替</h3>
+        <ul>
+            <li v-for="(item, index) in collections" :class="{active: item.text===name}" :key="index">{{item.text}}</li>
+        </ul>
+        <hr>
+        <div>
+            <button v-for="(item, index) in collections" :class="{active: addActive(item)}" :disabled="addActive(item)" :key="index">{{item.text}}</button>
+        </div>
+        <hr>
+        <h3>v-for动态生成class</h3>
+        <ul>
+            <li v-for="(i,index) in 10" :class="getDynamicClass(index)">{{i}}</li>
+        </ul>
+	</div>
+	<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: "#app",
+			data: {
+                name: "张三",
+				list: ["中文", "英文", "日报"],
+                collections: [
+                    {text: "哈哈", active: false},
+                    {text: "121", active: false},
+                    {text: "adad", active: false},
+                    {text: "errasd", active: true}
+                ]
+			},
+          
+			methods: {
+				getList() {
+					var btns =  this.$refs["bussinessBtns"]
+                    
+                    for(var i=0; i<btns.length; i++) {
+                        if(btns[i].innerText === "123") {
+                            alert(1)
+                        }
+                    }
+
+				},
+                update: function() {
+                    this.list = ["1", "2", "3", "123"]
+
+                    this.collections.push({text: "张三", active: true})
+                },
+                addActive: function(item) {
+                    return item.active
+                },
+                getDynamicClass: function(index) {
+                    return "item-"+ index;
+                }
+			}
+		})
+	</script>
+</body>
+</html>

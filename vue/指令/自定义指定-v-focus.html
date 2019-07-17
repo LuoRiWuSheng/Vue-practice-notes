@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+	</head>
+
+	<body>
+		<div id="app">
+			<button @click="f">点击</button>
+			<input type="text" ref="bb" v-focus/>
+		</div>
+		<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+		<script type="text/javascript">
+			new Vue({
+				el: "#app",
+				data: {
+
+				},
+				methods: {
+					f() {
+						this.$refs["bb"].focus()
+					}
+				},
+				directives: {
+				  focus: {
+				    // 指令的定义
+				    inserted: function (el) {
+				      el.focus()
+				    }
+				  }
+				}
+			})
+		</script>
+	</body>
+
+</html>
