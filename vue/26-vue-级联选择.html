@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <h3>vue级联选择</h3>
+  <hr>
+  <div id="app">
+    <select name="" id="" @change="fChange(f)" v-model="f">
+      <option v-for="item in father" :value="item.id" :key="item.id">{{item.text}}</option>
+    </select>
+    <select name="" id="" v-model="s">
+      <option :value="son" v-for="son in sons" :key="son" >{{son}}</option>
+    </select>
+    <div>
+      选择的全部： {{full}}
+    </div>
+  </div>
+  <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+  <script>
+    let vm = new Vue({
+      el: "#app",
+      data() {
+        return {
+          f: "",
+          father: [{id: 1, text: "一级"}, {id: 2, text: "一级2"}],
+          sons: [],
+          s: ""
+        }
+      },
+      computed: {
+        full() {
+          if(!this.f) {
+            return
+          }
+          var t = this.father.filter(v=> v.id === this.f)[0].text
+          return t + this.s
+        }
+      },
+      methods: {
+        fChange(id) {
+          this.$nextTick(function() {
+            // 强制更新DOM
+            this.s = "";
+          })
+          if(id === 1) {
+            // 调用接口
+            this.sons = ["湖北", "湖南"]
+          }  else {
+            this.sons = ["北京", "上海"]
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

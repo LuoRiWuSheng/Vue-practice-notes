@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .active {
+      background: green;
+      color: #fff;
+    }
+    button {
+      width: 120px;
+      height: 60px;
+      font-size: 22px;
+      color:hotpink;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h3>v-for循环出来的数据，然后点击某一个，如果想要移除选元素，怎么能够做元素还原</h3>
+  <div id="app">
+    <div>
+      <ul>
+        <li v-for="(item, index) in list"><button @click="choice(index)" :class='{active: index === highlight}'>按钮-{{index}}</button></li>
+      </ul>
+    </div>
+    <button @click="remove">移除高亮</button>
+  </div>
+  <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+  <script>
+    new Vue({
+      data() {
+        return {
+          highlight: "",
+          list: ["中国", "日本", "英国", "澳大利亚", "法国"]
+        }
+      },
+      methods: {
+        choice(index) {
+          this.highlight = index;
+         
+          console.log(arguments)
+        },
+        remove() {
+          this.highlight = "";
+        }
+      }
+    }).$mount("#app")
+  </script>
+</body>
+</html>
