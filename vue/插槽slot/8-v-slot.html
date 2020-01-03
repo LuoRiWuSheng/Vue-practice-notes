@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .main-box {
+      display: flex;
+      height: 200px;
+    }
+
+    .left {
+      background: #ddd;
+    }
+
+    .rigth {
+      flex: 1;
+      background: green;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+
+    <child-a>
+      <template v-slot:header>
+        <h2>头部主体</h2>
+      </template>
+      <template v-slot:main>
+        <div class="main-box">
+          <div class="left">左侧</div>
+          <div class="rigth">右侧</div>
+        </div>
+      </template>
+      <template>
+        我是默认的内容 default
+      </template>
+    </child-a>
+
+    <hr>
+    <h3>slot作用域</h3>
+    <child-b :name="name">
+      {{name}}
+    </child-b>
+  </div>
+
+
+  <!-- 定义基础组件 -->
+  <template id="child-a">
+    <div>
+      <header>
+        <slot name='header'></slot>
+      </header>
+      <main>
+        <slot name='main'></slot>
+      </main>
+      <footer>
+        <slot></slot>
+      </footer>
+    </div>
+
+  </template>
+
+  <template id="child-b">
+    <div>
+      <slot></slot>
+      <h3>为了能够在slot中访问 父组件中的数据，则必须要将父组件的数据当做 props进来，才能在slot中使用，概念其实就是组件的传参</h3>
+      {{name}}
+    </div>
+  </template>
+  <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+  <script>
+    let childA = Vue.component("child-a", {
+      template: '#child-a'
+    })
+
+    let childB = Vue.component('child-b', {
+      template: '#child-b',
+      props: ["name"]
+    })
+    let vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          name: 'zhangsan'
+        }
+      },
+      components: {
+        childA,
+        childB
+      }
+    })
+  </script>
+</body>
+
+</html>

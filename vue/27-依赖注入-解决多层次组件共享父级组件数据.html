@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .middle {
+      border: 1px solid #f90;
+    }
+    .child {
+      border: 2px solid #000;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <h3>组件依赖注入，解决子组件获取父级组件的数据，因为嵌套过深，繁琐问题，避免 无穷无尽的 .parent查找</h3>
+    <div>
+      <ul>
+        <li>1、通过依赖注入，避免了 props无限向下传递的问题，也避免了最底层的组件需要不断的 this.$parent.$parent.XXX 向上查找的问题</li>
+        <li>2、 但是这种方式也不好，数据不是很好管理，谁改变了顶层数据，无法被追踪</li>
+        <li>3、 这里演示的是调用 root 组件的 方法，不局限，root的 data数据 computed 、methods 中，都可以向子组件注入</li>
+        <li>4、 后代组件根本不知道数据来源于谁，如果嵌套过多，数据从下往上，很难追溯，导致数据管理混乱，还是应该用 vuex去管理大型，多组件共用的数据</li>
+      </ul>
+    </div>
+    <middle-b>
+
+    </middle-b>
+  </div>
+  <template id='child-a'>
+    <div class="child">
+      <h3>嵌套最深的组件-child-a</h3>
+      <p>这里获得root组件的数据 -- {{this.getMap()}}</p>
+      <p >这里获取数据，通过 this.$parent.$parent.getMap() --<span style='color: #f90'> {{this.$parent.$parent.getMap()}}</span></p>
+    </div>
+  </template>
+
+  <template id='middle-b'>
+    <div class='middle'>
+      <h3>中间组件--需要获取顶层组件的数据</h3>
+      <div>
+        同时，也嵌套了子组件 child-a 这个子组件也需要获取顶层组件的数据
+        <p style='color: red'>这里获取root组件的数据-- {{this.getMap()}}</p>
+        <p >这里获取数据，通过 this.$parent.getMap() --<span style='color: #f90'> {{this.$parent.getMap()}}</span></p>
+      </div>
+      <child-a></child-a>
+    </div>
+  </template>
+  <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+  <script>
+    // 最底层的组件
+    let childA = Vue.component("child-a", {
+      template: '#child-a',
+      inject: ['getMap'],
+    })
+
+    // 中间组件--嵌套A组件
+    let middleB = Vue.component('middle-b', {
+      template: '#middle-b',
+      data() {
+        return {
+
+        }
+      },
+      components: {
+        childA
+      },
+      inject: ['getMap'],
+      mounted() {
+        console.log(this.getMap())
+   
+      }
+    })
+    let vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+
+        }
+      },
+      methods: {
+        getMap() {
+          return 'top-data from root'
+        }
+      },
+      components: {
+        middleB
+      },
+      provide: function() {
+        return {
+          getMap: this.getMap
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

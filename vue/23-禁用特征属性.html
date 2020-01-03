@@ -37,7 +37,7 @@
 		
 		
 	</body>
-	<script src="js/vue.js"></script>
+	<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
 	<script>
 		Vue.component("base-component", {
 
@@ -49,7 +49,7 @@
 					在演示其他的,同一个属性(特性) 名,使用的地方会覆盖定义的地方
 				-->
 				<label class="bbbbb" is-a="默认的">  
-					{{label}}
+					父组件传递的label属性值--{{label}}
 					<input ref="test" v-bind="$attrs" v-bind:value="value" v-on:input="$emit('input',$event.target.value)"/>
 					
 					<button @click="show($attrs)">点击我,获取属性</button>

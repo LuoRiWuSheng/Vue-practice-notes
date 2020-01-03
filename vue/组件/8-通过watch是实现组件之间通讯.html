@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <div>
+      <h3>下面实际上还是通过 v-model自定义组件实现子组件向父组件传参</h3>
+      <div>
+        <p>1、在 watch中监控了自身属性的变化，实际还是使用 $emit 发送了一个 input事件，将值传递了父组件</p>
+        <p>2、父组件在使用子组件的时候，还是使用 v-model 从上往下传递数据</p>
+      </div>
+    </div>
+    <diy-input v-model='visible'></diy-input>
+    <div>
+      父组件的状态
+      {{visible}}
+    </div>
+  </div>
+
+  <template id='blog'>
+    <div style="border: 1px solid #eddede;">
+      <h4>子组件</h4>
+      <h1 v-show="show">测试显示隐藏</h1>
+      <div>
+        <button @click='shift'>点击</button>
+      </div>
+    </div>
+  </template>
+  <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+  <script>
+    let DiyInput = Vue.component("diy-input", {
+      template: '#blog',
+      props: {
+        value: {
+          type: Boolean,
+          defalut: true
+        }
+      },
+      data() {
+        return {
+          show: true
+        }
+      },
+      methods: {
+        shift() {
+          this.show = !this.show;
+        }
+      },
+      watch: {
+        value(val) {
+          this.show = val
+        },
+        show(val) {
+          this.$emit("input", val)
+        }
+      }
+    })
+
+    let vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          visible: true
+        }
+      },
+      components: {
+        DiyInput
+      }
+    })
+  </script>
+
+</body>
+
+</html>

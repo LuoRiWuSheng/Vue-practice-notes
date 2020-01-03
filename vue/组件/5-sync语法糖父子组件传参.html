@@ -1,52 +1,88 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-	</head>
-	<body>
-		<div id="app">
-			父组件:{{money}}
-			<child :m.sync="money"></child>
-			
-			<!--下面是上面的全写 用匿名函数代替了在父组件中定义一个函数名-->
-			<!--<child :m="money" @update:m="(val)=>this.money=val"></child>-->
-			
-			<!--<child :m="money" @child-msg="change"></child>--> <!--套件-1-->
-		</div>
-	</body>
-	<script src="../js/vue.js"></script>
-	<script type="text/javascript">
-		let vm = new Vue({
-			el: "#app",
-			data: {
-				money: 100
-			},
-			methods: {
-				/*套件-1*/
-				/*change(val) {
-					this.money = val;
-				}*/
-			},
-			components: {
-				child: {
-					template:`<div>
-						子组件: {{m}}
-						<button @click="getMoney()">改变</button>	
-					</div>`,
-					props: ["m"],
-					methods: {
-						getMoney() {
-							// 这里得这么改
-							
-							this.$emit("update:m",800);
-							
-							/*通过事件触发的是下面的写法*/
-							/*this.$emit("child-msg",800); */ /*套件-1*/
-						}
-					}
-				}
-			}
-		})
-	</script>
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+
+<body>
+  <div id="app">
+    父组件:{{money}}
+    <child :m.sync="money"></child>
+    <hr>
+    <child-2 :m='money' @child-msg='(val)=>this.money = val'></child-2>
+
+    <hr>
+    <div>
+      <h4>数据从子组件通过$emit的时候，本来父组件一般要写一个方法接受响应的，但是有简单的写法，就是匿名函数(箭头函数) 都可以 (val子组件会传递来的值)=>this.父组件的属性 = val</h4>
+    </div>
+    <!--下面是上面的全写 用匿名函数代替了在父组件中定义一个函数名-->
+    <!--<child :m="money" @update:m="(val)=>this.money=val"></child>-->
+   
+  </div>
+
+  <template id='childT'>
+    <div>
+      <h3>sync写法</h3>
+      子组件: {{m}}
+      <button @click="getMoney()">改变</button>
+    </div>
+  </template>
+
+  <template id='child-2'>
+    <div>
+      <h3>子组件-2</h3>
+      父组件传过来的数据--m {{m}}
+      <button @click='getMoney'>改为500块</button>
+    </div>
+  </template>
+
+  <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+
+  <script type="text/javascript">
+    let child = Vue.component("child", {
+      template: "#childT",
+      props: ["m"],
+      methods: {
+        getMoney() {
+          // 这里得这么改
+          this.$emit("update:m", 800);
+
+          /*通过事件触发的是下面的写法*/
+          /*this.$emit("child-msg",800); */
+          /*套件-1*/
+        }
+      }
+    })
+
+    let child2 = Vue.component('child-2', {
+      template: '#child-2',
+      props: ['m'],
+      methods: {
+        getMoney() {
+          this.$emit('child-msg', 500)
+        }
+      }
+    })
+
+    let vm = new Vue({
+      el: "#app",
+      data: {
+        money: 100
+      },
+      methods: {
+        /*套件-1*/
+        /*change(val) {
+        	this.money = val;
+        }*/
+      },
+      components: {
+        child,
+        child2
+      }
+    })
+  </script>
+</body>
+
 </html>

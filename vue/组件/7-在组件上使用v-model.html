@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <diy-Input v-model="one"></diy-Input>
+    <div>
+      <div>下面通过自定义组件，子组件修改父组件的内容，下面的 one，随着子组件diy-input 值的变动而变动</div>
+      <div>说明通讯成功，父组件还是通过 props，从上往下传递数据，只不过 指定的属性是固定的字段 value</div>
+    </div>
+    <div>
+      <textarea v-model="one" cols="30" rows="10"></textarea>
+      <div>{{one}}</div>
+    </div>
+    <div>
+      <div>
+        1、 在更改 textarea中的值，为什么没有响应到自定义 input 中，因为，我们并没有去调用自定义组件，所以，值没有反应上去，但是one这个响应属性值已经变了
+      </div>
+      <div> 2、 更改input中的值，会通过事件，与父组件通讯，改变父组件的数据</div>
+    </div>
+  </div>
+
+  <template id='blog'>
+    <div>
+      <h3>自定义组件</h3>
+      <input type="text" :value="value" @input="$emit('input', $event.target.value)">
+    </div>
+  </template>
+  <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+  <script>
+    let DiyInput = Vue.component("diy-input", {
+      template: '#blog',
+      props: ["value"],
+      methods: {
+      
+      }
+    })
+
+    let vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          one: ''
+        }
+      },
+      methods: {
+
+      },
+      components: {
+        DiyInput
+      }
+    })
+  </script>
+
+</body>
+
+</html>

@@ -7,7 +7,7 @@
 		<style type="text/css">
 			.red {
 				color: red;
-				font-size: 50px;
+				font-size: 35px;
 			}
 		</style>
 	</head>
@@ -20,7 +20,7 @@
 			<son is-a="特征属性1" class="red" title="阻止继承特性" content="点我"></son>
 		</div>
 	</body>
-	<script src="js/vue.js">
+  <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
 	</script>
 	<script>
 		const son = {
@@ -29,11 +29,14 @@
 			template: `
 				<div>
 					<label>
-						{{title}}
+						父组件传入的属性title值 -- {{title}}
 					</label>
 					<button v-bind="$attrs"  v-text="content"></button>
 				</div>
-			`
+			`,
+      mounted() {
+        console.log(this.$attrs)
+      }
 		}
 		let vm = new Vue({
 			el: '#app',
