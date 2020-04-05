@@ -12,3 +12,6 @@ https://www.cnblogs.com/libin-1/p/6893712.html
 
 5、Vue实现组件props双向绑定解决方案
 https://www.cnblogs.com/yalong/p/9759264.html
+
+6、vue源码分析
+https://ustbhuangyi.github.io/vue-analysis/
