@@ -10,3 +10,10 @@ export default {
 }
 </script>
 
+<style lang="less" scoped>
+  #app {
+    height: 100vh;
+    overflow: hidden;
+  }
+</style>
+

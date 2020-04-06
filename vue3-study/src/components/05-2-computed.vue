@@ -1,11 +1,22 @@
 <template>
   <div>
-    <h3>computed可读可写属性</h3>
-    <div>
-      <p>count-->{{count}}</p>
-      <p>age--> {{age}}</p>
-      <button @click="add">+1</button>
-    </div>
+    <a-row class="top-breadcrumb">
+      <a-col :span="23" :offset="1">
+        <a-breadcrumb>
+          <a-breadcrumb-item>主页</a-breadcrumb-item>
+          <a-breadcrumb-item>computed可读可写属性</a-breadcrumb-item>
+        </a-breadcrumb>
+      </a-col>
+    </a-row>
+    <a-row style="margin-top: 20px; margin-bottom: 20px;">
+      <a-col :span="23" :offset="1">
+        <a-card>
+          <p>count-->{{ count }}</p>
+          <p>age--> {{ age }}</p>
+          <a-button @click="add">+1</a-button>
+        </a-card>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
@@ -25,8 +36,8 @@ export default {
         count.value = v + 10
       }
     })
-  console.log(age)
-    const add = ()=> {
+    console.log(age)
+    const add = () => {
       count.value++
     }
 

@@ -2,7 +2,7 @@
   <div>
     <a-layout>
       <a-layout-sider class="app-left">
-        <Sidebar></Sidebar>
+        <NavLeft></NavLeft>
       </a-layout-sider>
       <a-layout class="app-main">
         <AppMain></AppMain>
@@ -12,12 +12,12 @@
 </template>
 
 <script>
-import Sidebar from '../../components/Sidebar'
+import NavLeft from '../../components/NavLeft'
 import AppMain from '../../components/AppMain'
 
 export default {
   components: {
-    Sidebar,
+    NavLeft,
     AppMain
   }
 }
@@ -26,5 +26,10 @@ export default {
 <style lang='less' scoped>
 .app-left {
   height: 100vh;
+  overflow-y: auto;
+}
+.app-main {
+  height: 100vh;
+  overflow-y: auto;
 }
 </style>
