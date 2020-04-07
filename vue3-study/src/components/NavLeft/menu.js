@@ -25,6 +25,10 @@ export default [
       {
         "path": "/ref/3",
         "title": "新ref创建的响应式会覆盖旧创建的ref响应式对象"
+      },
+      {
+        "path": "/ref/4",
+        "title": "ref操作DOM,ref操作组件"
       }
     ]
   },
@@ -48,11 +52,19 @@ export default [
   },
   {
     "path": "/watch",
-    "title": "监听数据变化watch与watchEffect",
+    "title": "watch与watchEffect",
     "children": [
       {
         "path": "/watch/1",
-        "title": "watch"
+        "title": "watch基础"
+      },
+      {
+        "path": "/watch/2",
+        "title": "watch进阶"
+      },
+      {
+        "path": "/watch/3",
+        "title": "watch清除无用的异步任务"
       },
       {
         "path": "/watch/2",
@@ -61,7 +73,14 @@ export default [
       {
         "path": "/watch/3",
         "title": "watchEffect中操作DOM"
+      }, {
+        "path": "/watch/4",
+        title: "debug调试watchEffect"
       }
     ]
+  },
+  {
+    path: "provide",
+    title: "provide跨组件传参"
   }
 ]
