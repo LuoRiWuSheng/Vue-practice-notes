@@ -11,17 +11,16 @@ import Layout from '@/layout'
  */
 import componentsRouter from './modules/components'
 
-
 /**
  * 注意： 子菜单只有当 route 的children.length>=1 才会出现
  * https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
- * 
+ *
  * 路由属性说明
- * 
+ *
  * hidden: true                     如果设置为true，则该路由不会在侧边栏展示,默认是false
  * alwaysShow: true                 如果设置为true，将总是展示在根菜单
  *                                  如果不设置alwaysShow属性，当前项的子路由超过1个，将变成嵌套路由，否则不展示根菜单
- * 
+ *
  * redirect: noRedirect             如果设置redirect属性，在面包屑导航中，不会进行重定向
  * name: 'route-name'               路由的name，被用在keep-alive组件中，路由配置必须设置name属性
  * meta: {
@@ -35,12 +34,19 @@ import componentsRouter from './modules/components'
  * }
  */
 
-
-
 /**
  * 所有用户都能访问的页面
  */
 export const constantRouts = [
+  /* {
+    path: '/redirect',
+    hidden: false
+  }, */
+  {
+    path: '/login',
+    component: () => import('@/views/login/index'),
+    hidden: false
+  },
   {
     path: '/',
     component: Layout,
@@ -53,7 +59,9 @@ export const constantRouts = [
         meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
       }
     ]
-  }
+  },
+  // 当路由过多，可适当进行拆分
+  componentsRouter
 ]
 
 /**
@@ -71,7 +79,7 @@ const createRouter = () => new Router({
 
 const router = createRouter()
 
-/* 
+/*
   重置路由
   https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 */

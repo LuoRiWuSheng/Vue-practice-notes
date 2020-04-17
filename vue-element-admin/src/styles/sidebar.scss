@@ -1,0 +1,68 @@
+#app {
+
+  // 主要内容区域
+  .main-container {
+    position: relative;
+    margin-left: $sideBarWidth;
+    min-height: 100%;
+    transition: margin-left .28s;
+  }
+
+  // 侧边栏
+  .sidebar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1001;
+    width: $sideBarWidth !important;
+    height: 100%;
+    background: $menuBg;
+    overflow: hidden;
+  }
+
+  // 重置element-ui 样式
+  .horizontal-collapse-transition {
+    transition: 0s width ease-in-out,
+      0s padding-left ease-in-out,
+      0s padding-right ease-in-out;
+  }
+
+  .scrollbar-wrapper {
+    overflow-x: hidden !important;
+  }
+
+  .el-scrollbar__bar.is-vertical {
+    right: 0px;
+  }
+
+  .el-scrollbar {
+    height: 100%;
+  }
+
+  &.has-logo {
+    .el-scrollbar {
+      height: calc(100% - 50px);
+    }
+  }
+
+  .is-horizontal {
+    display: none;
+  }
+
+  a {
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .svg-icon {
+    margin-right: 16px;
+  }
+
+  .el-menu {
+    height: 100% !important;
+    width: 100%;
+    border: none;
+  }
+}

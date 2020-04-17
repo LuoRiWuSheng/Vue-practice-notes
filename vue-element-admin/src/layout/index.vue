@@ -1,12 +1,16 @@
 <template>
   <div :class="classObj" class="app-wrapper">
+    <!-- 移动端显示 -->
     <div
       v-if="device === 'mobile' && sidebar.opened"
       class="drawer-bg"
       @click="handelClickOutside"
     />
+
     <!-- 侧边栏 -->
     <sidebar class="sidebar-container" />
+
+    <!-- 右侧主体内容 -->
     <div :class="{ hasTagsView: needTagsView }" class="main-container">
       <div :class="{ 'fixed-header': fixedHeader }">
         <!-- 面包屑导航 -->
@@ -23,11 +27,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import RightPanel from '@/components/RightPanel'
 import { AppMain, Navbar, Settings, Sidebar } from './components'
 
 export default {
-  name: 'layout',
+  name: 'Layout',
   components: {
     RightPanel,
     AppMain,
@@ -35,18 +40,21 @@ export default {
     Settings,
     Sidebar
   },
-  data () {
-    return {
-      device: "",
-      sidebar: {
-        opened: true
-      },
-      needTagsView: true,
-      classObj: {
-
-      },
-      fixedHeader: "",
-      showSettings: true
+  computed: {
+    ...mapState({
+      sidebar: state => state.app.sidebar,
+      device: state => state.app.device,
+      showSettings: state => state.settings.showSettings,
+      needTagsView: state => state.settings.tagsView,
+      fixedHeader: state => state.settings.fixedHeader
+    }),
+    classObj () {
+      return {
+        hideSidebar: !this.sidebar.opened,
+        openSidebar: !this.sidebar.opened,
+        withoutAnimation: !this.sidebar.withoutAnimation,
+        mobile: this.device === 'mobile'
+      }
     }
   },
   methods: {
@@ -58,17 +66,42 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/mixin.scss";
-  @import "~@/styles/variables.scss";
+@import '~@/styles/mixin.scss';
+@import '~@/styles/variables.scss';
 
-  .app-wrapper {
-    position: relative;
-    height: 100%;
-    width: 100%;
+.app-wrapper {
+  position: relative;
+  height: 100%;
+  width: 100%;
 
-    &.mobile.openSidebar {
-      position: fixed;
-      top: 0;
-    }
+  &.mobile.openSidebar {
+    position: fixed;
+    top: 0;
   }
+}
+
+// 手机端
+.drawer-bg {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: #000;
+  opacity: 0.3;
+  z-index: 999;
+}
+.fixed-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: calc(100% - #{$sideBarWidth});
+  z-index: 9;
+  transition: width 0.9s;
+}
+
+.hideSidebar .fixed-header {
+  width: calc(100% - 54px);
+}
+.mobile .fixed-header {
+  width: 100%;
+}
 </style>

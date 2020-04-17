@@ -4,7 +4,7 @@
     <transition name="fade-transform" mode="out-in">
       <keep-alive :include="cachedViews">
         <!-- 这里添加key 目的是让相同组件，不同应用场景，都能触发组件的重新渲染，使之能触发created和mounted钩子 -->
-        <router-view :key="key"></router-view>
+        <router-view :key="key" />
       </keep-alive>
     </transition>
   </section>
@@ -14,8 +14,7 @@
 export default {
   computed: {
     cachedViews () {
-      return true
-      // return this.$route.state.tagsView.cachedViews
+      return this.$store.state.tagsView.cachedViews
     },
     key () {
       // 只要保证 key 唯一性就可以了，保证不同页面的 key 不相同
