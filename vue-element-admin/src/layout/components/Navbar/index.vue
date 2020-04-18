@@ -1,5 +1,5 @@
 <template>
-  <div>设置</div>
+  <div>navbar.vue</div>
 </template>
 
 <script>

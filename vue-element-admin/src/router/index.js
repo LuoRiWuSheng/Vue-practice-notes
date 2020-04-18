@@ -38,10 +38,17 @@ import componentsRouter from './modules/components'
  * 所有用户都能访问的页面
  */
 export const constantRouts = [
-  /* {
+  {
     path: '/redirect',
-    hidden: false
-  }, */
+    component: Layout,
+    hidden: false,
+    children: [
+      {
+        path: '/redirect/:path(.*)',
+        component: () => import('@/views/redirect/index')
+      }
+    ]
+  },
   {
     path: '/login',
     component: () => import('@/views/login/index'),
@@ -60,12 +67,10 @@ export const constantRouts = [
       }
     ]
   },
-  // 当路由过多，可适当进行拆分
-  componentsRouter
 ]
 
 /**
- * 异步路由:这里的路由根据用户角色动态加载
+ * 异步路由:这里的路由根据用户角色动态加载，需要展示哪些信息
  */
 export const asyncRoutes = [
 
@@ -88,4 +93,5 @@ export function resetRouter () {
   router.matcher = newRouter.matcher
 }
 
+// 这里导出的都是全部能访问的路由，没有不掺杂角色的路由
 export default router

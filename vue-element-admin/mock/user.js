@@ -7,7 +7,7 @@ const tokens = {
   }
 }
 
-const user = {
+const users = {
   'admin-token': {
     role: ['admin'],
     introduction: '管路员帐号',
@@ -35,7 +35,7 @@ export default [
       if (!token) {
         return {
           code: 60204,
-          message: 'Account and password are incorrect.'
+          message: '账户或密码错误'
         }
       }
 
@@ -58,7 +58,7 @@ export default [
       if (!info) {
         return {
           code: 50008,
-          message: 'Login failed, unable to get user details.'
+          message: '登录失败, 未获取用户信息.'
         }
       }
 

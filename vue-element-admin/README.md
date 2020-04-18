@@ -175,3 +175,20 @@ module.exports = {
 }
 ```
 
+11. 登录，获取到token，就根据token去获取用户的信息
+
+login.vue里面写了登录的逻辑，以及dispatch 调token的接口
+
+拿到登录信息以后，login.vue会进行 router.push 这个时候，就会触发 vue-rouer 的路由守卫导航 router.beforeEach
+
+路由守卫导航在 main.js中引入了 permission.js
+
+router.beforeEach会进行相关的判断，是否有token, 以及对token的存储，存储到cookie中
+
+在获取到token以后，就调获取用的接口，拿到用户接口，就去遍历角色，动态生成路由表
+
+然后再更新vuex中的路由表
+
+再让用户 next 进入下一个路由
+
+

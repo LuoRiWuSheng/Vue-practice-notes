@@ -56,20 +56,22 @@ const actions = {
     })
   },
 
-  // 获取用户信息
+  // 获取用户信息，调用这个接口，vuex中一定是存在token的，所以需要使用state去访问vuex中的token，作为接口参数
+  // 因为获取用户信息是异步的，所以是store.dispatch('user/getInfo') 派发异步的action
+  // 异步的action获取到用户信息以后，再使用同步的commit去提交mutation
   getInfo ({ commit, state }) {
     return new Promise((resolve, reject) => {
-      // 调用接口
+      // 调用接口，这里token一定是存在的
       getInfo(state.token)
         .then(response => {
-          const data = response
+          const { data } = response
 
           if (!data) {
             reject('验证失败,请重新登录')
           }
 
-          const { avatar, introduction, name, roles } = data
-          if (!roles || roles.length <= 0) {
+          const { avatar, introduction, name, role } = data
+          if (!role || role.length <= 0) {
             reject('getInfo: 角色权限必须是一个数组')
           }
 
@@ -77,7 +79,7 @@ const actions = {
           commit('SET_NAME', name)
           commit('SET_AVATAR', avatar)
           commit('SET_INTRODUCTION', introduction)
-          commit('SET_ROLES', roles)
+          commit('SET_ROLES', role)
 
           resolve(data)
         })

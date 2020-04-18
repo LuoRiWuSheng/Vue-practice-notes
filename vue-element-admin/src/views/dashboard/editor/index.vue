@@ -1,5 +1,7 @@
 <template>
-  <div>settings.vue</div>
+  <div>
+    editor
+  </div>
 </template>
 
 <script>
@@ -9,5 +11,5 @@ export default {
 </script>
 
 <style>
-</style>
 
+</style>

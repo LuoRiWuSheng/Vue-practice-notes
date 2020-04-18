@@ -1,11 +1,7 @@
 <template>
   <div :class="classObj" class="app-wrapper">
     <!-- 移动端显示 -->
-    <div
-      v-if="device === 'mobile' && sidebar.opened"
-      class="drawer-bg"
-      @click="handelClickOutside"
-    />
+    <div v-if="device === 'mobile' && sidebar.opened" class="drawer-bg" @click="handelClickOutside" />
 
     <!-- 侧边栏 -->
     <sidebar class="sidebar-container" />
@@ -59,7 +55,7 @@ export default {
   },
   methods: {
     handelClickOutside () {
-
+      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
     }
   }
 }

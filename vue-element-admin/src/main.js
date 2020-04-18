@@ -28,6 +28,8 @@ if (process.env.NODE_ENV === 'production') {
 
 // 导入并全局注册svg组件
 import './icons'
+// 权限控制--里面包含路由守卫等操作，登录校验，用户名获取
+import './permission'
 
 Vue.use(ElementUI, {
   // 设置element默认的大小
