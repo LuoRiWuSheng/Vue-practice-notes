@@ -23,8 +23,8 @@ router.beforeResolve((to, from, next) => {
 
 // 全局前置守卫
 router.beforeEach(async (to, from, next) => {
-  log('to-->', to)
-  log('from-->', from)
+  // log('to-->', to)
+  // log('from-->', from)
   log('beforeEach--全局前置守卫')
 
   // 开启进度条
@@ -94,7 +94,7 @@ router.beforeEach(async (to, from, next) => {
 })
 
 router.afterEach(() => {
-  log(chalk('router.agerEach导航---'))
+  log(chalk('router.afterEach导航---'))
   // 结束进度条
   NProgress.done()
 })

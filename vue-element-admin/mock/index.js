@@ -3,10 +3,12 @@ import { param2Obj } from '../src/utils'
 
 import user from './user'
 import role from './role'
+import search from './remote-search'
 
 const mocks = [
   ...user,
-  ...role
+  ...role,
+  ...search
 ]
 
 // 使用mock， 请谨慎使用，因为他是重写了 XMLHttpRequest对象

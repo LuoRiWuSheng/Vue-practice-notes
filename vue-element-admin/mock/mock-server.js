@@ -16,7 +16,6 @@ console.log(chalk.bgBlue("mockDir-->", mockDir))
 function registerRoutes (app) {
   let mockLastIndex
 
-  console.log(chalk.red('---加载所有的模拟接口--'))
   // 所有的模拟接口
   const { default: mocks } = require('./index')
 
@@ -24,7 +23,7 @@ function registerRoutes (app) {
     return responseFake(route.url, route.type, route.response)
   })
 
-  console.log(chalk.red('app._router.stack.length-->', app._router.stack.length))
+  // console.log(chalk.red('app._router.stack.length-->', app._router.stack.length))
 
   for (const mock of mocksForServer) {
     //  这里就是 app.get(url, (req, res)=> {....})
@@ -43,7 +42,6 @@ function registerRoutes (app) {
 
 // 卸载路由
 function unregisterRoutes () {
-  console.log(chalk.red('require.cache-->', require.cache))
   Object.keys(require.cache).forEach(i => {
     if (i.includes(mockDir)) {
       // 因为有文件的更改，之前mock目录下的文件在加载的时候，都在缓存中了，新文件想要生效，需要先删除更改过的文件缓存
@@ -53,11 +51,11 @@ function unregisterRoutes () {
 }
 
 // 遍历，将mock/index.js中导出的mock数据模版在这里使用 app.get('url地址', (req, res)=> {res.json({返回})})
-const responseFake = (url, type = 'get', respond) => {
+const responseFake = (url, type, respond) => {
   return {
     // 这里动态切换 生产和开发环境地址前缀
     url: new RegExp(`${process.env.VUE_APP_BASE_API}${url}`),
-    type,
+    type: type || 'get',
     // 这里的 req, res是 express的请求对象和响应对象
     response (req, res) {
       console.log(chalk.bgGreenBright.blue("接口被调用--》", req.path))
@@ -104,7 +102,8 @@ module.exports = app => {
 
         console.log(chalk.magentaBright(`\n > Mock Server 热加载启动成功!  ${path}`))
       } catch (error) {
-        console.log(chalk.redBright(error))
+        console.log("发生异常",chalk.redBright(error))
+        console.log(error.stack)
       }
     }
   })

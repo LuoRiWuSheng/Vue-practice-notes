@@ -9,7 +9,7 @@ import Layout from '@/layout'
 /**
  * 路由模块
  */
-import componentsRouter from './modules/components'
+// import componentsRouter from './modules/components'
 
 /**
  * 注意： 子菜单只有当 route 的children.length>=1 才会出现
@@ -66,7 +66,7 @@ export const constantRouts = [
         meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
       }
     ]
-  },
+  }
 ]
 
 /**

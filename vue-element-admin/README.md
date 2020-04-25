@@ -104,6 +104,25 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
 > 常见的就是状态更新以后，聚焦input
 > 见 src/views/login/index.vue中
 
+src/view/dashboard/admin/components/TodoList/todo.vue
+
+```js
+<input v-focus="editing"/>
+
+export default {
+  directives: {
+    // 这里可以直接使用 async...await的方式来写我们的 nextTick，和我们直接传入一个 回调函数，是一样的效果
+    async focus (el, { value }, { context }) {
+      if (value) {
+        await context.$nextTick()
+        el.focus()
+      }
+    }
+  },
+}
+```
+
+
 7. 将mock结合webpack-dev-serve使用，让前端请求的接口被webpack中起的express服务捕获
 > 需要修改 vue.config.js中的 devServer: {before: require('./mock/mock-server.js')}
 
@@ -190,5 +209,125 @@ router.beforeEach会进行相关的判断，是否有token, 以及对token的存
 然后再更新vuex中的路由表
 
 再让用户 next 进入下一个路由
+
+12. echart图表， 重置，监听resize事件
+> src/views/dashboard/admin/mixins/resize.js
+
+13. 监听到动画结束事件transitionend， 并根据event对象，获取动画变化的属性名 event.propertyName ,然后做相应的echart图表重置宽度的工作
+> src/views/dashboard/admin/mixins/resize.js
+
+*event.propertyName*
+
+14. vue中 activated声明周期钩子的使用
+
+> src/views/dashboard/admin/mixins/resize.js
+
+![activated](https://cn.vuejs.org/v2/api/#activated)
+
+15. 在图表库中， 因为要不断的重设图标容器的宽度，达到自适应的效果，如果频繁缩放页面，则必须使用防抖函数
+
+相关代码使用出处
+> src/utils/index.js/debounce
+> src/views/dashborad/admin/components/LineChat.vue
+
+16. 一次性加载所有的全局过滤器
+
+main.js
+
+```js
+// 引入全局的过滤器
+import * as filters from './filters'
+
+console.log(filters)
+// 注册全局过滤器
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
+```
+
+filters/index.js
+```js
+// 导出时间转换函数
+export { parseTime, formatTime } from '../utils'
+import { isNumer } from '../utils'
+
+/**
+ * 10000 --> "10,000"
+ * @param {Number} num
+ */
+export function toThousandFilter (num) {
+  if (!isNumer(num)) {
+    throw new Error('非数字类型')
+  }
+
+  return (+num || 0).toString().replace(/^-?\d+/g, m => m.replace(/(?=(?!\b)(\d{3})+$)/g, ','))
+}
+
+```
+
+17. 组件中的data返回的属性，使用函数定义
+src/views/dashboard/admin/components/TodoList/index.vue
+```js
+// 这里的是作为属性使用，无法访问到实例的this， 
+const filter = {
+  all: todos => todos,
+  active: todos => todos.filter(todo => !todo.done),
+  complted: todos => todos.filter(todo => todo.done)
+}
+
+export default {
+  data() {
+    return {
+      todos: [.....],
+      // 将all, active, complted作为属性注册
+      filter
+    }
+  }
+}
+```
+
+[官网API-data讲解](https://cn.vuejs.org/v2/api/#data)
+
+18. 如果我们需要对列表项（或者更直接的描述为数据）， 反复过滤呈现，那么我们不要直接去更改 我们data对象中的 originList 数据源，我们应该去操作一个临时的，具有响应式的数据对象
+
+```js
+// 在组件中，循环展示，使用 filterList作为数据源
+<ul>
+  <li v-for='(item, index) in filterList' :key='index'>{{item.text}}</li>
+</ul>
+
+
+const filter = {
+  all: todos => todos,
+  active: todos => todos.filter(todo => !todo.done),
+  complted: todos => todos.filter(todo => todo.done)
+}
+export default {
+  data() {
+    return {
+      visibility: 'all',
+      filter,
+      // 这里的数据，我们是不会去做任何操作的
+      todos: [源数据]
+    }
+  },
+  computed: {
+    filteredTodos() {
+      // 条件的更改，我们就更改 filter中的回调函数，然后，上面的v-for 会触发对应视图的更新
+     return filters[this.visibility](this.todos)
+    }
+  }
+}
+```
+
+这样做的好处是, 我们对源数据，是不会有任何更改，在不同的操作中，我们随时可以重置我们的数据源
+
+
+
+
+
+
+
+
 
 

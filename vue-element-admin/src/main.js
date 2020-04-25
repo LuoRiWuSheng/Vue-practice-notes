@@ -36,6 +36,14 @@ Vue.use(ElementUI, {
   size: Cookies.get('size') || 'medium'
 })
 
+// 引入全局的过滤器
+import * as filters from './filters'
+
+// 注册全局过滤器
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
+
 Vue.config.productionTip = false
 
 new Vue({
