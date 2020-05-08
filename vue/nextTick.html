@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <button @click='change'>更改内容</button>
+    <div ref='textMsg'>{{msg}}</div>
+    <input ref='name' v-model='name' focus/>
+  </div>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          msg: '1212',
+          name: '张三'
+        }
+      },
+      created() {
+        // 在created钩子中，让input聚焦，必须将DOM操作的内容，放到nextTick回调中，因为created阶段还没有DOM
+        this.changeFocus()
+      },
+      mounted() {
+        // 这个阶段已经存在DOM,所以，可以直接调用
+        // this.$refs.name.focus()
+      },
+      methods: {
+        changeFocus() {
+          this.$nextTick(()=> {
+            this.$refs.name.focus()
+          })
+        },
+        async change() {
+          // 如果立即要获取或者操作DOM，才需要使用$nextTick方法
+
+          this.msg = 'hi  你好'
+          
+          // 获取到的内容还是旧值--就说明上面的this.msg并不是立刻去更新视图层的
+          console.log("旧值--》",this.$refs.textMsg.textContent);
+
+          // 使用promise...then的方式
+          this.$nextTick().then(()=> {
+            // 数据已经更新
+            console.log("promise..then写法--新值",this.$refs.textMsg.textContent);
+          })
+
+          // 使用 async..await的方式
+          await this.$nextTick()
+          console.log("新值--》",this.$refs.textMsg.textContent);
+        }
+      }
+    })
+  </script>
+</body>
+</html>
