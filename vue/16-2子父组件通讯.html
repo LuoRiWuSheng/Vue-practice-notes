@@ -33,13 +33,13 @@
 				}
 			}
 		});
+    
 		Vue.component("son",{
 			template: `
 				<button @click="onClick">显示余额</button>
 			`,
 			methods: {
-				"onClick": function() {
-					
+				onClick: function() {
 					this.$emit("show-balance",{a:1,b:2});
 				}
 			}

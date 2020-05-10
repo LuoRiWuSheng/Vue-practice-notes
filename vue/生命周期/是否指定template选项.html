@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    el外部的HTML {{msg+ '  hi'}}
+  </div>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      // template: `
+      //   <h3>template中的</h3></h3>
+      // `,
+      data() {
+        return {
+          msg: 'javascript'
+        }
+      },
+      render(h) {
+        return h('h3', {}, '我是手动调用render函数的')
+      }
+    })
+
+  </script>
+</body>
+</html>
