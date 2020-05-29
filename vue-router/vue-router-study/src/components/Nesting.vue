@@ -5,7 +5,12 @@
 		<span>
 			形如这样：   http://localhost:8080/#/nesting/2/file
 		</span>
-	<router-view></router-view>
+
+   <ul>
+     <li><router-link to='/nesting/1/file'>子路由file</router-link></li>
+     <li><router-link to='/nesting/2/video'>nesting的子路由-video</router-link></li>
+   </ul>
+	  <router-view></router-view>
 	</div>
 </template>
 

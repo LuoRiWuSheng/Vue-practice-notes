@@ -15,6 +15,10 @@ import Base from '@/components/multy/Base'
 import Bar from '@/components/multy/Bar'
 import Baz from '@/components/multy/Baz'
 
+import Article from '@/components/article'
+import ArticleCreate from '@/components/ArticleEdit'
+import ArticleEdit from '@/components/ArticleEdit'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -39,7 +43,7 @@ const routes = [
 	// 嵌套路由--start
 	{ 
 		// 形如  /nesting/:id/file  和/nesting/:id/video 属于嵌套路由
-		path: '/nesting/:id',
+		path: '/nesting/:id?',
 		component: Nesting,
 		children: [
 			{
@@ -68,8 +72,22 @@ const routes = [
 			a: Bar, // 这个是router-view 中命名的
 			b: Baz
 		}
-	}
-	// 命名视图 -- end
+	},
+  // 命名视图 -- end
+  {
+    path: '/article',
+    component: Article
+  },
+  {
+    name: '新增文章',
+    path: '/article/create',
+    component: ArticleCreate
+  },
+  {
+    name: '编辑文章',
+    path: '/article/edit',
+    component: ArticleEdit
+  }
 ]
 
 const router = new VueRouter({

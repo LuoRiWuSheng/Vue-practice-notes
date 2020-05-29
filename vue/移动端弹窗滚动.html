@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body.modalOpen {
+      -webkit-overflow-scrolling:touch;
+      position: fixed;
+      width: 100%;
+    }
+    .content {
+      height: 10000px;
+      box-sizing: border-box;
+      background: #ddd;
+    }
+
+    .middle {
+      margin-top: 5000px;
+    }
+
+    .cover-bg {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(44, 62, 55, 0.4);
+    }
+
+    .list-wrapper {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 300px;
+      overflow-y: auto;
+      background: #fff;
+    }
+
+    .list-wrapper p {
+      height: 200px;
+      color: #000;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <h3>弹窗滚动</h3>
+    <button @click='showDialog'>顶部弹窗</button>
+    <hr>
+    <div class="content">
+      故意撑出滚动条
+      <button class='middle' @click='showDialog'>中间位置的弹窗</button>
+    </div>
+
+    <div v-show='isShow' class='cover-bg'>
+      <div class="list-wrapper">
+        <button @click='closeDialog'>关闭弹窗</button>
+        <p>一条记录-1</p>
+        <p>一条记录</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          isShow: false,
+          hasSet: 'none',
+          scrollTop: undefined,
+          className: 'modalOpen'
+        }
+      },
+      methods: {
+        closeDialog() {
+         /*  document.body.classList.remove(this.className);
+          document.scrollingElement.scrollTop = this.scrollTop; */
+          this.move()
+          this.isShow = !this.isShow
+         
+        },
+        // 打开弹层
+        showDialog() {
+          this.stop()
+          // 获取距离顶部的距离
+          /* this.scrollTop = document.scrollingElement.scrollTop
+          // 添加的这个定位，更改来body的定位，已经脱离文档流，那么会导致内容升到顶部，下面需要设置距离top的距离，保证这个视觉效果是正常的
+          document.body.classList.add(this.className)
+          document.body.style.top = `-${this.scrollTop}px`; */
+          this.isShow = !this.isShow
+        },
+        //禁止滚动
+        stop() {
+         
+          var mo = function (e) {
+            e.preventDefault();
+          };
+    
+          document.body.style.overflow = 'hidden';
+          document.addEventListener("touchmove", mo, false); //禁止页面滑动
+        },
+        /***取消滑动限制***/
+        move() {
+          var mo = function (e) {
+            e.preventDefault();
+          };
+
+          document.body.style.overflow = ''; //出现滚动条
+          document.removeEventListener("touchmove", mo, false);
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

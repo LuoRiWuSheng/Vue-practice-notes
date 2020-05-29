@@ -6,17 +6,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <style>
+    .son-component {
+      border: 1px dashed #ccc;
+      padding: 20px;
+      background: gray;
+    }
+  </style>
 </head>
 
 <body>
   <div id="app">
-    <diy-Input v-model="one"></diy-Input>
+    <son-input v-model="one" value='传入一个固定的字符串'></son-input>
+    <son-2-input v-model='two' value='hi 你好'></son-2-input>
     <div>
-      <div>下面通过自定义组件，子组件修改父组件的内容，下面的 one，随着子组件diy-input 值的变动而变动</div>
-      <div>说明通讯成功，父组件还是通过 props，从上往下传递数据，只不过 指定的属性是固定的字段 value</div>
+      two--> {{two}}
     </div>
     <div>
-      <textarea v-model="one" cols="30" rows="10"></textarea>
+      <ul>
+        <li>下面通过自定义组件，子组件修改父组件的内容，下面的 one，随着子组件son-input 值的变动而变动</li>
+        <li>说明通讯成功，父组件还是通过 props，从上往下传递数据，只不过 指定的属性是固定的字段 value</li>
+        <li>如果子组件不是checkbox 或者radio 不需要使用value这个属性从上往下传参，就不用指定model配置项</li>
+      </ul>
+    </div>
+    <div>
+      绑定one--<textarea v-model="one" cols="30" rows="10"></textarea>
       <div>{{one}}</div>
     </div>
     <div>
@@ -28,18 +42,40 @@
   </div>
 
   <template id='blog'>
-    <div>
-      <h3>自定义组件</h3>
-      <input type="text" :value="value" @input="$emit('input', $event.target.value)">
+    <div class='son-component'>
+      <h3>自定义组件-子组件</h3>
+      <input type="text" :value='value' @input="$emit('input', $event.target.value)">
+    </div>
+  </template>
+
+  <template id='son2'>
+    <div class='son-component'>
+      <h3>自定义组件-子组件--checkbox</h3>
+      <input type="checkbox" :checked='checked' @change='$emit("change", $event.target.checked)'>
     </div>
   </template>
   <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
   <script>
-    let DiyInput = Vue.component("diy-input", {
+    Vue.component("son-input", {
       template: '#blog',
       props: ["value"],
-      methods: {
-      
+    })
+
+    Vue.component('son-2-input', {
+      template: '#son2',
+      model: {
+        prop: 'checked',
+        event: 'change'
+      },
+      props: {
+        value: String,
+        checked: {
+          type: Boolean
+        }
+      },
+      mounted() {
+        console.log(this.value);
+        console.log(this.checked);
       }
     })
 
@@ -47,14 +83,9 @@
       el: '#app',
       data() {
         return {
-          one: ''
+          one: '',
+          two: true
         }
-      },
-      methods: {
-
-      },
-      components: {
-        DiyInput
       }
     })
   </script>

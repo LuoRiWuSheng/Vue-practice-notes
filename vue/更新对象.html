@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <div v-for='item in userProfile'>
+      {{item}}
+    </div>
+  </div>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          userProfile: {
+            name: '12'
+          }
+        }
+      },
+      mounted() {
+        this.getUserInfo()
+      },
+      methods: {
+        async getUserInfo() {
+          let res = {
+            code: 0,
+            data: {
+              name: 'jack',
+              age: 12,
+              description: '软件工程师',
+              skill: ['java', 'php', 'javascript', 'vue']
+            }
+          }
+
+          // res
+          /*
+          * {
+          		code: 0,
+              data: {
+              	name: 'jack',
+                age: 12,
+                description: '软件工程师',
+                skill: ['java', 'php', 'javascript', 'vue']
+              }
+          	}
+          */
+          // 产生一个新的对象
+          let newUserProfile = Object.assign({}, this.userProfile, res.data)
+
+          // 直接整个赋值，替换上去
+          this.userProfile = newUserProfile
+        }
+      }
+    })
+  </script>
+
+</body>
+
+</html>

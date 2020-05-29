@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <base-input v-on:focus.native='handle'></base-input>
+  </div>
+
+  <template id="temp">
+    <label>
+      {{ label }}
+      <input v-bind="$attrs" v-bind:value="value" v-on:input="$emit('input', $event.target.value)">
+    </label>
+  </template>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
+  <script>
+    Vue.component('base-input', {
+      inheritAttrs: false,
+      template: '#temp',
+      props: ['label', 'value'],
+      computed: {
+        inputListeners() {
+          var vm = this
+          // `Object.assign` 将所有的对象合并为一个新对象
+          return Object.assign({},
+            // 我们从父级添加所有的监听器
+            this.$listeners,
+            // 然后我们添加自定义监听器，
+            // 或覆写一些监听器的行为
+            {
+              // 这里确保组件配合 `v-model` 的工作
+              input: function (event) {
+                console.log(event.target.value);
+                vm.$emit('input', event.target.value)
+              }
+            }
+          )
+        }
+      }
+    })
+
+    new Vue({
+      el: '#app',
+      methods: {
+        handle() {
+          console.log(1);
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

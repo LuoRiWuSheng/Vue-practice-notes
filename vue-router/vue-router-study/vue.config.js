@@ -8,6 +8,7 @@
 const path = require('path')
 
 module.exports = {
+  lintOnSave: false,
 	// 修改webpack基本的配置，直接定义webpack的配置对象即可
 	configureWebpack: {
 			resolve: {

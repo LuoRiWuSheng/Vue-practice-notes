@@ -135,6 +135,9 @@ export default {
 1. 为什么 mock/mock-server.js 中需要引入 require('@babel/register') 
 > 对代码进行转换，不知道为什么这里必须要require， 如果注释，不报错，mock-serve也起不来服务
 
+这里去看koa的官网，有一段描述
+![babel-register.png](./doc/babel-register.png)
+
 ```js
 yarn add @babel/core @babel/register -S
 ```

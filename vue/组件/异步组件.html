@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <button @click='isShowSonComponet =!isShowSonComponet'>切换</button>
+
+    <async-example v-if='isShowSonComponet'></async-example>
+  </div>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
+  <script>
+    Vue.component('async-example', function (resolve, reject) {
+      setTimeout(function () {
+        // 向 `resolve` 回调传递组件定义
+        resolve({
+          template: '<div>I am async!</div>'
+        })
+      }, 1000)
+    })
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          isShowSonComponet: false
+        }
+      },
+
+    })
+  </script>
+</body>
+
+</html>

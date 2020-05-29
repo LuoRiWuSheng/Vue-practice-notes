@@ -7,9 +7,10 @@
     <router-link to="/push" class="nav">编程式导航</router-link>
     <router-link to="/multy" class="nav">命名视图</router-link>
 
-    <router-view class="view one"></router-view>
-    <router-view name="a"></router-view>
-    <router-view name="b"></router-view>
+    <router-link to="/article" class="nav">列表新增/编辑</router-link>
+    <router-view></router-view>
+  <!--   <router-view name="a"></router-view>
+    <router-view name="b"></router-view> -->
   </div>
 </template>
 

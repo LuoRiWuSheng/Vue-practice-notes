@@ -11,7 +11,9 @@ const getters = {
 
   // 从 user中获取
   token: state => state.user.token,
-  roles: state => state.user.roles
+  roles: state => state.user.roles,
+  avatar: state => state.user.avatar,
+  name: state => state.user.name
 }
 
 export default getters
