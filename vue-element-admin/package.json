@@ -10,7 +10,7 @@
     "lint": "eslint --ext .js,.vue src --fix"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "chokidar": "^3.3.1",
     "core-js": "^3.6.4",
     "echarts": "^4.7.0",
